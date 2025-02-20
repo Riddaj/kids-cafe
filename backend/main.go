@@ -40,6 +40,7 @@ func main() {
 
 	r.GET("/api/branches", controllers.GetBranches)
 	r.GET("/api/partyrooms/:branch_id", controllers.GetPartyrooms)
+	r.GET("/api/selectedroom/:room_id", controllers.GetSelectedRoom)
 
 	// 엔드포인트 확인
 	/*

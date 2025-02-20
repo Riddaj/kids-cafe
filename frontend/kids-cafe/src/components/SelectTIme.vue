@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <header class="booking-header">
+  <div>
+    <header class="booking-header">
             <div id="sb_menu" class="header_menu_wrapper">
                 <ul class="header_navigation_nav" id="sb_menu_list_item_container">
                     <li class="header__nav-item">
@@ -18,10 +18,6 @@
         <!-- 메인 사진 and booking button -->
         <div class="wrapper">
             <div><h1 class="company-logo-and-name">Twinkle Kids Cafe</h1></div>
-            <!--<div class="btn-container">
-                <router-link class="btn-book" to="/book_a_party/simplybook/confirm_detail" title="Book Now">Book Now</router-link>
-                <a class="btn-book" href="#" @click="showBookingInfo = !showBookingInfo" title="Book Now">Book Now</a>
-            </div>-->
             <div class="background-wrapper">
                 <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
                 alt="Background" class="background-image" />
@@ -39,70 +35,112 @@
             <!-- 현재 시간 -->
             <div class="current-time"><CurrentTime/></div>
         </div>
-        <div class="partyroom_info">
-            <h1>Party room</h1>
-            <div v-if="partyrooms.length > 0"  class="partyroom-container">
-                <div v-for="partyroom in partyrooms" :key="partyroom.id">
-                    <div class="partyroom-card">
-                        <div class="img-div">
-                            <img src="/images/party-hat.png" alt="party-hat" class="party-hat">
-                        </div>
-                        <br>
-                        <div>
-                            {{ partyroom.room_name }}<br>
-                            <hr/>
-                            Deposit: {{ partyroom.room_deposit }}<br>
-                            <div>{{ partyroom.description }}</div>
-                        </div>
-                        <div class="description">
-                            <router-link :to="`/book_a_party/select-time/${partyroom.id}?branch_id=${partyroom.branch_id}&room_name=${partyroom.room_name}`" class="select-room">
-                                Select</router-link>
-                        </div>
-                    </div>
-                </div>
+        <!-- ###########      메인 입력 내용        ########### -->
+         <div class="selected-room-card">
+            <div v-if="selectedroom.length > 0"  class="partyroom-container">
+                <div>{{ selectedroom.room_name }}</div>
             </div>
-            <div v-else> <!-- 데이터가 없으면 이 메시지 표시 -->
-                No party rooms available.
-            </div>
-        </div>
-    </div>
+         </div>
+         <div class="main-time-pick">
+            <!-- <p>{{ partyroom.room_name }} Available times</p> -->
+            <form @submit.prevent="submitForm">
+                <table>
+                <tr>
+                    <td><label for="datepicker">Choose a date:</label></td>
+                    <td>
+                        <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd"></vue3-datepicker>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Selected Date: {{ selectedDate }}</td>
+                </tr>
+                <tr>
+                    <td><label for="dayofweek">Day of Week:</label></td>
+                    <td>
+                    <select v-model="dayofweek" id="dayofweek" required>
+                        <option value="Mon">Monday</option>
+                        <option value="Tue">Tuesday</option>
+                        <option value="Wed">Wednesday</option>
+                        <option value="Thu">Thursday</option>
+                        <option value="Fri">Friday</option>
+                        <option value="Sat">Saturday</option>
+                        <option value="Sun">Sunday</option>
+                    </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    <button type="submit">Submit</button>
+                    </td>
+                </tr>
+                </table>
+            </form>
+         </div>
+  </div>
 </template>
-
 <script>
+import { useRoute } from 'vue-router';
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
+import { ref } from 'vue';
+import Vue3Datepicker from 'vue3-datepicker';
+// import 'vue3-datepicker/dist/main.css';
+import Datepicker from 'vue3-datepicker';
+const selectedDate = ref(null); // 날짜 상태 추가
+// const route = useRoute();
+// const selectedRoomName = route.query.room; // URL에서 'room' 값을 가져옴
 
 export default {
+    components: {
+        CurrentTime,
+        Vue3Datepicker
+    }, 
+    // setup(){
+    //     const selectedDate = ref(null);
+    //     return{
+    //         selectedDate
+    //     };
+    // },
     data() {
         return {
-            partyrooms:[],
-            branchID: this.$route.params.branchID,
-              // URL 파라미터에서 branchID 가져오기
+            selectedroom:[],
+            branchID: "", // 기본값 설정
+            roomID: "",
+            roomName: "",
+                // URL 파라미터에서 branchID 가져오기
         };
-    },
-    mounted() {
-    this.fetchPartyrooms();
-    },
-    components: {
-        CurrentTime
-    },  
-    methods: {
-    async fetchPartyrooms() {
-      console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
-      try {
-        const response = await axios.get(`http://localhost:8081/api/partyrooms/${this.branchID}`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+   },
+  mounted(){
+    this.branchID = this.$route.params.branch_id || this.$route.query.branch_id || ""; 
+    this.roomID = this.$route.params.roomID || this.$route.query.roomID || "";
+    this.roomName = decodeURIComponent(this.$route.query.room_name) || ""; // query string에서 가져오기
 
-        this.partyrooms = response.data;
-        //console.log("### 전체 response 객체 ### :", response);
-        console.log("### partyrooms data 나오라고 ### :", response.data);
-      } catch (error) {
-        console.error("#### Error fetching partyrooms ##### :", error);
-      }
-    }
+    console.log('#### Room ID #### :', this.roomID, this.branchID, this.roomName); // 이 값이 정상적으로 출력되는지 확인
+    const partyroomId = this.roomID;  // URL 파라미터에서 roomID 추출
+    this.fetchSelectedroomData(partyroomId);
+  },
+    methods: {
+        async fetchSelectedroomData(partyroomId) {
+        console.log("📌 Axios 요청 보냄 - partyroomId:", partyroomId);
+        console.log("📌 Axios 요청 보냄 - branch_id:", this.branchID);
+        console.log("📌 Axios 요청 보냄 - room_name:", this.roomName);
+        
+        try {
+            const response = await axios.get(`http://localhost:8081/api/selectedroom/${partyroomId}`
+            , {params : {
+                branch_id: this.branchID
+                , room_name: this.roomName}
+            }); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+
+            this.partyroom = response.data;  // 받아온 데이터를 partyroom에 저장
+            console.log("### selected data 언제 나오냐고 ### :", response.data);
+        } catch (error) {
+            console.error('Error fetching selected room data:', error);
+        }
+        }
   }
 }
 </script>
-
 <style scoped>
 .booking-header{
     width: 100vw;
@@ -208,69 +246,4 @@ export default {
     border-bottom: 3px solid #6699ff; /* hover 시 선 표시 */
 }
 
-
-
-
-a{
-    text-decoration: none;
-}
-
-.party-hat{
-    width: 120px;
-    height: auto; /* 높이는 비율에 맞게 자동 조정 */
-    object-fit: contain; /* 이미지 비율을 유지하면서 가능한 공간에 맞추기 */
-}
-.partyroom-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px; /* 카드 사이 간격 */
-    justify-content: center; /* 중앙 정렬 */
-}
-
-.partyroom-card {
-    display: flex; /* 내부 요소를 가로 배치 */
-    flex-direction: column; /* 세로 방향 배치 */
-    justify-content: space-between; /* 내용과 버튼 사이 여백 자동 조정 */
-    align-items: center; /* 중앙 정렬 */
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    width: 350px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.partyroom-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.partyroom-card h3 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.partyroom-card p {
-    font-size: 14px;
-    color: #666;
-}
-
-.select-room {
-    background-color: #ffb3b3; /* 버튼 배경 색상 */
-    color: white; /* 텍스트 색상 */
-    text-decoration: none; /* 링크 스타일 제거 */
-    padding: 10px 20px; /* 버튼 내부 여백 */
-    border-radius: 5px; /* 둥근 모서리 */
-    font-size: 16px; /* 글자 크기 */
-    display: inline-block; /* 버튼 형태 유지 */
-    margin-top: auto; /* 버튼이 자동으로 글자 아래에 배치되도록 설정 */
-}
-
-.select-room:hover{
-    background-color: #6699ff; /* 버튼 배경 색상 */
-}
 </style>
-
