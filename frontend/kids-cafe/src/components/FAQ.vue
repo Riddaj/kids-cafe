@@ -22,7 +22,7 @@
             <div class="answer">Yes, you're welcome to bring birthday cake/cupcakes. Also, you can order us.</div>
         </div>
         <div class="set">
-            <div class="question">🎉 Can I bring my birthday cake?</div>
+            <div class="question">🎉 Can I bring our own food and drinks?</div>
             <div class="answer">Yes, you're welcome to bring birthday cake/cupcakes. Also, you can order us.</div>
         </div>
         <div class="set">
