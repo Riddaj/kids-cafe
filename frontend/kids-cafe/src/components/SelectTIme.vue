@@ -36,45 +36,38 @@
             <div class="current-time"><CurrentTime/></div>
         </div>
         <!-- ###########      메인 입력 내용        ########### -->
-         <div class="selected-room-card">
-            <div v-if="selectedroom.length > 0"  class="partyroom-container">
-                <div>{{ selectedroom.room_name }}</div>
-            </div>
-         </div>
-         <div class="main-time-pick">
-            <!-- <p>{{ partyroom.room_name }} Available times</p> -->
-            <form @submit.prevent="submitForm">
-                <table>
-                <tr>
-                    <td><label for="datepicker">Choose a date:</label></td>
-                    <td>
-                        <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd"></vue3-datepicker>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Selected Date: {{ selectedDate }}</td>
-                </tr>
-                <tr>
-                    <td><label for="dayofweek">Day of Week:</label></td>
-                    <td>
-                    <select v-model="dayofweek" id="dayofweek" required>
-                        <option value="Mon">Monday</option>
-                        <option value="Tue">Tuesday</option>
-                        <option value="Wed">Wednesday</option>
-                        <option value="Thu">Thursday</option>
-                        <option value="Fri">Friday</option>
-                        <option value="Sat">Saturday</option>
-                        <option value="Sun">Sunday</option>
-                    </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                    <button type="submit">Submit</button>
-                    </td>
-                </tr>
-                </table>
-            </form>
+         <div class="main-card">
+             <div class="selected-room-card">
+                 <img src="/images/party-hat.png" alt="party-hat" class="party-hat">
+                <div v-if="Object.keys(selectedroom).length > 0"  class="selectedroom-container">
+                    <div class="room-name">{{ selectedroom.room_name }}</div>
+                    <div>{{ selectedroom.description }}</div>
+                </div>
+             </div>
+             <div class="main-time-pick">
+                <!-- <p>{{ partyroom.room_name }} Available times</p> -->
+                <form @submit.prevent="submitForm">
+                    <table>
+                        <tr>
+                            <td><label for="datepicker">Choose a date:</label></td>
+                            <td>
+                                <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd"></vue3-datepicker>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Selected Date: <span class="highlight">{{ formattedDate }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>Selected Day of Week: <span class="highlight">{{ selectedDay  }}</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit">Submit</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+             </div>
          </div>
   </div>
 </template>
@@ -103,10 +96,12 @@ export default {
     // },
     data() {
         return {
-            selectedroom:[],
+            selectedroom:{}, //배열 대신 객체로 변경
             branchID: "", // 기본값 설정
             roomID: "",
             roomName: "",
+            selectedDate: null, // ✅ null로 초기화 (날짜 객체 저장)
+            dayofweek: ""  // ✅ dayofweek 추가
                 // URL 파라미터에서 branchID 가져오기
         };
    },
@@ -132,13 +127,29 @@ export default {
                 , room_name: this.roomName}
             }); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-            this.partyroom = response.data;  // 받아온 데이터를 partyroom에 저장
+            this.selectedroom = response.data;  // 받아온 데이터를 partyroom에 저장
             console.log("### selected data 언제 나오냐고 ### :", response.data);
         } catch (error) {
             console.error('Error fetching selected room data:', error);
         }
         }
-  }
+  },
+  computed: {
+        formattedDate() {
+            if (!this.selectedDate) return "";
+            const date = new Date(this.selectedDate);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`; // ✅ DD/MM/YYYY 형식으로 변환
+        },
+        selectedDay() {
+            if (!this.selectedDate) return "";
+            const date = new Date(this.selectedDate);
+            return date.toLocaleDateString("en-US", { weekday: "short" }); // ✅ 요일 (Fri)
+        }
+    }
+
 }
 </script>
 <style scoped>
@@ -156,6 +167,40 @@ export default {
     left: 0;
     /* right: 0; 오른쪽 끝까지 확장 */
     z-index: 1000; /* 다른 요소들 위에 배치 */
+}
+
+.main-card{
+    display: flex;
+    justify-content: center;
+}
+
+.highlight{
+    color: #6699ff;
+    font-weight: bold;
+}
+
+.room-name{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.selected-room-card{
+    border-radius: 10px;
+    padding: 15px;
+    margin-right: 50px;
+    width: 350px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.main-time-pick{
+    border-radius: 10px;
+    padding: 15px;
+    width: 350px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .wrapper{
@@ -203,6 +248,13 @@ export default {
     margin: 0;
     background-color: #ffe6e6;
     margin-bottom: 30px;
+}
+
+.party-hat{
+    width: 120px;
+    height: auto; /* 높이는 비율에 맞게 자동 조정 */
+    object-fit: contain; /* 이미지 비율을 유지하면서 가능한 공간에 맞추기 */
+    justify-content: center;
 }
 
 .step-info-item{

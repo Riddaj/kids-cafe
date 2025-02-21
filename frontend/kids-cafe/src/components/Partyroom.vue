@@ -235,7 +235,7 @@ a{
     background: white;
     border-radius: 10px;
     padding: 15px;
-    width: 350px;
+    width: 400px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
     transition: transform 0.2s, box-shadow 0.2s;
