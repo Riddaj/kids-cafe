@@ -38,7 +38,7 @@
         <!-- ###########      메인 입력 내용        ########### -->
          <div class="main-card">
              <div class="selected-room-card">
-                 <img src="/images/party-hat.png" alt="party-hat" class="party-hat">
+                 <img src="/images/happy-birthday.png" alt="party-hat" class="happy-birthday">
                 <div v-if="Object.keys(selectedroom).length > 0"  class="selectedroom-container">
                     <div class="room-name">{{ selectedroom.room_name }}</div>
                     <div>{{ selectedroom.description }}</div>
@@ -56,13 +56,25 @@
                         </tr>
                         <tr>
                             <td>Selected Date: <span class="highlight">{{ formattedDate }}</span></td>
+                            <td style="display: none;">{{ dateInput }}</td>
                         </tr>
                         <tr>
                             <td>Selected Day of Week: <span class="highlight">{{ selectedDay  }}</span></td>
                         </tr>
+                        <tr class="time-options-row">
+                            <td
+                                v-for="(timeOption, index) in timeOptions"
+                                :key="index"
+                                class="time-card"
+                                :class="{ selected: selectedTime === timeOption }"
+                                @click="selectTime(timeOption)"
+                                >
+                                {{ timeOption }}
+                            </td>
+                        </tr>
                         <tr>
-                            <td colspan="2">
-                                <button type="submit">Submit</button>
+                            <td class="button-td">
+                                <button type="submit" class="submit-button">Next</button>
                             </td>
                         </tr>
                     </table>
@@ -75,7 +87,7 @@
 import { useRoute } from 'vue-router';
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
-import { ref } from 'vue';
+import { ref, computed, watch } from "vue"; // ✅ watch 추가
 import Vue3Datepicker from 'vue3-datepicker';
 // import 'vue3-datepicker/dist/main.css';
 import Datepicker from 'vue3-datepicker';
@@ -88,23 +100,19 @@ export default {
         CurrentTime,
         Vue3Datepicker
     }, 
-    // setup(){
-    //     const selectedDate = ref(null);
-    //     return{
-    //         selectedDate
-    //     };
-    // },
-    data() {
-        return {
-            selectedroom:{}, //배열 대신 객체로 변경
-            branchID: "", // 기본값 설정
-            roomID: "",
-            roomName: "",
-            selectedDate: null, // ✅ null로 초기화 (날짜 객체 저장)
-            dayofweek: ""  // ✅ dayofweek 추가
-                // URL 파라미터에서 branchID 가져오기
-        };
-   },
+     data() {
+         return {
+             selectedroom:{}, //배열 대신 객체로 변경
+             branchID: "", // 기본값 설정
+             roomID: "",
+             roomName: "",
+             selectedDate: null, // ✅ null로 초기화 (날짜 객체 저장)
+             dayofweek: "",  // ✅ dayofweek 추가
+             //dateTimeInput: "",   
+             timeOptions: ['10:00~13:00', '16:00~18:00'],  // 선택 가능한 시간 옵션
+             selectedTime: '',  // 선택된 시간
+         };
+    },
   mounted(){
     this.branchID = this.$route.params.branch_id || this.$route.query.branch_id || ""; 
     this.roomID = this.$route.params.roomID || this.$route.query.roomID || "";
@@ -112,6 +120,7 @@ export default {
 
     console.log('#### Room ID #### :', this.roomID, this.branchID, this.roomName); // 이 값이 정상적으로 출력되는지 확인
     const partyroomId = this.roomID;  // URL 파라미터에서 roomID 추출
+    console.log("나와롸 ################# ", partyroomId);
     this.fetchSelectedroomData(partyroomId);
   },
     methods: {
@@ -120,20 +129,56 @@ export default {
         console.log("📌 Axios 요청 보냄 - branch_id:", this.branchID);
         console.log("📌 Axios 요청 보냄 - room_name:", this.roomName);
         
-        try {
-            const response = await axios.get(`http://localhost:8081/api/selectedroom/${partyroomId}`
-            , {params : {
-                branch_id: this.branchID
-                , room_name: this.roomName}
-            }); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+            try {
+                const response = await axios.get(`http://localhost:8081/api/selectedroom/${partyroomId}`
+                , {params : {
+                    branch_id: this.branchID
+                    , room_name: this.roomName}
+                }); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-            this.selectedroom = response.data;  // 받아온 데이터를 partyroom에 저장
-            console.log("### selected data 언제 나오냐고 ### :", response.data);
-        } catch (error) {
-            console.error('Error fetching selected room data:', error);
-        }
-        }
-  },
+                this.selectedroom = response.data;  // 받아온 데이터를 partyroom에 저장
+                console.log("### selected data 언제 나오냐고 ### :", response.data);
+            } catch (error) {
+                console.error('Error fetching selected room data:', error);
+            }
+        },
+        selectTime(option) {
+        this.selectedTime = option;  // 선택된 옵션을 저장
+        console.log("선택된 시간:", this.selectedTime); // 콘솔로 확인
+        },
+        async submitForm() {
+            // console.log(this.selectedDate);
+            console.log("이거 나오나", this.dateInput);
+            console.log("이거 ", this.dateInput);
+            console.log("time이 왜안나오는거야 ===== ", this.selectedTime );
+
+            if (!this.selectedDate) {
+                alert("Please enter the date.");
+                return;
+            }
+            if (!this.selectedTime) {
+            alert("Please enter the time.");
+            return;
+            }
+            try {
+                const response = await axios.post("http://localhost:8081/api/select-time", {
+                    partyroom_id:  this.roomID,
+                    selected_date: this.dateInput,
+                    selected_time: this.selectedTime,
+                },{
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log("$$$$ 응답 $$$$: ", response);  // 응답 상태 코드 및 데이터 확인
+                alert("예약 성공적으로 완료되었습니다"); // 성공 메시지 출력
+            } catch (error) {
+                //console.log("===== date ======: ", date);
+                console.error("Error:", error);
+                alert("날짜 저장에 실패했습니다.");
+            }
+        },
+    },
   computed: {
         formattedDate() {
             if (!this.selectedDate) return "";
@@ -147,12 +192,52 @@ export default {
             if (!this.selectedDate) return "";
             const date = new Date(this.selectedDate);
             return date.toLocaleDateString("en-US", { weekday: "short" }); // ✅ 요일 (Fri)
+        },
+        dateInput(){
+            if (!this.selectedDate) return "";
+            const date = new Date(this.selectedDate);
+            const dateStr = date.toString(); // Date 객체를 문자열로 변환
+            const dateandday = dateStr.split(" GMT")[0]; // 문자열에서 " GMT"를 기준으로 잘라내기
+            return dateandday;
+
         }
     }
 
 }
 </script>
 <style scoped>
+tr {
+  padding-top: 10px;    /* 위쪽 여백 */
+  padding-bottom: 10px; /* 아래쪽 여백 */
+}
+
+td {
+  padding: 10px;        /* 셀 안의 내용에 여백 */
+}
+
+.button-td{
+    display: flex;            /* Flexbox 활성화 */
+    justify-content: center;  /* 수평 가운데 정렬 */
+    align-items: center;      /* 수직 가운데 정렬 */
+    height: 100px;            /* 버튼을 세로로 충분히 공간을 두려면 높이를 지정 */
+
+}
+
+.submit-button{
+    background-color: #ffb3b3; /* 버튼 배경 색상 */
+    color: white; /* 텍스트 색상 */
+    text-decoration: none; /* 링크 스타일 제거 */
+    padding: 10px 20px; /* 버튼 내부 여백 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px; /* 글자 크기 */
+    display: inline-block; /* 버튼 형태 유지 */
+    margin-top: 30px; /* 버튼이 자동으로 글자 아래에 배치되도록 설정 */
+}
+
+.submit-button:hover{
+    background-color: #6699ff; /* 버튼 배경 색상 */
+}
+
 .booking-header{
     width: 100vw;
     display: flex;
@@ -192,12 +277,30 @@ export default {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
     transition: transform 0.2s, box-shadow 0.2s;
+    align-items: center; /* 가로 가운데 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+}
+
+.happy-birthday{
+    width: 120px;
+    height: auto; /* 높이는 비율에 맞게 자동 조정 */
+    object-fit: contain; /* 이미지 비율을 유지하면서 가능한 공간에 맞추기 */
+    display: block;
+    margin: 0 auto; /* 이미지 중앙 정렬 %이거 하니까 적용됨% */
+}
+
+.selectedroom-container {
+    width: 100%; /* 부모 요소 크기 전체 사용 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 왼쪽 정렬 */
+    padding: 10px; /* 텍스트와 카드 간 여백 추가 */
 }
 
 .main-time-pick{
     border-radius: 10px;
     padding: 15px;
-    width: 350px;
+    width: 600px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -250,13 +353,6 @@ export default {
     margin-bottom: 30px;
 }
 
-.party-hat{
-    width: 120px;
-    height: auto; /* 높이는 비율에 맞게 자동 조정 */
-    object-fit: contain; /* 이미지 비율을 유지하면서 가능한 공간에 맞추기 */
-    justify-content: center;
-}
-
 .step-info-item{
     width: 50%; /* 각 항목의 너비를 25%로 설정 */
     padding: 10px; /* 항목 간 간격을 위한 padding (옵션) */
@@ -298,4 +394,35 @@ export default {
     border-bottom: 3px solid #6699ff; /* hover 시 선 표시 */
 }
 
+.time-options-row {
+  display: flex; /* 가로로 배열 */
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+  gap: 10px; /* 각 카드 사이에 간격 추가 */
+}
+
+.time-card {
+  width: 120px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  text-align: center;
+  padding: 10px;
+}
+
+.time-card:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.time-card.selected {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+}
 </style>
