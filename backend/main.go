@@ -14,7 +14,7 @@ import (
 
 func main() {
 
-	fmt.Print("✅✅아 왜 안찍혀 터미널에 미친놈아")
+	fmt.Print("✅✅ 터미널 확인")
 
 	config.ConnectDB()
 
@@ -41,7 +41,7 @@ func main() {
 	r.GET("/api/branches", controllers.GetBranches)
 	r.GET("/api/partyrooms/:branch_id", controllers.GetPartyrooms)
 	r.GET("/api/selectedroom/:room_id", controllers.GetSelectedRoom)
-
+	r.POST("api/select-time", controllers.SaveSelectTime)
 	// 엔드포인트 확인
 	/*
 		r.GET("/api/branches", func(c *gin.Context) {

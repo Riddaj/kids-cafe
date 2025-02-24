@@ -56,9 +56,9 @@ func GetSelectedRoom(c *gin.Context) {
 	//roomName := c.Request.URL.Query().Get("room_name")
 
 	// 디버깅용 출력
-	fmt.Println("###왜 안나오냐고#### branchID:", branchID)
-	fmt.Println("###왜 안나오냐고#### roomName:", roomName)
-	fmt.Println("###왜 안나오냐고#### roomId:", roomId)
+	//fmt.Println("###왜 안나오냐고#### branchID:", branchID)
+	//fmt.Println("###왜 안나오냐고#### roomName:", roomName)
+	//fmt.Println("###왜 안나오냐고#### roomId:", roomId)
 
 	if branchID == "" || roomName == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing parameters"})
