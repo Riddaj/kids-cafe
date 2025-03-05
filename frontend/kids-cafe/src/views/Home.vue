@@ -40,10 +40,15 @@
 			        <h1 class="elementor-heading-title elementor-size-default">Welcome to <br>Twinkle <br>Kids Cafe</h1>
 				</div>
 				<div class="main-text">
-							<p>Welcome to the center where your children are able <br> 
-                                to play, learn, excercise and have the best Birthday 
-                                <br>parties!&nbsp;</p>
-				</div>
+                    <p>Welcome to the center where your children are able <br> 
+                        to play, learn, excercise and have the best Birthday 
+                        <br>parties!&nbsp;</p>
+                </div>
+                <div class="quickbtn-container">
+                        <a class="quickbtn-book" href="/book_a_party/quickbook" title="Quick Party Room Booking">
+                            Quick Party Room Booking
+                        </a>
+                </div>
                 <div class="image-wrapper">
                     <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
                     class="background-image1">
@@ -215,5 +220,28 @@ li {
     color: white; /* 텍스트 색상 */
 }
 
+.quickbtn-container {
+    position: absolute;
+    top: 50%; /* 원하는 위치 조정 */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; /* 이미지 위로 오도록 설정 */
+}
 
+.quickbtn-book {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #ffb3b3;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.quickbtn-book:hover {
+    color: white;
+    background-color: #ff8080;
+}
 </style>
