@@ -31,7 +31,7 @@ func GetBranches(db *gorm.DB) ([]Branch, error) {
 	var branches []Branch
 	err := db.Find(&branches).Error
 
-	fmt.Println("#### 데이터 나와라나와라 얍 #### Fetched branches:", branches)
+	fmt.Println("#### 데이터 나와라나와라 #### Fetched branches:", branches)
 
 	if err != nil {
 		fmt.Println("#### Error fetching branches:", err)
