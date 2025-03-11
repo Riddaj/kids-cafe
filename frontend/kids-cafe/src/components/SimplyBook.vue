@@ -90,7 +90,7 @@ export default {
       try {
         const response = await axios.get("http://localhost:8081/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-        this.branches = response.data;
+        this.branches = response.data.branches;
         //console.log("### 전체 response 객체 ### :", response);
         console.log("### Branches data 나오라고 ### :", response.data);
       } catch (error) {

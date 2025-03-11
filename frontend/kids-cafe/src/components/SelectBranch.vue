@@ -1,7 +1,7 @@
 <template>
     <div class="branch_info">
         <h1>Branch</h1>
-        <div v-if="branches.length > 0"  class="branch-container">
+        <div v-if="branches && branches.length > 0"   class="branch-container">
             <div v-for="branch in branches" :key="branch.id">
                 <router-link :to="`/book_a_party/select_room/${branch.id}`" class="branch-card">
                     <div class="branch-card">
@@ -34,15 +34,16 @@ export default {
     },  
     mounted() {
     this.fetchBranches();
+    console.log("🔥🔥 Mounted! branches 🔥🔥:", this.branches);
     },
     methods: {
     async fetchBranches() {
       try {
         const response = await axios.get("http://localhost:8081/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-        this.branches = response.data;
+        this.branches = response.data.branches;
         //console.log("### 전체 response 객체 ### :", response);
-        console.log("### branchs data 나오라고 ### :", response.data);
+        console.log("### branchs data 나오라고 ### :", response.data.branches);
       } catch (error) {
         console.error("#### Error fetching branchs ##### :", error);
       }

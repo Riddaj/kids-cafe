@@ -20,3 +20,8 @@ export default defineConfig({
     },
   },
 })
+
+// vue.config.js
+module.exports = {
+  productionSourceMap: false,  // 소스맵을 비활성화하여 문제 해결
+}

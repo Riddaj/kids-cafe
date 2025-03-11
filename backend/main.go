@@ -9,12 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/johnnydev/kids-cafe-backend/config"
 	"github.com/johnnydev/kids-cafe-backend/controllers"
+	"github.com/johnnydev/kids-cafe-backend/firebase"
 	// "github.com/johnnydev/kids-cafe-backend/models"
 )
 
 func main() {
 
 	fmt.Print("✅✅ 터미널 확인")
+
+	// Firebase 초기화
+	firebase.InitializeFirebase() // Firebase 초기화 함수 호출
 
 	config.ConnectDB()
 
