@@ -44,9 +44,9 @@ func main() {
 
 	r.GET("/api/branches", controllers.GetBranches)
 	r.GET("/api/partyrooms/:branch_id", controllers.GetPartyrooms)
-	r.GET("/api/selectedroom/:room_id", controllers.GetSelectedRoom)
+	//r.GET("/api/selectedroom/:room_id", controllers.GetSelectedRoom)
 	r.POST("/api/select-time", controllers.SaveSelectTime)
-	r.GET("/api/foodoptions", controllers.GetFoodOptions)
+	r.GET("/api/foodoptions", controllers.Getfoodoptions)
 	// 엔드포인트 확인
 	/*
 		r.GET("/api/branches", func(c *gin.Context) {

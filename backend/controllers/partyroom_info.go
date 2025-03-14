@@ -1,20 +1,54 @@
 package controllers
 
 import (
-	"fmt"
-	"net/http"
-	"strconv"
-
 	// DB 연결을 가져오기 위함
 	// Branch 모델을 가져오기 위함
+
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"github.com/johnnydev/kids-cafe-backend/config"
 	"github.com/johnnydev/kids-cafe-backend/models"
-	"gorm.io/gorm"
 )
 
 // 모든 지점(branch) 목록을 가져오는 API (특정 branch_id에 대한 필터 추가)
 func GetPartyrooms(c *gin.Context) {
+	// GetPartyrooms 함수 호출, branchID는 URL 파라미터로 받음
+	partyrooms, err := models.GetPartyrooms(c)
+	if err != nil {
+		// GetPartyrooms에서 error가 발생한 경우
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 데이터가 없으면 404 Not Found 응답
+	if partyrooms == nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No partyrooms found for this branch"})
+		return
+	}
+
+	// 정상적으로 partyrooms 데이터를 반환
+	c.JSON(http.StatusOK, gin.H{"partyrooms": partyrooms})
+
+	// 특정 branch_id에 해당하는 partyrooms만 필터링
+	/*
+
+		var filteredPartyrooms []models.Partyroom
+		for _, partyroom := range allPartyrooms {
+			if partyroom.BranchID == branchID {
+				filteredPartyrooms = append(filteredPartyrooms, partyroom)
+			}
+		}
+
+		// 결과 응답 반환
+		if len(filteredPartyrooms) == 0 {
+			c.JSON(http.StatusOK, gin.H{"message": "No partyrooms found for this branch"})
+			} else {
+				c.JSON(http.StatusOK, gin.H{"partyrooms": filteredPartyrooms})
+			}
+	*/
+}
+
+/*
 	// URL 파라미터에서 branch_id 가져오기
 	branchID := c.Param("branch_id")
 
@@ -79,4 +113,4 @@ func GetSelectedRoom(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, room)
-}
+*/

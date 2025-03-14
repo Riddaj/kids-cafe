@@ -72,17 +72,18 @@
                         <select class="info-detail-input">
                             <option value="">Select a party room</option>
                             <option v-for="room in partyrooms" :key="room.id">
-                                {{ room.room_name }}
+                                {{ room.RoomName }}
                             </option>
                         </select>
                     </div>
+                    <!-- ###################  날짜 ############################## -->
+                    <!-- ###################  날짜 ############################## -->
                     <div class="info-detail">
                         <!-- <img src="/images/birthday-dino.png" /> -->
                         <label class="label-required">Choose the date: </label>
-                        <DateModePicker v-model="mode" />
-                        <VDatePicker v-model="range" :mode="mode" :rules="rules" />
-                        <!-- <VDatePicker v-model="selectedDate" :rules="rules"  -->
-                        <!-- format="yyyy-MM-dd" inline></VDatePicker> -->
+                        <pro-calendar
+                            :events="evts"
+                        />
                     </div>
                     <!-- ##### 푸드 옵션 관련 테이블 ###### -->
                     <div class="info-detail">
@@ -102,22 +103,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(foodOption, index) in foodOptions" :key="foodOption.food_id">
+                                <tr v-for="(foodoption, index) in foodoptions" :key="foodoption.food_id">
                                 <td>
                                     <input 
                                     type="checkbox" 
-                                    v-model="selectedFoodOptions" 
-                                    :value="foodOption.food_id" 
-                                    @change="handleCheckboxChange(foodOption.food_id)"
+                                    v-model="selectedfoodoptions" 
+                                    :value="foodoption.food_id" 
+                                    @change="handleCheckboxChange(foodoption.food_id)"
                                     />
                                 </td>
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ foodOption.food_name }}</td>
-                                <td>{{ foodOption.food_quantity }}</td>
-                                <td>{{ foodOption.food_package === 'Y' ? 'Package' : 'Individual' }}</td>
-                                <td>${{ foodOption.food_price }}</td>
-                                <td>{{ foodOption.food_forkids }}</td>
-                                <td>{{ foodOption.food_description }}</td>
+                                <td>{{ foodoption.FoodName }}</td>
+                                <td>{{ foodoption.FoodQuantity }}</td>
+                                <td>{{ foodoption.FoodPackage === 'true' ? 'Package' : 'Individual' }}</td>
+                                <td>${{ foodoption.FoodPrice }}</td>
+                                <td>{{ foodoption.FoodForKids }}</td>
+                                <td>{{ foodoption.FoodDescription }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -144,26 +145,19 @@
 <script>
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
-import Vue3Datepicker from 'vue3-datepicker';
+//import Vue3Datepicker from 'vue3-datepicker';
 import { ref, computed, watch } from "vue"; // ✅ watch 추가
-//const selectedDate = ref(new Date()); // 날짜 상태 추가
 
-const range = ref({
-  start: new Date(2020, 0, 6),
-  end: new Date(2020, 0, 10),
-});
-const mode = ref('date');
 
-// rules 설정을 다시 확인 (이 부분은 라이브러리 문서 참고 필요)
-const rules = ref([]);
+
 
 export default {
     data() {
         return {
             branches:[],
             partyrooms:[],
-            foodOptions: [], // 음식 옵션을 저장할 배열
-            selectedFoodOptions: [], // 선택된 음식 옵션의 food_id를 저장할 배열
+            foodoptions: [], // 음식 옵션을 저장할 배열
+            selectedfoodoptions: [], // 선택된 음식 옵션의 food_id를 저장할 배열
             branchID: "",  // 선택된 branch ID
             selectedDate: null, // ✅ null로 초기화 (날짜 객체 저장)
             adults: "",
@@ -171,12 +165,12 @@ export default {
             errorMessage: {
             adults: "",
             children: ""
-            }
+            },
+
         };
     }, 
     components: {
         CurrentTime,
-        Vue3Datepicker
     }, 
     methods: {
         validateInput(field) {
@@ -198,9 +192,9 @@ export default {
         try {
             const response = await axios.get("http://localhost:8081/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-            this.branches = response.data;
+            this.branches = response.data.branches;
             //console.log("### 전체 response 객체 ### :", response);
-            console.log("### branchs data 나오라고 ### :", response.data);
+            console.log("### branchs data 나오라고 ### :", response.data.branches);
         } catch (error) {
             console.error("#### Error fetching branchs ##### :", error);
         }
@@ -214,27 +208,27 @@ export default {
             try {
                 console.log("Fetching party rooms for branchID:", this.branchID); // 디버깅용 로그
                 const response = await axios.get(`http://localhost:8081/api/partyrooms/${this.branchID}`);
-                this.partyrooms = response.data;
-                console.log(this.partyrooms);
+                this.partyrooms = response.data.partyrooms;
+                console.log("$$$$ this.partyrooms.partyrooms $$$$$: ", this.partyrooms.partyrooms);
             } catch (error) {
                 console.error("#### Error fetching party rooms:", error);
             }
         },
-        async fetchFoodOptions() {
+        async fetchfoodoptions() {
             try {
                 const response = await axios.get("http://localhost:8081/api/foodoptions"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-                this.foodOptions = response.data;
+                this.foodoptions = response.data.foodoptions;
                 //console.log("### 전체 response 객체 ### :", response);
-                console.log("### foodOptions data 나오라고 ### :", response.data);
+                console.log("### foodoptions data 나오라고 ### :", response.data.foodoptions);
             } catch (error) {
-                console.error("#### Error fetching foodOptions ##### :", error);
+                console.error("#### Error fetching foodoptions ##### :", error);
             }
         }, 
         handleCheckboxChange(foodId) {
-            if (this.selectedFoodOptions.length > 1) {
+            if (this.selectedfoodoptions.length > 1) {
             // 한 번에 하나만 선택되도록 제한
-            this.selectedFoodOptions = [foodId];
+            this.selectedfoodoptions = [foodId];
             }
         }
     },
@@ -246,7 +240,7 @@ export default {
     },
     mounted() {
         this.fetchBranches();
-        this.fetchFoodOptions(); // 컴포넌트 마운트 후 데이터 로딩
+        this.fetchfoodoptions(); // 컴포넌트 마운트 후 데이터 로딩
         //this.fetchPartyrooms();
     },
 }

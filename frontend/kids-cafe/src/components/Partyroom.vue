@@ -41,7 +41,7 @@
         </div>
         <div class="partyroom_info">
             <h1>Party room</h1>
-            <div v-if="partyrooms.length > 0"  class="partyroom-container">
+            <div v-if="partyrooms && partyrooms.length > 0"  class="partyroom-container">
                 <div v-for="partyroom in partyrooms" :key="partyroom.id">
                     <div class="partyroom-card">
                         <div class="img-div">
@@ -49,10 +49,10 @@
                         </div>
                         <br>
                         <div>
-                            {{ partyroom.room_name }}<br>
+                            {{ partyroom.RoomName }}<br>
                             <hr/>
-                            Deposit: {{ partyroom.room_deposit }}<br>
-                            <div>{{ partyroom.description }}</div>
+                            Deposit: {{ partyroom.RoomDeposit }}<br>
+                            <div>{{ partyroom.Description }}</div>
                         </div>
                         <div class="description">
                             <router-link :to="`/book_a_party/select-time/${partyroom.id}?branch_id=${partyroom.branch_id}&room_name=${partyroom.room_name}`" class="select-room">
@@ -92,9 +92,9 @@ export default {
       try {
         const response = await axios.get(`http://localhost:8081/api/partyrooms/${this.branchID}`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-        this.partyrooms = response.data;
+        this.partyrooms = response.data.partyrooms;
         //console.log("### 전체 response 객체 ### :", response);
-        console.log("### partyrooms data 나오라고 ### :", response.data);
+        console.log("### partyrooms data 나오라고 ### :", response.data.partyrooms);
       } catch (error) {
         console.error("#### Error fetching partyrooms ##### :", error);
       }

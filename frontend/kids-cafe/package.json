@@ -8,10 +8,14 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@lbgm/pro-calendar-vue": "^1.1.6",
+    "@schedule-x/theme-default": "^2.21.2",
+    "@schedule-x/vue": "^2.19.2",
     "axios": "^1.7.9",
     "firebase": "^11.4.0",
     "pinia": "^2.3.1",
     "vue": "^3.5.13",
+    "vue-fullcalendar": "^1.0.9",
     "vue-router": "^4.5.0",
     "vue3-datepicker": "^0.4.0",
     "vuefire": "^3.2.1"
