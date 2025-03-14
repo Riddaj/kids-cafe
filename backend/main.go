@@ -3,11 +3,9 @@ package main
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/johnnydev/kids-cafe-backend/config"
 	"github.com/johnnydev/kids-cafe-backend/controllers"
 	"github.com/johnnydev/kids-cafe-backend/firebase"
 	// "github.com/johnnydev/kids-cafe-backend/models"
@@ -20,13 +18,13 @@ func main() {
 	// Firebase 초기화
 	firebase.InitializeFirebase() // Firebase 초기화 함수 호출
 
-	config.ConnectDB()
+	// config.ConnectDB()
 
-	if config.DB == nil {
-		log.Fatal("❌ Database connection failed!") // DB 연결 실패 체크
-	} else {
-		fmt.Println("✅ Database is connected and ready!") // DB 정상 연결 확인
-	}
+	// if config.DB == nil {
+	// 	log.Fatal("❌ Database connection failed!") // DB 연결 실패 체크
+	// } else {
+	// 	fmt.Println("✅ Database is connected and ready!") // DB 정상 연결 확인
+	// }
 
 	// r = router
 	r := gin.Default()
