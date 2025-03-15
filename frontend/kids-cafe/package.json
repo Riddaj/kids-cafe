@@ -11,6 +11,7 @@
     "@lbgm/pro-calendar-vue": "^1.1.6",
     "@schedule-x/theme-default": "^2.21.2",
     "@schedule-x/vue": "^2.19.2",
+    "@vuepic/vue-datepicker": "^11.0.1",
     "axios": "^1.7.9",
     "firebase": "^11.4.0",
     "pinia": "^2.3.1",
