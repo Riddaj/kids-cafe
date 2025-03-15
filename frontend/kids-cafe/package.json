@@ -16,6 +16,7 @@
     "firebase": "^11.4.0",
     "pinia": "^2.3.1",
     "vue": "^3.5.13",
+    "vue-cal": "^4.10.2",
     "vue-fullcalendar": "^1.0.9",
     "vue-router": "^4.5.0",
     "vue3-datepicker": "^0.4.0",

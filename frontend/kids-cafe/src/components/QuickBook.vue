@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <header class="booking-header">
                 <div id="sb_menu" class="header_menu_wrapper">
                     <ul class="header_navigation_nav" id="sb_menu_list_item_container">
@@ -81,6 +82,31 @@
                     <div class="info-detail">
                         <!-- <img src="/images/birthday-dino.png" /> -->
                         <label class="label-required">Choose the date: </label>
+
+                    <br/>
+                    <!-- vue-cal 달력 컴포넌트 -->
+                    <div class="calendar-container">
+                        <vue-cal
+                        small
+                        :time="false"
+                        hide-view-selector
+                        active-view="week"
+                        :disable-views="['years', 'year', 'month']"
+                        :selected-date="selectedDate"
+                        class="vuecal--blue-theme"
+                        style="max-width: 360px;height: 260px">
+                        </vue-cal>
+                        <vue-cal
+                        xsmall
+                        :time="false"
+                        hide-view-selector
+                        active-view="month"
+                        :disable-views="['years', 'year', 'week', 'day']"
+                        @cell-focus="selectedDate = $event"
+                        class="vuecal--blue-theme vuecal--rounded-theme"
+                        style="max-width: 270px;height: 290px; transform: scale(0.9);">
+                        </vue-cal>
+                    </div>
                         <pro-calendar
                             :events="evts"
                         />
@@ -135,25 +161,36 @@
                         <input class="info-detail-input-2"  type="text"/>
                     </div>    
                     <div>
+          
+                </div>
+                    <div>
                         <button type="submit" class="quickbtn-book" href="#" title="Confirm Booking">Submit</button>
                     </div>
             </div>
+       
         </form>
     </div>
 </template>
-
 <script>
+import VueCal from 'vue-cal';   // vue-cal 임포트
+import 'vue-cal/dist/vuecal.css'
+
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
 //import Vue3Datepicker from 'vue3-datepicker';
 import { ref, computed, watch } from "vue"; // ✅ watch 추가
 
+const config = {
+  hideWeekends: true,
+  time: true
 
+}
 
 
 export default {
     data() {
         return {
+
             branches:[],
             partyrooms:[],
             foodoptions: [], // 음식 옵션을 저장할 배열
@@ -170,7 +207,9 @@ export default {
         };
     }, 
     components: {
+        VueCal, 
         CurrentTime,
+        
     }, 
     methods: {
         validateInput(field) {
@@ -230,7 +269,12 @@ export default {
             // 한 번에 하나만 선택되도록 제한
             this.selectedfoodoptions = [foodId];
             }
-        }
+        },
+            // 날짜 클릭 시 실행되는 메서드
+            handleDayClick(day) {
+            const selectedDate = day.date.format('YYYY-MM-DD'); // 선택한 날짜
+            console.log('선택한 날짜:', selectedDate);
+            },
     },
     watch: {
             branchID(newVal) {
@@ -377,13 +421,13 @@ th {
 
     .info-detail label {
         margin-left: 15%;
-        width: 70%;                 /* 레이블의 고정 너비 설정 */
+        width: 30%;                 /* 레이블의 고정 너비 설정 */
         text-align: left;           /* 레이블 텍스트를 오른쪽 정렬 */
     }
 
     .info-detail-input-1{
         /* flex-grow: 1;                /* 입력 필드는 가용 공간을 모두 차지 */
-        width: 30%; /* 입력 필드의 너비를 200px로 설정 */
+        width: 60%; /* 입력 필드의 너비를 200px로 설정 */
         padding: 5px;                /* 입력 필드에 패딩 추가 */
         border: 1px solid #ccc;      /* 입력 필드 테두리 */
         border-radius: 2px;          /* 입력 필드 테두리 둥글게 */
@@ -470,4 +514,19 @@ th {
 .quickbtn-book:hover{
     background-color:#4d0099;
 }
+
+h1 {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 20px;
+}
+
+.calendar-container {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 20px; /* 캘린더 사이 여백 */
+  padding: 20px;
+}
+
 </style>
