@@ -16,7 +16,7 @@ type foodoption struct {
 	FoodForKids     string `gorm:"type:char(1);" firestore:"food_forkids"`
 	FoodDescription string `gorm:"type:varchar(100);" firestore:"food_description"`
 	FoodPrice       int    `gorm:"type:int;" firestore:"food_price"`
-	BranchID        string `gorm:"type:varchar(20);" firestore:"branch_id"`
+	BranchID        int    `gorm:"type:int;" firestore:"branch_id"`
 	Branch          Branch `firestore:"branch"` // 관계 설정
 }
 
@@ -25,13 +25,15 @@ func (foodoption) TableName() string {
 }
 
 func Getfoodoptions(c *gin.Context) ([]foodoption, error) {
-	/* 	branchIDStr := c.Param("branch_id")
-	   	branchID, err := strconv.Atoi(branchIDStr) //문자열 int로 변환
+	/*
+		branchIDStr := c.Param("branch_id")
+		branchID, err := strconv.Atoi(branchIDStr) //문자열 int로 변환
 
-	   	if err != nil {
-	   		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid branch_id"})
-	   		return nil, err // 오류 처리 후 적절히 반환
-	   	} */
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid branch_id"})
+			return nil, err // 오류 처리 후 적절히 반환
+		}
+	*/
 
 	client, err := firebase.GetFirestoreClient()
 	if err != nil {

@@ -12,7 +12,7 @@ import (
 
 // Branch 모델 정의
 type Partyroom struct {
-	ID                  string `gorm:"primaryKey;type:varchar(20)" firestore:"id"`
+	RoomID              string `gorm:"primaryKey;type:string" firestore:"room_id"`
 	RoomName            string `gorm:"type:varchar(100);not null" firestore:"room_name"`
 	RoomDeposit         int    `gorm:"type:int" firestore:"room_deposit"`
 	RoomPriceWeekday    int    `gorm:"type:int" firestore:"room_price_weekday"`
@@ -20,7 +20,7 @@ type Partyroom struct {
 	Capacity            int    `gorm:"type:int" firestore:"capacity"`
 	AdditionalHeadcount int    `gorm:"type:int" firestore:"additional_headcount"`
 	BranchID            int    `gorm:"type:int;not null" firestore:"branch_id"`
-	Branch              Branch `firestore:"branch"`
+	Branch              Branch `firestore:"branches"`
 
 	// description 필드 추가
 	Description string `firestore:"description"`
@@ -67,7 +67,8 @@ func GetPartyrooms(c *gin.Context) ([]Partyroom, error) {
 			log.Printf("#### Error while converting document data ####: %v", err)
 			continue
 		}
-		partyroom.ID = doc.Ref.ID // Firestore 문서 ID 저장
+		//partyroom.RoomID = doc.Ref.ID // Firestore 문서 ID 저장
+		partyroom.RoomID = doc.Data()["room_id"].(string) // 문서 내 room_id 필드 값 가져오기
 
 		partyrooms = append(partyrooms, partyroom)
 	}

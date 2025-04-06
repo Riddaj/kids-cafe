@@ -38,20 +38,24 @@
         <!-- ###########      메인 입력 내용        ########### -->
          <div class="main-card">
              <div class="selected-room-card">
-                 <img src="/images/happy-birthday.png" alt="party-hat" class="happy-birthday">
+                 <img src="/images/happy-birthday.png" alt="birthday" class="happy-birthday">
                 <div v-if="Object.keys(selectedroom).length > 0"  class="selectedroom-container">
-                    <div class="room-name">{{ selectedroom.room_name }}</div>
-                    <div>{{ selectedroom.description }}</div>
+                    <div class="room-name">{{ selectedroom.RoomName }}</div>
+                    <div>Room deposit: {{ selectedroom.RoomDeposit }}</div>
+                    <div>{{ displayWeekdayPrice  }}</div>
+                    <div>{{ displayWeekendPrice }}</div>
+                    <div>{{ selectedroom.Description }}</div>
                 </div>
              </div>
              <div class="main-time-pick">
                 <!-- <p>{{ partyroom.room_name }} Available times</p> -->
-                <form @submit.prevent="submitForm">
                     <table>
                         <tr>
                             <td><label for="datepicker">Choose a date:</label></td>
+                        </tr>
+                        <tr>
                             <td>
-                                <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd"></vue3-datepicker>
+                                <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd" inline></vue3-datepicker>
                             </td>
                         </tr>
                         <tr>
@@ -63,7 +67,7 @@
                         </tr>
                         <tr class="time-options-row">
                             <td
-                                v-for="(timeOption, index) in timeOptions"
+                                v-for="(timeOption, index) in filteredTimeOptions"
                                 :key="index"
                                 class="time-card"
                                 :class="{ selected: selectedTime === timeOption }"
@@ -73,12 +77,25 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Price of Selected Day: <span class="highlight">{{ selectedPrice  }}</span></td>
+                        </tr>
+                        <tr>
                             <td class="button-td">
-                                <button type="submit" class="submit-button">Next</button>
+                                <!-- <button type="submit" class="submit-button">Next</button>  -->
+                                <router-link :to="{path: `/book_a_party/foodopitions`,     
+                                query: {
+                                roomID: roomID,
+                                roomName: roomName,
+                                selectedDate: selectedDate,
+                                selectedTime: selectedTime,
+                                selectedPrice: selectedPrice
+                                }
+                                }">
+                                    <button type="submit" class="submit-button">Next</button>
+                                </router-link>
                             </td>
                         </tr>
                     </table>
-                </form>
              </div>
          </div>
   </div>
@@ -88,10 +105,11 @@ import { useRoute } from 'vue-router';
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
 import { ref, computed, watch } from "vue"; // ✅ watch 추가
-import Vue3Datepicker from 'vue3-datepicker';
-// import 'vue3-datepicker/dist/main.css';
-import Datepicker from 'vue3-datepicker';
+import Vue3Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 const selectedDate = ref(null); // 날짜 상태 추가
+// import 'vue3-datepicker/dist/main.css';
+
 // const route = useRoute();
 // const selectedRoomName = route.query.room; // URL에서 'room' 값을 가져옴
 
@@ -109,34 +127,41 @@ export default {
              selectedDate: null, // ✅ null로 초기화 (날짜 객체 저장)
              dayofweek: "",  // ✅ dayofweek 추가
              //dateTimeInput: "",   
-             timeOptions: ['10:00~13:00', '16:00~18:00'],  // 선택 가능한 시간 옵션
+             // 선택 가능한 시간 옵션
+             timeOptions: {
+                '01': ['10:00~13:00', '13:30~16:30'],
+                '02': ['17:00~20:00', '16:00~19:00'],
+             },
              selectedTime: '',  // 선택된 시간
+             selectedPrice: ''
          };
     },
   mounted(){
-    this.branchID = this.$route.params.branch_id || this.$route.query.branch_id || ""; 
+    console.log('####@@@@ URL Parameters @@@@####:', this.$route);  // 라우터 정보를 출력하여 문제를 진단
     this.roomID = this.$route.params.roomID || this.$route.query.roomID || "";
+    this.branchID = this.$route.params.branch_id || this.$route.query.branch_id || ""; 
     this.roomName = decodeURIComponent(this.$route.query.room_name) || ""; // query string에서 가져오기
 
     console.log('#### Room ID #### :', this.roomID, this.branchID, this.roomName); // 이 값이 정상적으로 출력되는지 확인
-    const partyroomId = this.roomID;  // URL 파라미터에서 roomID 추출
-    console.log("나와롸 ################# ", partyroomId);
-    this.fetchSelectedroomData(partyroomId);
+    const roomID = this.roomID;  // URL 파라미터에서 roomID 추출
+    console.log("나와롸 ################# ", roomID);
+    this.fetchSelectedroomData(roomID);
   },
     methods: {
-        async fetchSelectedroomData(partyroomId) {
-        console.log("📌 Axios 요청 보냄 - partyroomId:", partyroomId);
+        async fetchSelectedroomData(roomId) {
+        console.log("📌 Axios 요청 보냄 - room_Id:", this.roomID);
         console.log("📌 Axios 요청 보냄 - branch_id:", this.branchID);
         console.log("📌 Axios 요청 보냄 - room_name:", this.roomName);
         
             try {
-                const response = await axios.get(`http://localhost:8081/api/selectedroom/${partyroomId}`
+                const response = await axios.get(`http://localhost:8081/api/selectedroom/${roomId}`
                 , {params : {
-                    branch_id: this.branchID
-                    , room_name: this.roomName}
+                    room_id: this.roomID,
+                    branch_id: this.branchID, 
+                    room_name: this.roomName}
                 }); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-                this.selectedroom = response.data;  // 받아온 데이터를 partyroom에 저장
+                this.selectedroom = response.data.partyroom;  // 받아온 데이터를 partyroom에 저장
                 console.log("### selected data 언제 나오냐고 ### :", response.data);
             } catch (error) {
                 console.error('Error fetching selected room data:', error);
@@ -146,40 +171,33 @@ export default {
         this.selectedTime = option;  // 선택된 옵션을 저장
         console.log("선택된 시간:", this.selectedTime); // 콘솔로 확인
         },
-        async submitForm() {
-            // console.log(this.selectedDate);
-            console.log("이거 나오나", this.dateInput);
-            console.log("이거 ", this.dateInput);
-            console.log("time이 왜안나오는거야 ===== ", this.selectedTime );
-
-            if (!this.selectedDate) {
-                alert("Please enter the date.");
-                return;
-            }
-            if (!this.selectedTime) {
-            alert("Please enter the time.");
-            return;
-            }
-            try {
-                const response = await axios.post("http://localhost:8081/api/select-time", {
-                    partyroom_id:  this.roomID,
-                    selected_date: this.dateInput,
-                    selected_time: this.selectedTime,
-                },{
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                console.log("$$$$ 응답 $$$$: ", response);  // 응답 상태 코드 및 데이터 확인
-                alert("예약 성공적으로 완료되었습니다"); // 성공 메시지 출력
-            } catch (error) {
-                //console.log("===== date ======: ", date);
-                console.error("Error:", error);
-                alert("날짜 저장에 실패했습니다.");
-            }
-        },
     },
   computed: {
+        displayWeekdayPrice() {
+            console.log("this.selectedroom.RoomPriceWeekday:", this.selectedroom.RoomPriceWeekday);
+            console.log("this.roomId.slice(-2) @#$#$@#$# :", this.roomID);
+            const suffix = this.roomID.slice(-2);
+            if (suffix === '01') {
+                return `weekday price: ${this.selectedroom.RoomPriceWeekday}`;
+            } else if (suffix === '02') {
+                return `17:00~20:00 price: ${this.selectedroom.RoomPriceWeekday}`;
+            }
+        },
+        displayWeekendPrice() {
+            const suffix = this.roomID.slice(-2);
+            if (suffix === '01') {
+                return `weekend price: ${this.selectedroom.RoomPriceWeekend}`;
+            } else if (suffix === '02') {
+                return `16:00~19:00 price: ${this.selectedroom.RoomPriceWeekend}`;
+            } 
+        },
+        filteredTimeOptions() {
+            // roomId의 끝자리 추출
+            console.log("!@#!$@#$#$^%^%$ room id @#@$#!%!#: =", this.roomID);
+            const roomSuffix = this.roomID.slice(-2);
+            // 해당하는 시간 옵션 반환, 없을 경우 빈 배열 반환
+            return this.timeOptions[roomSuffix] || [];
+        },
         formattedDate() {
             if (!this.selectedDate) return "";
             const date = new Date(this.selectedDate);
@@ -200,6 +218,32 @@ export default {
             const dateandday = dateStr.split(" GMT")[0]; // 문자열에서 " GMT"를 기준으로 잘라내기
             return dateandday;
 
+        }, 
+        selectedPrice(){
+            // if (!this.selectedTime || !this.selectedDate) 
+            //     return alert("Please select date and time for the party.");
+
+            const date = new Date(this.selectedDate);
+            const day = date.getDay(); // 0: 일요일, 6: 토요일
+            const isWeekend = (day === 0 || day === 6);
+            
+            const suffix = this.roomID.slice(-2);
+            //const day = this.selectedDay; // Accessing the selectedDay computed property
+            const time = this.timeOptions;
+
+            if (suffix === '01') {
+                if(isWeekend){
+                    return this.selectedroom.RoomPriceWeekend;
+                }else{
+                    return this.selectedroom.RoomPriceWeekday;
+                }
+            } else if (suffix === '02') {
+                if(this.selectedTime === '16:00~19:00'){
+                    return this.selectedroom.RoomPriceWeekend;
+                }else if(this.selectedTime === '17:00~20:00'){
+                    return this.selectedroom.RoomPriceWeekday;
+                }
+            }
         }
     }
 

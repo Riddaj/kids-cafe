@@ -42,20 +42,21 @@
         <div class="partyroom_info">
             <h1>Party room</h1>
             <div v-if="partyrooms && partyrooms.length > 0"  class="partyroom-container">
-                <div v-for="partyroom in partyrooms" :key="partyroom.id">
+                <div v-for="partyroom in partyrooms" :key="partyroom.RoomID">
                     <div class="partyroom-card">
                         <div class="img-div">
                             <img src="/images/party-hat.png" alt="party-hat" class="party-hat">
                         </div>
                         <br>
                         <div>
+                            {{ partyroom.RoomID }}
                             {{ partyroom.RoomName }}<br>
                             <hr/>
                             Deposit: {{ partyroom.RoomDeposit }}<br>
                             <div>{{ partyroom.Description }}</div>
                         </div>
                         <div class="description">
-                            <router-link :to="`/book_a_party/select-time/${partyroom.id}?branch_id=${partyroom.branch_id}&room_name=${partyroom.room_name}`" class="select-room">
+                            <router-link :to="`/book_a_party/select-time/${partyroom.RoomID}?branch_id=${partyroom.BranchID}&room_name=${partyroom.RoomName}`" class="select-room">
                                 Select</router-link>
                         </div>
                     </div>
@@ -93,6 +94,14 @@ export default {
         const response = await axios.get(`http://localhost:8081/api/partyrooms/${this.branchID}`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
         this.partyrooms = response.data.partyrooms;
+        // 전체 응답 객체 찍어보기
+        console.log("### 전체 response 객체 ### :", response);
+        console.log("### partyrooms data ### :", response.data.partyrooms);
+
+        // partyrooms 배열에서 RoomID가 정확히 무엇으로 반환되는지 확인
+        response.data.partyrooms.forEach(partyroom => {
+        console.log("###@@@ RoomID @@@### :", partyroom.RoomID);
+        });
         //console.log("### 전체 response 객체 ### :", response);
         console.log("### partyrooms data 나오라고 ### :", response.data.partyrooms);
       } catch (error) {

@@ -2,14 +2,14 @@
     <div class="branch_info">
         <h1>Branch</h1>
         <div v-if="branches && branches.length > 0"   class="branch-container">
-            <div v-for="branch in branches" :key="branch.id">
-                <router-link :to="`/book_a_party/select_room/${branch.id}`" class="branch-card">
+            <div v-for="branch in branches" :key="branch.branch_id">
+                <router-link :to="`/book_a_party/select_room/${branch.branch_id}`" class="branch-card">
                     <div class="branch-card">
                         <div>
                             {{ branch.branch_name }}<br>
                         </div>
                         <div class="img-div">
-                            <img :src="getBranchImage(branch.id)" 
+                            <img :src="getBranchImage(branch.branch_id)" 
                             :alt="`Branch ${branch.branch_name}`" 
                             class="branch-image">
                         </div>
@@ -48,12 +48,12 @@ export default {
         console.error("#### Error fetching branchs ##### :", error);
       }
     }, 
-    getBranchImage(id) {
+    getBranchImage(branch_id) {
             const images = {
                 1: "https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359522132-RU2ZPENTVALEBF0Z47PG/285887484_694866768237604_5851615251096205906_n.jpg",
                 2: "https://twinklekidscafe.com.au/wp-content/uploads/2024/06/gallery-27-1.jpg"
             };
-            return images[id]; // 기본 이미지
+            return images[branch_id]; // 기본 이미지
         }
   }
 }

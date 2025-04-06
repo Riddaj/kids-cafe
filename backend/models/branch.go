@@ -13,7 +13,7 @@ import (
 
 // Branch 모델 정의
 type Branch struct {
-	ID           uint           `json:"id" gorm:"primaryKey"`
+	ID           uint           `json:"branch_id" gorm:"primaryKey"`
 	Branch_name  string         `json:"branch_name"`
 	Email        string         `json:"email"`
 	Phone        string         `json:"phone"`
