@@ -1,6 +1,7 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import PickBranch from '../views/PickBranch.vue';
 import Booking from '../views/Booking.vue';
 import SimplyBook from '../components/SimplyBook.vue';
 import ConfirmDetail from '../components/ConfirmDetail.vue'
@@ -15,7 +16,8 @@ import BookingConfirm from '../components/BookingConfirm.vue';
 import Menu from '../components/Menu.vue';
 
 const routes = [
-  { path: '/', component: Home },
+  { path: '/', component: PickBranch },
+  { path: '/home/:branchID', component: Home },
   // { path: '/book_a_party', component: Booking },
   { path: '/book_a_party', component: SimplyBook },
   { path: '/book_a_party/quickbook', component: QuickBook },

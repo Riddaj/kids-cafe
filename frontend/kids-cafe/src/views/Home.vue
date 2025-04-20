@@ -7,6 +7,8 @@
                 <!-- /.sc_layouts_logo -->		
                 <img fetchpriority="high" class="logo_image" src="//twinklekidscafe.com.au/wp-content/uploads/2018/08/Twinkle-Kids-Cafe_logo.png" 
                 alt="Twinkle Kids Cafe" width="2390" height="924"></a>
+                <!-- 브랜치 이름 표시 -->
+                <span v-if="branchName" class="branch-name">{{ branchName }}</span>
             </div>
             <div class="sc_layouts_item">
                     <nav class="sc_layouts_menu" id="trx_sc_layouts_menu">
@@ -23,7 +25,7 @@
                             </li><li id="menu-item-3047" class="menu-item" data-width="110.012">
                                 <a href="/menu" class="sf-with-ul"><span>Cafe Menu</span></a>
                             </li><li id="menu-item-3048" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-contact-us/"><span>Contact Us</span></a>
+                                <a href="/book_a_party"><span>Contact Us</span></a>
                             </li>
                         </ul>
                     </nav>
@@ -43,11 +45,11 @@
                         to play, learn, excercise and have the best Birthday 
                         <br>parties!&nbsp;</p>
                 </div>
-                <div class="quickbtn-container">
+                <!-- <div class="quickbtn-container">
                         <a class="quickbtn-book" href="/book_a_party/quickbook" title="Quick Party Room Booking">
                             Quick Party Room Booking
                         </a>
-                </div>
+                </div> -->
                 <div class="image-wrapper">
                     <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
                     class="background-image1">
@@ -71,8 +73,28 @@
     </div>
 </template>
 <script>
-export default {
+import axios from 'axios'; // axios를 import 추가
 
+export default {
+    data() {
+    return {
+      branchName: ''
+    }
+  },
+  async created() {
+    const branchID = this.$route.params.branchID
+    this.branchName = this.getBranchNameByID(branchID)
+  },
+  methods: {
+    getBranchNameByID(id) {
+      const branchMap = {
+        1: 'Burwood',
+        2: 'Hornsby',
+        // 필요하면 계속 추가 가능
+      }
+      return branchMap[id] || 'Unknown Branch'
+    }
+  }
 }
 </script>
 

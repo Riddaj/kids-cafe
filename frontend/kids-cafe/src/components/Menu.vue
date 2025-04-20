@@ -12,18 +12,18 @@
                     <nav class="sc_layouts_menu" id="trx_sc_layouts_menu">
                         <ul id="sc_layouts_menu" class="sc_layouts_menu_nav" style="touch-action: pan-y;">
                             <li id="menu-item-3040" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/" class="sf-with-ul"><span>Location</span></a></li>
+                                <a href="https://twinklekidscafe.com.au/"><span>Location</span></a></li>
                             <li id="menu-item-3044" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-visiting-us/" class="sf-with-ul">
+                                <a href="https://twinklekidscafe.com.au/macarthur-visiting-us/">
                                     <span>Visiting Us</span></a>
                             </li><li id="menu-item-3093" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-about-us/" class="sf-with-ul"><span>About Us</span></a>
+                                <a href="https://twinklekidscafe.com.au/macarthur-about-us/"><span>About Us</span></a>
                             </li><li id="menu-item-3046" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-parties-events/" class="sf-with-ul"><span>Parties &amp; Events</span></a>
-                            </li><li id="menu-item-3047" class="menu-item" data-width="110.012">
-                                <a href="/menu" class="sf-with-ul"><span>Cafe Menu</span></a>
+                                <a href="https://twinklekidscafe.com.au/macarthur-parties-events/"><span>Parties &amp; Events</span></a>
+                            </li><li id="menu-item-3047" class="menu-item" data-width="110.012" :class="{ 'active': activeMenu === 'Cafe Menu' }" @click="setActiveMenu('Cafe Menu')">
+                                <a href="/menu"><span>Cafe Menu</span></a>
                             </li><li id="menu-item-3048" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-contact-us/"><span>Contact Us</span></a>
+                                <a href="/book_a_party"><span>Contact Us</span></a>
                             </li>
                         </ul>
                     </nav>
@@ -38,7 +38,7 @@
             <div class="menu-wrapper">
                 <div v-for="(categoryMenus, category) in categorizedMenus" :key="category">
                 <h2 class="category-title">{{ category }}</h2>
-                    <div v-for="menu in categoryMenus" :key="menu.MenuID" class="menu-item">
+                    <div v-for="menu in categoryMenus" :key="menu.MenuID" class="cafemenu-item">
                         <div class="menu-name">{{ menu.MenuName }}</div>
                             <!-- MenuOptions 배열 반복 -->
                         <ul class="menu-options">
@@ -61,12 +61,16 @@ export default {
         return{
             menus:[],
             categorizedMenus: {},  // 카테고리별로 메뉴를 나눠 저장할 객체
+            activeMenu: null, // 클릭된 메뉴를 추적하는 변수
         }
     },
     mounted() {
         this.fetchmenu();  // 컴포넌트가 마운트되면 fetchmenu 호출
     },
     methods:{
+        setActiveMenu(headmenuName) {
+            this.activeMenu = headmenuName; // 클릭된 메뉴를 추적
+        },
         async fetchmenu(){
             try {
                 const response = await axios.get("http://localhost:8081/api/cafe-menu");
@@ -118,7 +122,7 @@ export default {
   padding: 60px;
 }
 
-.menu-item {
+.cafemenu-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -241,6 +245,11 @@ li {
     padding: 10px 15px; /* 링크 내부 여백 */
     text-decoration: none;
     font-size: 16px; /* 글자 크기 조정 */
+}
+
+.menu-item.active {
+    color: #7212a6; /* 선택된 메뉴 항목 색상 */
+    font-weight: bold; /* 선택된 메뉴 항목 강조 */
 }
 
 .menu-item > a:hover{

@@ -42,7 +42,7 @@
                     <h1>Contact Information</h1>
                     <img src="/images/banquet.png" alt="food" class="food-image">
                     <div class="room-detail">
-                        <p>Room ID: {{ bookingDetails.roomID }}</p>
+                        <!-- <p>Room ID: {{ bookingDetails.roomID }}</p> -->
                         <p>Room Name: {{ bookingDetails.roomName }}</p>
                         <p>Selected Date: {{ formattedDate }}</p>
                         <!-- <p>Day of Week: {{ formattedDate.dayofweek }}</p>
@@ -205,6 +205,11 @@ export default{
     align-items: center;
     margin-top: 20px; /* 위쪽 여백 추가 */
     padding: 20px; /* 좌우 여백 추가 */
+}
+
+.room-detail p{
+    color: black;
+    text-align: left;
 }
 
 .client-info{

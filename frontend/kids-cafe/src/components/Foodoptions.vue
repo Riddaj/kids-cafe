@@ -42,7 +42,7 @@
                     <img src="/images/banquet.png" alt="food" class="food-image">
                     <div v-if="computedbookingDetails.roomID && computedbookingDetails.roomName" class="room-detail">
                         <!-- <p>{{ bookingDetails }}</p>  -->
-                        <p>Room ID: {{computedbookingDetails.roomID }}</p>
+                        <!-- <p>Room ID: {{computedbookingDetails.roomID }}</p> -->
                         <p>Room Name: {{ computedbookingDetails.roomName }}</p>
                         <p>Selected Date: {{ formattedDate.date }}</p>
                         <p>Day of Week: {{ formattedDate.dayofweek }}</p>
@@ -238,13 +238,19 @@ export default {
     justify-content: center; /* 전체 가운데 정렬 */
     align-items: center;
     margin-top: 20px; /* 위쪽 여백 추가 */
-    padding: 20px; /* 좌우 여백 추가 */
+    padding: 50px; /* 좌우 여백 추가 */
 }
 
 .room-detail{
     text-align: center;
 }
+.room-detail p {
+    color: black; /* room-detail 내의 p 태그 텍스트 색상도 블랙으로 설정 */
+    text-align: left;
+}
+
 .selected-room-card{
+    color: black; /* 모든 텍스트를 블랙으로 설정 */
     border-radius: 10px;
     padding: 15px;
     margin-right: 50px;
