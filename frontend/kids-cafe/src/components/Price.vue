@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr style="background-color: #fffaf0;">
+                <!-- <tr style="background-color: #fffaf0;">
                 <td style="padding: 12px 20px;">1</td>
                 <td style="padding: 12px 20px;">$13</td>
                 <td style="padding: 12px 20px;">$16</td>
@@ -26,10 +26,16 @@
                 <td style="padding: 12px 20px;">$20</td>
                 <td style="padding: 12px 20px;">$26</td>
                 </tr>
-                <tr style="background-color: #f0f8ff;"> <!-- Unlimited row -->
+                <tr style="background-color: #f0f8ff;">
                 <td style="padding: 12px 20px;">Unlimited</td>
                 <td style="padding: 12px 20px;">$50</td>
                 <td style="padding: 12px 20px;">$60</td>
+                </tr> -->
+
+                <tr v-for="(item, index) in sortedPrices" :key="index" :style="{ backgroundColor: getRowColor(index) }">
+                    <td style="padding: 12px 20px;">{{ item.Duration.replace('_', ' ') }}</td>
+                    <td style="padding: 12px 20px;">${{ item.WeekdayPrice }}</td>
+                    <td style="padding: 12px 20px;">${{ item.WeekendPrice }}</td>
                 </tr>
             </tbody>
             </table>
@@ -75,34 +81,46 @@ export default {
             //     { code: 'P001', name: 'Product 1', category: 'Category 1', quantity: 10 },
             //     { code: 'P002', name: 'Product 2', category: 'Category 2', quantity: 20 },
             // ],
-    
-            menus:[],
+            branchID: this.$route.params.branchID,
+            prices:[],
+            sortedPrices:[],
             categorizedMenus: {},  // 카테고리별로 메뉴를 나눠 저장할 객체
             activeMenu: null, // 클릭된 메뉴를 추적하는 변수
            
         }
     },
     mounted() {
-        this.fetchmenu();  // 컴포넌트가 마운트되면 fetchmenu 호출
+        this.fetchprice();  // 컴포넌트가 마운트되면 fetchmenu 호출
     },
     methods:{
         setActiveMenu(headmenuName) {
             this.activeMenu = headmenuName; // 클릭된 메뉴를 추적
         },
-        async fetchmenu(){
+        async fetchprice(){
+            console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
             try {
-                const response = await axios.get("http://localhost:8081/api/cafe-menu");
-                this.menus = response.data.menus;
-                this.categorizeMenu(); 
-                console.log("### menu data 나오라고 ### :", response.data.menus);
+                const response = await axios.get(`http://localhost:8081/api/price/${this.branchID}`);
+                this.prices = response.data.prices;
+                //this.categorizeMenu(); 
+                console.log("### price data 나오라고 ### :", response.data.prices);
+
+                // duration 순서대로 정렬
+                let sortedItems = this.prices.sort((a, b) => {
+                    const order = ['1_hour', '2_hour', 'Unlimited']; // 정렬 순서 정의
+                    return order.indexOf(a.Duration) - order.indexOf(b.Duration);
+                });
+                //정렬 후.
+                
+                this.sortedPrices = [...sortedItems];
+                console.log("###정렬 후## :", this.sortedPrices);
                 
             } catch (error) {
-                console.error("#### Error fetching menus ##### :", error);
+                console.error("#### Error fetching prices ##### :", error);
             }
         },       
         categorizeMenu() {
-            // menus 배열을 MenuCategory 기준으로 분류
-            this.categorizedMenus = this.menus.reduce((categories, menu) => {
+            // prices 배열을 MenuCategory 기준으로 분류
+            this.categorizedMenus = this.prices.reduce((categories, menu) => {
                 const category = menu.MenuCategory;
 
                 if (!categories[category]) {
@@ -112,10 +130,16 @@ export default {
                 categories[category].push(menu);  // 카테고리에 해당하는 메뉴 추가
                 return categories;
             }, {});
+        },
+        getRowColor(index) {
+            // 색상 규칙을 위한 조건을 설정
+            if (index === 0) return '#fffaf0'; // 첫 번째 행
+            else if (index === 1) return '#f0fff0'; // 두 번째 행
+            else return '#f0f8ff'; // Unlimited 행
         }
     },
     created() {
-        this.fetchmenu();  // 컴포넌트 생성 시 메뉴 데이터 가져오기
+        this.fetchprice();  // 컴포넌트 생성 시 메뉴 데이터 가져오기
     }
 }
 </script>
