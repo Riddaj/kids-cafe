@@ -14,10 +14,10 @@
                     <nav class="sc_layouts_menu" id="trx_sc_layouts_menu">
                         <ul id="sc_layouts_menu" class="sc_layouts_menu_nav" style="touch-action: pan-y;">
                             <li id="menu-item-3040" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/" class="sf-with-ul"><span>Location</span></a></li>
+                                <a href="/" class="sf-with-ul"><span>Location</span></a></li>
                             <li id="menu-item-3044" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-visiting-us/" class="sf-with-ul">
-                                    <span>Visiting Us</span></a>
+                                <a :href="`/price/${this.$route.params.branchID}`" class="sf-with-ul">
+                                    <span>Price</span></a>
                             </li><li id="menu-item-3093" class="menu-item">
                                 <a href="https://twinklekidscafe.com.au/macarthur-about-us/" class="sf-with-ul"><span>About Us</span></a>
                             </li><li id="menu-item-3046" class="menu-item">

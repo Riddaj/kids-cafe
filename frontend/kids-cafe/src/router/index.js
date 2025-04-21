@@ -31,7 +31,7 @@ const routes = [
   { path: '/book_a_party/booking-confirm', component: BookingConfirm },
   { path: '/faq', component: FAQ },
   { path: '/menu', component: Menu },
-  { path: '/price', component: Price },
+  { path: '/price/:branchID', component: Price },
 ];
 
 const router = createRouter({
