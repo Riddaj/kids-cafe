@@ -20,7 +20,8 @@
     "vue-fullcalendar": "^1.0.9",
     "vue-router": "^4.5.0",
     "vue3-datepicker": "^0.4.0",
-    "vuefire": "^3.2.1"
+    "vuefire": "^3.2.1",
+    "vuetify": "^3.7.16"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

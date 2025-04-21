@@ -1,41 +1,10 @@
 <template>
     <div id="app">
-        <header class="index-header">
-            <div class="sc-layouts-logo-container">
-                <a href="/" id="trx_sc_layouts_logo_598080678" 
-                class="sc_layouts_logo sc_layouts_logo_default trx_addons_inline_2112412811">
-                <!-- /.sc_layouts_logo -->		
-                <img fetchpriority="high" class="logo_image" src="//twinklekidscafe.com.au/wp-content/uploads/2018/08/Twinkle-Kids-Cafe_logo.png" 
-                alt="Twinkle Kids Cafe" width="2390" height="924"></a>
-            </div>
-            <div class="sc_layouts_item">
-                    <nav class="sc_layouts_menu" id="trx_sc_layouts_menu">
-                        <ul id="sc_layouts_menu" class="sc_layouts_menu_nav" style="touch-action: pan-y;">
-                            <li id="menu-item-3040" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/"><span>Location</span></a></li>
-                            <li id="menu-item-3044" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-visiting-us/">
-                                    <span>Visiting Us</span></a>
-                            </li><li id="menu-item-3093" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-about-us/"><span>About Us</span></a>
-                            </li><li id="menu-item-3046" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-parties-events/"><span>Parties &amp; Events</span></a>
-                            </li><li id="menu-item-3047" class="menu-item" data-width="110.012" :class="{ 'active': activeMenu === 'Cafe Menu' }" @click="setActiveMenu('Cafe Menu')">
-                                <a href="/menu"><span>Cafe Menu</span></a>
-                            </li><li id="menu-item-3048" class="menu-item">
-                                <a href="/book_a_party"><span>Contact Us</span></a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="btn-container">
-                        <a class="btn-book" href="/book_a_party" title="Book a party">
-                            Book a party
-                        </a>
-                    </div>
-            </div>
-        </header>
-        <div class="main">
+      
+            <NavBar/>
+             <div class="main">
             <div class="menu-wrapper">
+                Please note that prices may vary depending on the location.
                 <div v-for="(categoryMenus, category) in categorizedMenus" :key="category">
                 <h2 class="category-title">{{ category }}</h2>
                     <div v-for="menu in categoryMenus" :key="menu.MenuID" class="cafemenu-item">
@@ -55,8 +24,12 @@
 
 <script>
 import axios from 'axios'; // axios를 import 추가
+import NavBar from './NavBar.vue';
 
 export default {
+    components: {
+        NavBar,
+    },
     data(){
         return{
             menus:[],

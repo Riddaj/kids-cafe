@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <header class="booking-header">
                 <div id="sb_menu" class="header_menu_wrapper">
                     <ul class="header_navigation_nav" id="sb_menu_list_item_container">
@@ -28,19 +27,23 @@
             </div>
         <form @submit.prevent="submitForm">
             <div class="quick-booking-info">
+                <div class="info-detail">
+                <label class="label-required">Branch: </label>
+                <div class="select-container">
+                    <select v-model="branchID" @change="fetchPartyrooms" class="styled-select">
+                    <option value="">Select a branch</option>
+                    <option v-for="branch in branches" :key="branch.id" :value="branch.id">
+                        {{ branch.branch_name }}
+                    </option>
+                    </select>
+                </div>
+                </div>
                     <div class="info-detail">
                         <!-- <img src="/images/birthday-dino.png" /> -->
-                        <label class="label-required">Branch: </label>
-                        <select v-model="branchID" @change="fetchPartyrooms" class="info-detail-input">
-                            <option value="">Select a branch</option>
-                            <option v-for="branch in branches" :key="branch.id" :value="branch.id">
-                                {{ branch.branch_name }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="info-detail">
-                        <!-- <img src="/images/birthday-dino.png" /> -->
-                        <label class="label-required">Contact Person Name: </label><input type="text" class="info-detail-input" />
+                        <label class="label-required">Contact Person Name: </label>
+                        <!-- <input type="text" class="info-detail-input" /> -->
+                        <input type="text" v-model="branchName" placeholder="Enter your name" class="styled-input" />
+
                     </div>
                     <div class="info-detail">
                         <!-- <img src="/images/birthday-dino.png" /> -->
@@ -51,11 +54,25 @@
                         <label class="label-required">Phone: </label><input type="text" class="info-detail-input" />
                     </div>
                     <div class="info-detail">
-                        <!-- <img src="/images/birthday-dino.png" /> -->
+                        
+                        <label class="label-required">Number of people</label>
+                    
+                            <div class="input-group">
+                            <span>Adults:</span>
+                            <input type="text" v-model="adultsValue" @input="validateInput('adults', adultsValue)" />
+                            <span v-if="errorMessage.adults" class="error-message">{{ errorMessage.adults }}</span>
+                          
+                            <span >Children:</span>
+                            <input type="text" v-model="childrenValue" @input="validateInput('children', childrenValue)" />
+                            <span v-if="errorMessage.children" class="error-message">{{ errorMessage.children }}</span>
+                            </div>
+                      
+                     
+                        <!-- <img src="/images/birthday-dino.png" />
                         <label>Number of people</label>
                         <div class="info-detail">
                             <label class="label-required">Adults: </label>
-                            <input type="text" class="info-detail-input-1"       
+                            <input type="text"
                             v-model="inputValue"
                             @input="validateInput('adults')" /><br>
                             <p v-if="errorMessage.adults" class="error-message">{{ errorMessage.adults }}</p>
@@ -65,7 +82,7 @@
                             v-model="inputValue"
                             @input="validateInput('children')" /><br>
                             <p v-if="errorMessage.children" class="error-message">{{ errorMessage.children }}</p>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="info-detail">
                         <!-- <img src="/images/birthday-dino.png" /> -->
@@ -79,36 +96,30 @@
                     </div>
                     <!-- ###################  날짜 ############################## -->
                     <!-- ###################  날짜 ############################## -->
-                    <div class="info-detail">
+                    <div class="info-detail" style="gap: 0px; align-items: flex-start;">
                         <!-- <img src="/images/birthday-dino.png" /> -->
-                        <label class="label-required">Choose the date: </label>
+                        <label class="label-required " >Choose the date: </label>
 
                     <br/>
-                    <!-- vue-cal 달력 컴포넌트 -->
+                  
                     <div class="calendar-container">
+                          <!-- vue-cal 달력 컴포넌트 -->
                         <vue-cal
-                        small
-                        :time="false"
-                        hide-view-selector
-                        active-view="week"
-                        :disable-views="['years', 'year', 'month']"
-                        :selected-date="selectedDate"
                         class="vuecal--blue-theme"
-                        style="max-width: 360px;height: 260px">
-                        </vue-cal>
-                        <vue-cal
+                        selected-date="2025-03-17"
                         xsmall
-                        :time="false"
-                        hide-view-selector
+                        :time-from="10 * 60"
+                        :disable-views="['day']"
+                        events-count-on-year-view
                         active-view="month"
-                        :disable-views="['years', 'year', 'week', 'day']"
-                        @cell-focus="selectedDate = $event"
-                        class="vuecal--blue-theme vuecal--rounded-theme"
-                        style="max-width: 270px;height: 290px; transform: scale(0.9);">
-                        </vue-cal>
+                        :events="events">
+                
+                    </vue-cal>
+                        
+                        
                     </div>
                         <pro-calendar
-                            :events="evts"
+                            :events="events"
                         />
                     </div>
                     <!-- ##### 푸드 옵션 관련 테이블 ###### -->
@@ -190,7 +201,8 @@ const config = {
 export default {
     data() {
         return {
-
+            selectedEvent: {},
+            showDialog: false,
             branches:[],
             partyrooms:[],
             foodoptions: [], // 음식 옵션을 저장할 배열
@@ -201,7 +213,18 @@ export default {
             children: "",
             errorMessage: {
             adults: "",
-            children: ""
+            children: "",
+            events: [  
+                {
+                    start: '2025-03-25 14:00',
+                    end: '2025-03-25 18:00',
+                    title: 'Need to go shopping',
+                    icon: 'shopping_cart',
+                    content: 'Click to see my shopping list',
+                    contentFull: 'My shopping list is rather long:<br><ul><li>Avocados</li><li>Tomatoes</li><li>Potatoes</li><li>Mangoes</li></ul>',
+                    class: 'leisure'
+                }
+            ]
             },
 
         };
@@ -212,21 +235,31 @@ export default {
         
     }, 
     methods: {
-        validateInput(field) {
-            // 필드 값이 존재하는지 확인 (undefined 방지)
-            if (this[field] === undefined || this[field] === null) {
-                this[field] = "";
-            }
-            // 입력값에서 숫자만 남기고 필터링
-            this[field] = this[field].replace(/\D/g, "");
+        onEventClick (event, e) {
+        this.selectedEvent = calendarEvents
+        this.showDialog = true
 
-            // 에러 메시지 처리
-            if (this[field] === "") {
-                this.errorMessage[field] = "Please enter number only";
-            } else {
-                this.errorMessage[field] = "";
-            }
-        },
+        // Prevent navigating to narrower view (default vue-cal behavior).
+        e.stopPropagation()
+    },
+        validateInput(field, inputValue) {
+        // 입력값에서 숫자만 남기고 필터링
+        inputValue = inputValue.replace(/\D/g, "");  // 숫자 이외의 모든 문자를 제거
+
+        // 필드 값 갱신
+        if (field === 'adults') {
+            this.adultsValue = inputValue;
+        } else if (field === 'children') {
+            this.childrenValue = inputValue;
+        }
+
+        // 에러 메시지 처리
+        if (inputValue === "") {
+            this.errorMessage[field] = "Please enter number only";  // 숫자만 입력하라고 경고
+        } else {
+            this.errorMessage[field] = "";  // 유효한 값이면 에러 메시지 제거
+        }
+    },
         async fetchBranches() {
         try {
             const response = await axios.get("http://localhost:8081/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
@@ -285,6 +318,8 @@ export default {
     mounted() {
         this.fetchBranches();
         this.fetchfoodoptions(); // 컴포넌트 마운트 후 데이터 로딩
+        console.log("calendarEvents:", this.events);
+        //console.log("Calendar Events:", this.calendarEvents);
         //this.fetchPartyrooms();
     },
 }
@@ -420,7 +455,7 @@ th {
     }
 
     .info-detail label {
-        margin-left: 15%;
+        margin-left: 30%;
         width: 30%;                 /* 레이블의 고정 너비 설정 */
         text-align: left;           /* 레이블 텍스트를 오른쪽 정렬 */
     }
@@ -436,7 +471,7 @@ th {
 
     .info-detail {
         display: flex;               /* 내부 요소들 역시 flexbox */
-        align-items: left;         /* 레이블과 입력 필드 수직 중앙 정렬 */
+        align-items: center;         
         gap: 10px;                   /* 레이블과 입력 필드 간의 간격 */
     }
 
@@ -525,8 +560,140 @@ h1 {
   display: flex;
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
-  gap: 20px; /* 캘린더 사이 여백 */
-  padding: 20px;
+  /* gap: 20px; 캘린더 사이 여백 */
+  width: 100%;
+  /* padding: 20px; */
+  /* //margin-left: 30%; */
 }
 
+.move-label {
+    display: flex; /* 인풋을 블록 요소로 변경 */
+    margin-left: 15%;
+  }
+
+
+
+
+.input-group {
+  display: flex;
+  align-items: center; /* 라벨과 입력 필드를 가로로 정렬 */
+  gap: 10px;
+}
+
+.label-required {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.input-details input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-left: 10px; /* 오류 메시지를 인풋 옆에 배치 */
+}
+
+/* Select 박스 컨테이너 */
+.select-container {
+  position: relative;
+  width: 100%; /* 부모 너비에 맞춰서 늘어날 수 있도록 설정 */
+  max-width: 300px; /* 최대 너비를 설정해줘서 너무 커지지 않게 조정 */
+}
+
+/* 세련된 Select 박스 */
+.styled-select {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none; /* 기본 스타일 제거 */
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* 셀렉트 박스의 화살표 스타일링 */
+.styled-select::-ms-expand {
+  display: none; /* IE에서 기본 화살표 제거 */
+}
+
+/* 포커스 시 변화 */
+.styled-select:focus {
+  border-color: #4CAF50; /* 포커스 시 초록색 테두리 */
+  background-color: #fff; /* 포커스 시 배경 흰색 */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.3); /* 부드러운 그림자 */
+}
+
+/* 옵션을 위한 스타일 */
+.styled-select option {
+  padding: 10px;
+  font-size: 14px;
+}
+
+/* Select 박스 뒤에 커스텀 화살표 아이콘 추가 */
+.select-container::after {
+  content: '▼'; /* 화살표 기호 */
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 18px;
+  pointer-events: none; /* 클릭 방지 */
+}
+
+/* 세련된 인풋 박스 */
+.styled-input {
+  width: 30%; /* 부모 컨테이너에 맞춰 100% 확장 */
+  padding: 12px 20px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* 포커스 시 변화 */
+.styled-input:focus {
+  border-color: #4CAF50;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+/* 인풋 텍스트를 입력할 때 placeholder 스타일 */
+.styled-input::placeholder {
+  color: #bbb;
+}
+
+/* 인풋 뒤에 화살표 아이콘을 원할 경우 추가할 수 있음 */
+.styled-input-wrapper {
+  position: relative;
+}
+
+.styled-input-wrapper::after {
+  content: '▼'; /* 화살표 기호 */
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 18px;
+  pointer-events: none;
+}
 </style>

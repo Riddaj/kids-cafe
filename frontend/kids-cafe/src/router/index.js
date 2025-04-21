@@ -14,6 +14,7 @@ import Foodoptions from '../components/Foodoptions.vue';
 import ClientInfo from '../components/ClientInfo.vue';
 import BookingConfirm from '../components/BookingConfirm.vue';
 import Menu from '../components/Menu.vue';
+import Price from '../components/Price.vue';
 
 const routes = [
   { path: '/', component: PickBranch },
@@ -30,6 +31,7 @@ const routes = [
   { path: '/book_a_party/booking-confirm', component: BookingConfirm },
   { path: '/faq', component: FAQ },
   { path: '/menu', component: Menu },
+  { path: '/price', component: Price },
 ];
 
 const router = createRouter({
