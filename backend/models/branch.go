@@ -17,6 +17,7 @@ type Branch struct {
 	Branch_name  string         `json:"branch_name"`
 	Email        string         `json:"email"`
 	Phone        string         `json:"phone"`
+	Branch_call  string         `json:"branch_call"`
 	Location     string         `json:"location"`
 	Insta        sql.NullString `json:"sns_insta"`
 	Facebook     sql.NullString `json:"sns_facebook"`

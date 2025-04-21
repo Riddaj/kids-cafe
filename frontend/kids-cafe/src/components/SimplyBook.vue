@@ -52,7 +52,8 @@
                         <li v-for="branch in branches" :key="branch.id" class="branch-item">
                             <strong>{{ branch.branch_name }}</strong><br>
                             Email: {{ branch.email }}<br>
-                            Phone: {{ branch.phone }}
+                            Phone: {{ branch.phone }}<br>
+                            Store Phone Number: {{ branch.branch_call }}
                             <!-- <hr/> -->
                         </li>
                         <br>

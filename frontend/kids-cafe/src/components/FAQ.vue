@@ -16,33 +16,15 @@
             </div>
     </header>
     <h1>FREQUENTLY ASKED QUESTION</h1>
-    <div class="faq-body">
-        <div class="set">
-            <div class="question">🎉 Can I bring my birthday cake?</div>
-            <div class="answer">Yes, you're welcome to bring birthday cake/cupcakes. Also, you can order us.</div>
-        </div>
-        <div class="set">
-            <div class="question">🎉 Can I bring our own food and drinks?</div>
-            <div class="answer">Yes, you're welcome to bring birthday cake/cupcakes. Also, you can order us.</div>
-        </div>
-        <div class="set">
-            <div class="question">🎉 Can I bring my birthday cake?</div>
-            <div class="answer">Yes, you're welcome to bring birthday cake/cupcakes. Also, you can order us.</div>
-        </div>
-        <div class="set">
-            <div class="question">🎉 Can I bring my birthday cake?</div>
-            <div class="answer">Yes, you're welcome to bring birthday cake/cupcakes. Also, you can order us.</div>
-        </div>
-        <div class="set">
-            <div class="question">🎉 Can I bring my birthday cake?</div>
-            <div class="answer">Yes, you're welcome to bring birthday cake/cupcakes. Also, you can order us.</div>
-        </div>
-    </div>
 
     </div>
 </template>
 
 <script>
+import axios from 'axios'; // axios를 import 추가
+import CurrentTime from '../components/CurrentTime.vue';
+import Tree from 'primevue/tree';
+
 export default {
 
 }

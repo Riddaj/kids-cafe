@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="pick-branch-background">
     <div class="logo-image">
         <a href="/">
             <!-- /.sc_layouts_logo -->		
@@ -68,15 +68,29 @@ export default {
 </script>
 
 <style scoped>
+
 /* 전체 앱 배경 */
 a {
     text-decoration: none;
 }
 
+.pick-branch-background {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('~@/assets/screen.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+}
+
+/* html과 body 태그에 높이 설정 */
+body {
+    height: 100%; /* 화면 전체를 차지하도록 설정 */
+    margin: 0; /* 기본 margin 제거 */
+}
+
 #app {
-  min-height: 100vh;
-  width: 100%;
-  background-color: #ffd9d9;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -92,7 +106,8 @@ a {
 
 /* 로고 이미지 */
 .logo_image {
-  max-width: 200px;
+  margin-top: 50px;
+  max-width: 400px;
   width: 100%;
   height: auto;
 }
