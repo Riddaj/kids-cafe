@@ -14,6 +14,7 @@ import Foodoptions from '../components/Foodoptions.vue';
 import ClientInfo from '../components/ClientInfo.vue';
 import BookingConfirm from '../components/BookingConfirm.vue';
 import Menu from '../components/Menu.vue';
+import AddMenu from '../components/AddMenu.vue';
 import Price from '../components/Price.vue';
 
 const routes = [
@@ -32,6 +33,7 @@ const routes = [
   { path: '/faq', component: FAQ },
   { path: '/menu/:branchID', component: Menu },
   { path: '/price/:branchID', component: Price },
+  { path: '/admin/menu/:branchID', component: AddMenu },
 ];
 
 const router = createRouter({

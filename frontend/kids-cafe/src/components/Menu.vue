@@ -1,9 +1,13 @@
 <template>
     <div id="app">
       
-            <NavBar/>
-             <div class="main">
+        <NavBar/>
+        <div class="main">
             <div class="menu-wrapper">
+                <router-link :to="`/admin/menu/${branchID}`">
+                    <button>메뉴 등록 버튼</button>
+                </router-link>
+                
                 Please note that prices may vary depending on the location.
                 <div v-for="(categoryMenus, category) in categorizedMenus" :key="category">
                 <h2 class="category-title">{{ category }}</h2>
