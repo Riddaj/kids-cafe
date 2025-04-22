@@ -35,6 +35,7 @@ export default {
             menus:[],
             categorizedMenus: {},  // 카테고리별로 메뉴를 나눠 저장할 객체
             activeMenu: null, // 클릭된 메뉴를 추적하는 변수
+            branchID: this.$route.params.branchID,
         }
     },
     mounted() {
@@ -45,8 +46,10 @@ export default {
             this.activeMenu = headmenuName; // 클릭된 메뉴를 추적
         },
         async fetchmenu(){
+
+            console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
             try {
-                const response = await axios.get("http://localhost:8081/api/cafe-menu");
+                const response = await axios.get(`http://localhost:8081/api/menu/${this.branchID}`);
                 this.menus = response.data.menus;
                 this.categorizeMenu(); 
                 console.log("### menu data 나오라고 ### :", response.data.menus);
@@ -147,85 +150,6 @@ li {
     max-width: 200px; /* 최대 크기 제한 */
 }
 
-.index-header {
-    width: 100vw;
-    display: flex;
-    justify-content: space-between; /* 요소들을 가로로 균등하게 정렬 */
-    align-items: center; /* 세로 정렬 */
-    padding: 10px 10px; /* 여백 설정 */
-    background-color: #fff; /* 배경색 설정 (원하는 색상으로 변경 가능) */
-    margin: 0; /* 헤더의 외부 여백 제거 */
-    position: fixed; /* 화면 맨 위에 고정 */
-    top: 0; /* 최상단 배치 */
-    left: 0;
-    z-index: 1000; /* 다른 요소들 위에 배치 */
-}
 
-.sc-layouts-logo-container {
-    flex: 1; /* 동일한 너비로 분배 */
-    display: flex;
-    justify-content: center; /* 로고를 가운데 정렬 */
-}
 
-/** 로고를 왼쪽으로 정렬 */
-.sc_layouts_logo {  
-    display: inline-block; /* 로고를 inline-block으로 만들어 다른 요소와 함께 배치할 수 있도록 설정 */
-    margin-left: 0; /* 왼쪽 여백을 0으로 설정 */
-}
-
-.elementor-widget-wrap {
-    flex: 2; /* 메뉴가 로고보다 더 넓게 배치되도록 설정 */
-    display: flex;
-    justify-content: center; /* 메뉴를 가운데 정렬 */
-}
-
-.sc_layouts_item{
-    flex: 3; /* 메뉴와 버튼 영역 */
-    display: flex;
-    align-items: center; /* 수직 정렬 */
-    justify-content: space-between; /* 메뉴와 버튼 정렬 */
-}
-
-.sc_layouts_menu {
-    flex: 2; /* 메뉴 너비 조정 */
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* 메뉴 간 간격 */
-    margin-top: 40px; /* 원하는 값으로 조절 (10px, 15px 등) */
-}
-
-.sc_layouts_menu_nav {
-    display: flex;
-    list-style: none;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    height: 50px; /* 메뉴 높이 설정 (예: 50px) */
-}
-
-.sc_layouts_menu_nav .menu-item {
-    padding: 10px 15px; /* 메뉴 항목 내부 여백 */
-    white-space: nowrap; /* 줄바꿈 방지 */
-    min-width: 120px; /* 최소 너비 설정 */
-    height: 100%; /* 메뉴 항목의 높이에 맞게 설정 */
-    padding: 0 15px; /* 메뉴 항목의 좌우 여백 */
-}
-
-.sc_layouts_menu_nav .menu-item a {
-    color: #595959;
-    height: 100%; /* 메뉴 항목 높이에 맞게 100%로 설정 */
-    display: block; /* 클릭 영역 확보 */
-    padding: 10px 15px; /* 링크 내부 여백 */
-    text-decoration: none;
-    font-size: 16px; /* 글자 크기 조정 */
-}
-
-.menu-item.active {
-    color: #7212a6; /* 선택된 메뉴 항목 색상 */
-    font-weight: bold; /* 선택된 메뉴 항목 강조 */
-}
-
-.menu-item > a:hover{
-    color: #ff6600; /* 호버 시 색상 변경 */
-}
 </style>

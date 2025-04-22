@@ -23,7 +23,7 @@
                             </li><li id="menu-item-3046" class="menu-item">
                                 <a href="https://twinklekidscafe.com.au/macarthur-parties-events/" class="sf-with-ul"><span>Parties &amp; Events</span></a>
                             </li><li id="menu-item-3047" class="menu-item" data-width="110.012">
-                                <a href="/menu" class="sf-with-ul"><span>Cafe Menu</span></a>
+                                <a :href="`/menu/${this.$route.params.branchID}`" class="sf-with-ul"><span>Cafe Menu</span></a>
                             </li><li id="menu-item-3048" class="menu-item">
                                 <a href="/faq"><span>FAQ</span></a>
                             </li>

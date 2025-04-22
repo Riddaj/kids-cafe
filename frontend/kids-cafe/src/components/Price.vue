@@ -3,10 +3,7 @@
         <NavBar/>
         <div class="content">
             <h1>Burwood Entry Ticket</h1>
-            
             <h2>Kids Ticket</h2>
-
-
             <table style="border-collapse: collapse; width: 100%; font-family: 'Comic Sans MS', cursive;">
             <thead>
                 <tr style="background-color: #ffe4e1;">
@@ -93,9 +90,6 @@ export default {
         this.fetchprice();  // 컴포넌트가 마운트되면 fetchmenu 호출
     },
     methods:{
-        setActiveMenu(headmenuName) {
-            this.activeMenu = headmenuName; // 클릭된 메뉴를 추적
-        },
         async fetchprice(){
             console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
             try {

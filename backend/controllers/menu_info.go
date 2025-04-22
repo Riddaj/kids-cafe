@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/johnnydev/kids-cafe-backend/firebase"
@@ -10,6 +11,8 @@ import (
 
 // 특정 branch_id에 대한 필터 추가
 func GetMenu(c *gin.Context) {
+	log.Printf("############ GetMenu 호출")
+
 	// Firestore 클라이언트 가져오기
 	client, err := firebase.GetFirestoreClient() // firebase.GetFirestoreClient는 Firestore 클라이언트를 리턴하는 함수
 	if err != nil {

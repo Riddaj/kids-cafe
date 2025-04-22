@@ -11,11 +11,11 @@ import (
 
 
 type Price struct {
-	BranchID       string   `gorm:"type:string;" firestore:"branch_id"`
-	Duration     string  	 `gorm:"type:string;" firestore:"duration"`
-	PriceID string   		`gorm:"type:string;" firestore:"price_id"`
-	WeekdayPrice  string 	`gorm:"type:string;" firestore:"weekday_price"`
-	WeekendPrice  string   `gorm:"type:string;" firestore:"weekend_price"`
+	BranchID       	string   `gorm:"type:string;" firestore:"branch_id"`
+	Duration     	string  	 `gorm:"type:string;" firestore:"duration"`
+	PriceID 		string   		`gorm:"type:string;" firestore:"price_id"`
+	WeekdayPrice  	string 	`gorm:"type:string;" firestore:"weekday_price"`
+	WeekendPrice  	string   `gorm:"type:string;" firestore:"weekend_price"`
 	
 }
 

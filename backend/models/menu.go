@@ -20,7 +20,7 @@ type Menu struct {
 	MenuOptions  []Option `firestore:"menu_options"`
 	Description  string   `gorm:"type:string;" firestore:"description"`
 	ImgUrl       string   `gorm:"type:string;" firestore:"imgUrl"`
-	BranchID     int      `gorm:"type:int;" firestore:"branch_id"`
+	BranchID     string    `gorm:"type:int;" firestore:"branch_id"`
 }
 
 // 테이블 이름을 명시적으로 설정
@@ -31,9 +31,15 @@ func (Menu) TableName() string {
 // GetMenu 함수: Firestore에서 전체 메뉴 목록 가져오기
 func GetMenu(ctx *gin.Context, client *firestore.Client) ([]Menu, error) {
 	var menus []Menu
+	branchID := ctx.Param("branch_id")
+	log.Printf("############ branchID =%s", branchID)
 
 	// menu 컬렉션 가져오기
-	docs, err := client.Collection("menu").Documents(ctx.Request.Context()).GetAll()
+	docs, err := client.Collection("menu").
+	Where("branch_id", "==", branchID).
+	Documents(ctx.Request.Context()).
+	GetAll();
+	
 	if err != nil {
 		return nil, fmt.Errorf("failed to get menu documents: %v", err)
 	}

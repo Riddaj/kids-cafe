@@ -20,8 +20,11 @@
                         <a href="https://twinklekidscafe.com.au/macarthur-about-us/"><span>About Us</span></a>
                     </li><li id="menu-item-3046" class="menu-item">
                         <a href="https://twinklekidscafe.com.au/macarthur-parties-events/"><span>Parties &amp; Events</span></a>
-                    </li><li id="menu-item-3047" class="menu-item" data-width="110.012" :class="{ 'active': activeMenu === 'Cafe Menu' }" @click="setActiveMenu('Cafe Menu')">
-                        <a href="/menu"><span>Cafe Menu</span></a>
+                    </li>
+                    <!-- </li><li id="menu-item-3047" class="menu-item" data-width="110.012" :class="{ 'active': activeMenu === 'Cafe Menu' }" @click="setActiveMenu('Cafe Menu')"> -->
+                    <li id="menu-item-3047" class="menu-item">
+                        <a href="/menu">
+                            <span>Cafe Menu</span></a>
                     </li><li id="menu-item-3048" class="menu-item">
                         <a href="/book_a_party"><span>Contact Us</span></a>
                     </li>
