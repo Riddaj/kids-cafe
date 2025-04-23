@@ -88,8 +88,8 @@ export default {
   methods: {
     getBranchNameByID(id) {
       const branchMap = {
-        1: 'Burwood',
-        2: 'Hornsby',
+        'burwood': 'Burwood',
+        'hornsby': 'Hornsby',
         // 필요하면 계속 추가 가능
       }
       return branchMap[id] || 'Unknown Branch'
