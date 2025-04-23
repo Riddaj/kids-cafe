@@ -5,10 +5,10 @@
         <div class="form-container">
         <h2>🍽️ Register a New Menu</h2>
         <form @submit.prevent="submitForm">
-        <label>
+        <!-- <label>
             Menu ID:
             <input v-model="menu.MenuID" type="text" required />
-        </label>
+        </label> -->
 
         <label>
             Menu Name:
@@ -17,7 +17,25 @@
 
         <label>
             Category:
-            <input v-model="menu.MenuCategory" type="text" required />
+            <!-- BURWOOD -->
+            <select v-model="menu.MenuCategory" required >
+                <option disabled value=""><label>-- Select Category --</label></option>
+                <option>PIZZA</option>
+                <option>TWINKLE STAR</option>
+                <option>SNACK</option>
+                <option>KEDS MENU</option>
+                <option>ALL DAY BREAKFAST</option>
+                <option>BURGERS & SPAGHETTI</option>
+                <option>COLD DRINKS</option>
+                <option>SALAD</option>
+                <option>COFFEE & HOT TEA</option>
+            </select>
+        </label>
+
+        <!-- Price || Options 필수-->
+        <label>
+            Price:
+            <input v-model.number="menu.Price" type="number" step="0.1"/>
         </label>
 
         <label>
@@ -25,16 +43,16 @@
             <textarea v-model="menu.Description" rows="3"></textarea>
         </label>
 
-        <label>
+        <!-- <label>
             Image URL:
             <input v-model="menu.ImgUrl" type="url" />
-        </label>
+        </label> -->
 
         <div class="options-section">
             <h3>Options</h3>
             <div v-for="(option, index) in menu.MenuOptions" :key="index" class="option">
-            <input v-model="option.name" placeholder="Option Name" />
-            <input v-model.number="option.price" placeholder="Price" type="number" />
+            <input v-model="option.size" placeholder="Option" />
+            <input v-model.number="option.price" placeholder="Price" type="number" step="0.1"/>
             <button type="button" @click="removeOption(index)">❌</button>
             </div>
             <button type="button" @click="addOption">➕ Add Option</button>
@@ -63,56 +81,48 @@ export default {
             Description: "",
             ImgUrl: "",
             MenuOptions: [],
-            branchID: this.$route.params.branchID,
+            Price: 0,
+            branchID: "",
             },
         };
     },
     mounted() {
-        this.fetchmenu();  // 컴포넌트가 마운트되면 fetchmenu 호출
+        
+        this.branchID = this.$route.params['branchID']
     },
     methods:{
+
+
+        
         addOption() {
-        this.menu.MenuOptions.push({ name: "", price: 0 });
+        this.menu.MenuOptions.push({ size: "", price: 0 });
         },
         removeOption(index) {
         this.menu.MenuOptions.splice(index, 1);
         },
         submitForm() {
-        console.log("Submitting Menu:", this.menu);
-        // 실제 등록 로직 여기에 추가 (예: axios POST)
-        },
-        setActiveMenu(headmenuName) {
-            this.activeMenu = headmenuName; // 클릭된 메뉴를 추적
-        },
-        async fetchmenu(){
-
+            //console.log(this.$route.params['branchID'])
             console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
-            try {
-                const response = await axios.get(`http://localhost:8081/api/menu/${this.branchID}`);
-                this.menus = response.data.menus;
-                this.categorizeMenu(); 
-                console.log("### menu data 나오라고 ### :", response.data.menus);
-                
-            } catch (error) {
-                console.error("#### Error fetching menus ##### :", error);
-            }
-        },       
-        categorizeMenu() {
-            // menus 배열을 MenuCategory 기준으로 분류
-            this.categorizedMenus = this.menus.reduce((categories, menu) => {
-                const category = menu.MenuCategory;
+            
+            console.log("Submitting Menu:", this.menu);
 
-                if (!categories[category]) {
-                    categories[category] = [];  // 카테고리가 없으면 새 배열 생성
-                }
+        
+        axios.post(`http://localhost:8081/api/addmenu/${this.branchID}`, this.menu)
+        .then(res => {
+            console.log("등록 성공:", res.data);
 
-                categories[category].push(menu);  // 카테고리에 해당하는 메뉴 추가
-                return categories;
-            }, {});
-        }
+            this.$router.push({ name: 'menu', params: { branchID: this.branchID } });
+        })
+        .catch(err => {
+            console.error("등록 실패:", err);
+        });
+
+     
+        },
+     
     },
     created() {
-        this.fetchmenu();  // 컴포넌트 생성 시 메뉴 데이터 가져오기
+        
     }
 }
 </script>
@@ -145,7 +155,8 @@ form label {
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 8px;
   margin-top: 0.3rem;

@@ -4,23 +4,37 @@
         <NavBar/>
         <div class="main">
             <div class="menu-wrapper">
-                <router-link :to="`/admin/menu/${branchID}`">
-                    <button>메뉴 등록 버튼</button>
-                </router-link>
+                
                 
                 Please note that prices may vary depending on the location.
                 <div v-for="(categoryMenus, category) in categorizedMenus" :key="category">
                 <h2 class="category-title">{{ category }}</h2>
                     <div v-for="menu in categoryMenus" :key="menu.MenuID" class="cafemenu-item">
                         <div class="menu-name">{{ menu.MenuName }}</div>
-                            <!-- MenuOptions 배열 반복 -->
+                          
                         <ul class="menu-options">
-                            <li v-for="(option, index) in menu.MenuOptions" :key="index">
+                            <!-- <li v-for="(option, index) in menu.MenuOptions" :key="index">
                                 <span v-if="option.Size">{{ option.Size }} - </span>${{ option.Price }}
+                            </li> -->
+
+                            <!-- MenuOptions가 있고 길이가 1 이상일 경우 -->
+                            <li v-if="menu.MenuOptions && menu.MenuOptions.length">
+                                <li v-for="(option, index) in menu.MenuOptions" :key="index">
+                                    <span v-if="option.Size">{{ option.Size }} - </span>${{ option.Price }}
+                                </li>
+                            </li>
+
+                            <!-- MenuOptions가 없을 경우 단일 가격 보여주기 -->
+                            <li v-else>
+                            ${{ menu.Price }}
                             </li>
                         </ul>
                     </div>
                 </div>
+                <router-link :to="`/admin/menu/${branchID}`">
+                    <button>메뉴 등록 버튼</button>
+                </router-link>
+
             </div>
         </div>
     </div>

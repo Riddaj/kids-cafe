@@ -31,7 +31,7 @@ const routes = [
   { path: '/book_a_party/client-info', component: ClientInfo },
   { path: '/book_a_party/booking-confirm', component: BookingConfirm },
   { path: '/faq', component: FAQ },
-  { path: '/menu/:branchID', component: Menu },
+  { path: '/menu/:branchID', name: 'menu', component: Menu },
   { path: '/price/:branchID', component: Price },
   { path: '/admin/menu/:branchID', component: AddMenu },
 ];
