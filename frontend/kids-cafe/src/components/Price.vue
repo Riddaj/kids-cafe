@@ -1,64 +1,71 @@
 <template>
-    <div id="">
+  
         <NavBar/>
-        <div class="content">
-            <h1>Burwood Entry Ticket</h1>
-            <h2>Kids Ticket</h2>
-            <table style="border-collapse: collapse; width: 100%; font-family: 'Comic Sans MS', cursive;">
-            <thead>
-                <tr style="background-color: #ffe4e1;">
-                <th style="padding: 12px;">🕒 Play Time per Child</th>
-                <th style="padding: 12px;">📅 Weekday</th>
-                <th style="padding: 12px;">🎉 Weekend & Public Holiday</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- <tr style="background-color: #fffaf0;">
-                <td style="padding: 12px 20px;">1</td>
-                <td style="padding: 12px 20px;">$13</td>
-                <td style="padding: 12px 20px;">$16</td>
-                </tr>
-                <tr style="background-color: #f0fff0;">
-                <td style="padding: 12px 20px;">2</td>
-                <td style="padding: 12px 20px;">$20</td>
-                <td style="padding: 12px 20px;">$26</td>
-                </tr>
-                <tr style="background-color: #f0f8ff;">
-                <td style="padding: 12px 20px;">Unlimited</td>
-                <td style="padding: 12px 20px;">$50</td>
-                <td style="padding: 12px 20px;">$60</td>
-                </tr> -->
-
-                <tr v-for="(item, index) in sortedPrices" :key="index" :style="{ backgroundColor: getRowColor(index) }">
-                    <td style="padding: 12px 20px;">{{ item.Duration.replace('_', ' ') }}</td>
-                    <td style="padding: 12px 20px;">${{ item.WeekdayPrice }}</td>
-                    <td style="padding: 12px 20px;">${{ item.WeekendPrice }}</td>
-                </tr>
-            </tbody>
-            </table>
-            
-                <p style="color: black;">
-                    <strong>1 hour free</strong> 🎁 for Early bird (before 10 AM) & after 3 PM ⏰
-                </p>
-            <div id="announcement" style="text-align: left;">    
-                
-                <pre>
-                    <strong>Important Notice:</strong>
-                    🎈 Children under 12 months, free entry for 2 hours. (ID or Certificate may be required)
-                    🎈 Kids over 12 years old will be charged as adults
-                    🎈 15% surcharge applied on public holidays
-                    🎈 Twinkle Kids Cafe prices vary by location
-                </pre>
+        <div class="price-wrapper">
+            <div class="image-container">
+                <img src="../assets/kidsparty_grass.png" >
             </div>
-            <!-- 안나옴. ㅎ -->
-            <!-- <div class="table-container">
-            <DataTable :value="products" tableStyle="min-width: 50rem">
-                <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
-            </DataTable> 
-            </div> -->
-          
+            <div class="table-wrapper">
+                <div class="content">
+                    <h1>Burwood Entry Ticket</h1>
+                    <!-- <h2>Kids Ticket</h2> -->
+                    <table style="border-collapse: collapse; width: 100%; font-family: 'Comic Sans MS', cursive;">
+                    <thead>
+                        <tr style="background-color: #ffe4e1;">
+                        <th style="padding: 12px;">🕒 Play Time per Child</th>
+                        <th style="padding: 12px;">📅 Weekday</th>
+                        <th style="padding: 12px;">🎉 Weekend & Public Holiday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr style="background-color: #fffaf0;">
+                        <td style="padding: 12px 20px;">1</td>
+                        <td style="padding: 12px 20px;">$13</td>
+                        <td style="padding: 12px 20px;">$16</td>
+                        </tr>
+                        <tr style="background-color: #f0fff0;">
+                        <td style="padding: 12px 20px;">2</td>
+                        <td style="padding: 12px 20px;">$20</td>
+                        <td style="padding: 12px 20px;">$26</td>
+                        </tr>
+                        <tr style="background-color: #f0f8ff;">
+                        <td style="padding: 12px 20px;">Unlimited</td>
+                        <td style="padding: 12px 20px;">$50</td>
+                        <td style="padding: 12px 20px;">$60</td>
+                        </tr> -->
+
+                        <tr v-for="(item, index) in sortedPrices" :key="index" :style="{ backgroundColor: getRowColor(index) }">
+                            <td style="padding: 12px 20px;">{{ item.Duration.replace('_', ' ') }}</td>
+                            <td style="padding: 12px 20px;">${{ item.WeekdayPrice }}</td>
+                            <td style="padding: 12px 20px;">${{ item.WeekendPrice }}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    
+                        <p style="clear:both; margin-top: 8px; color: black;">
+                            <strong>1 hour free</strong> 🎁 for Early bird (before 10 AM) & after 3 PM ⏰
+                        </p>
+                    
+                    <!-- 안나옴. ㅎ -->
+                    <!-- <div class="table-container">
+                    <DataTable :value="products" tableStyle="min-width: 50rem">
+                        <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+                    </DataTable> 
+                    </div> -->
+                    <div id="announcement" style="text-align: left;">    
+                        <pre>
+<strong>Important Notice:</strong>
+🎈 Children under 12 months, free entry for 2 hours. (ID or Certificate may be required)
+🎈 Kids over 12 years old will be charged as adults
+🎈 15% surcharge applied on public holidays
+🎈 Twinkle Kids Cafe prices vary by location
+                        </pre>
+                    </div>
+                </div>
+                
+            </div>
         </div>
-    </div>
+
 </template>
 
 <script>
@@ -139,6 +146,13 @@ export default {
 </script>
 
 <style scoped>
+.table-wrapper {
+  display: flex;
+  flex-direction: column; /* ← 요거만 세로로 만드는 핵심 */
+  gap: 16px;
+  
+  padding: 16px;
+}
 
 
 h1 {
@@ -150,17 +164,41 @@ h1 {
   display: flex;
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
-  
+  flex: 1;
   width: 100%;
   }
-
+.price-wrapper {
+  display: flex;         /* 가로 배치의 핵심 */
+  gap: 16px;             /* 두 div 사이 간격 */
+  
+  padding: 16px;
+}
 
 .content {
-    padding-top: 110px;
+    padding-top: 64px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+ 
+}
+
+.image-container img {
+  flex: 1;
+  width: 100%;
+  height: 93%;
+  object-fit: cover;
+  border-radius: 8px;
 
 }
 
+.info-container {
+  flex: 1;
+}
 
-
+pre {
+  text-align: left;
+  margin: 0;         /* 여백 제거 */
+  padding: 0 16px;   /* 좌우 약간의 여백 */
+}
 
 </style>

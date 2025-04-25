@@ -23,7 +23,7 @@
                 <option>PIZZA</option>
                 <option>TWINKLE STAR</option>
                 <option>SNACK</option>
-                <option>KEDS MENU</option>
+                <option>KIDS MENU</option>
                 <option>ALL DAY BREAKFAST</option>
                 <option>BURGERS & SPAGHETTI</option>
                 <option>COLD DRINKS</option>
