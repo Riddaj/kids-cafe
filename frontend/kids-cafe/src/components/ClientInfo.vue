@@ -216,6 +216,7 @@ export default {
 
             // 성공 후 다음 페이지로 이동
             this.$router.push('/book_a_party/booking-confirm');
+            state: bookingData
         } catch (error) {
             console.error('❌ 예약 중 오류 발생:', error);
             alert('예약 중 오류가 발생했습니다. 다시 시도해 주세요.');
