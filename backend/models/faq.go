@@ -30,7 +30,7 @@ func GetFAQ(c *gin.Context) ([]FAQ, error) {
 	defer client.Close() // 클라이언트 종료
 
 	// "partyrooms" 컬렉션의 모든 문서 가져오기
-	iter := client.Collection("FAQ").Documents(c)
+	iter := client.Collection("faq").Documents(c)
 	var FAQs []FAQ
 
 	for {
@@ -53,6 +53,7 @@ func GetFAQ(c *gin.Context) ([]FAQ, error) {
 
 	// 데이터가 없을 경우
 	if len(FAQs) == 0 {
+		log.Println("### No FAQs found in Firestore ###")
 		return nil, nil // 데이터가 없으면 nil 반환
 	}
 

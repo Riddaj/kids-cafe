@@ -5,6 +5,51 @@
       We will contact you soon to discuss more details.<br>
       Please wait for a moment.<br>
       Thank you.
+      <div>
+        <h1>Booking Confirmation</h1>
+        <table class="confirmation-table">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Party Room Name</td>
+                    <td>{{ bookingDetails.partyroom_name }}</td>
+                </tr>
+                <tr>
+                    <td>Selected Date</td>
+                    <td>{{ bookingDetails.partytime }}</td>
+                </tr>
+                <tr>
+                    <td>Total Price</td>
+                    <td>{{ bookingDetails.total_price }}</td>
+                </tr>
+                <tr>
+                    <td>Kid's Name</td>
+                    <td>{{ bookingDetails.kid_name }}</td>
+                </tr>
+                <tr>
+                    <td>Owner's Name</td>
+                    <td>{{ bookingDetails.owner_name }}</td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td>{{ bookingDetails.owner_phone }}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>{{ bookingDetails.email }}</td>
+                </tr>
+                <tr>
+                    <td>Special Dietary Requirements</td>
+                    <!-- <td>{{ bookingDetails.special_required.join(', ') }}</td> -->
+                </tr>
+            </tbody>
+        </table>
+      </div>
       <div class="button-container">
          <router-link :to="`/`">
                <button type="submit" class="submit-button" @click="submitBooking">go home</button>
@@ -16,6 +61,11 @@
 
 <script>
 export default {
+    data(){
+        return {
+            bookingDetails: this.$route.query
+        };
+    }
 
 }
 </script>

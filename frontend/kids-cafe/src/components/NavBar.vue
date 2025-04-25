@@ -5,6 +5,8 @@
         <div class="sc-layouts-logo-container">
             <a href="/" class="sc_layouts_logo ">
             <img fetchpriority="high" class="logo_image" src="./../assets/twinkle_logo.webp" width="2390" height="924"  loading="eager" alt="Logo fallback" /></a>
+            <!-- 브랜치 이름 표시 -->
+            <span v-if="branchName" class="branch-name">{{ branchName }}</span>
         </div>
 
         <!-- menu + button -->
@@ -25,7 +27,7 @@
                     <li id="menu-item-3047" class="menu-item">
                         <a :href="`/menu/${this.$route.params.branchID}`" class="sf-with-ul"><span>Cafe Menu</span></a>
                     </li><li id="menu-item-3048" class="menu-item">
-                        <a href="/book_a_party"><span>Contact Us</span></a>
+                        <a href="/faq"><span>FAQ</span></a>
                     </li>
                 </ul>
             </nav>
@@ -42,6 +44,25 @@
 <script>
 export default {
   name: 'NavBar',
+  data(){
+    return{
+        branchName: '', 
+    }
+  },
+  async created() {
+    const branchID = this.$route.params.branchID
+    this.branchName = this.getBranchNameByID(branchID)
+  },
+  methods: {
+    getBranchNameByID(id) {
+      const branchMap = {
+        'burwood': 'Burwood',
+        'hornsby': 'Hornsby',
+        // 필요하면 계속 추가 가능
+      }
+      return branchMap[id] || 'Unknown Branch'
+    }
+  }
 };
 </script>
 

@@ -23,17 +23,10 @@
                 alt="Background" class="background-image" />
             </div>
         </div>
-        <!-- booking process (2단계) -->
-        <div class="booking-process">
-            <ul class="booking-process-item">
-                <li class="step-info-item"><a href="#">Category</a></li>
-                <li class="step-info-item"><a href="#">Time</a></li>
-                <li class="step-info-item"><a href="#">Client</a></li>
-            </ul>
-        </div>
-        <div class="button-and-time">
+        <BookingProcess/>
+        <div>
             <!-- 현재 시간 -->
-            <div class="current-time"><CurrentTime/></div>
+            <div><CurrentTime/></div>
         </div>
         <!-- ###########      메인 입력 내용        ########### -->
          <div class="main-card">
@@ -55,7 +48,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd" inline></vue3-datepicker>
+                                <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd" inline @change="onDateChange"></vue3-datepicker>
                             </td>
                         </tr>
                         <tr>
@@ -104,6 +97,7 @@
 import { useRoute } from 'vue-router';
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
+import BookingProcess from '../components/BookingProcess.vue';
 import { ref, computed, watch } from "vue"; // ✅ watch 추가
 import Vue3Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -116,7 +110,8 @@ const selectedDate = ref(null); // 날짜 상태 추가
 export default {
     components: {
         CurrentTime,
-        Vue3Datepicker
+        Vue3Datepicker,
+        BookingProcess
     }, 
      data() {
          return {
@@ -148,6 +143,10 @@ export default {
     this.fetchSelectedroomData(roomID);
   },
     methods: {
+        onDateChange(date) {
+            // 선택된 날짜가 바뀔 때 alert 띄우기
+            alert(`선택된 날짜는 ${date}입니다.`);
+        },
         async fetchSelectedroomData(roomId) {
         console.log("📌 Axios 요청 보냄 - room_Id:", this.roomID);
         console.log("📌 Axios 요청 보냄 - branch_id:", this.branchID);
@@ -167,10 +166,52 @@ export default {
                 console.error('Error fetching selected room data:', error);
             }
         },
-        selectTime(option) {
-        this.selectedTime = option;  // 선택된 옵션을 저장
-        console.log("선택된 시간:", this.selectedTime); // 콘솔로 확인
-        },
+        async selectTime(option) {
+            this.selectedTime = option;  // 선택된 옵션을 저장
+            console.log("선택된 시간:", this.selectedTime); // 콘솔로 확인
+
+            const selectedDate = this.formattedDate;
+            console.log("선택된 날짜:", selectedDate);
+           
+            // 오늘 날짜 가져오기 (YYYY-MM-DD 형식)
+            const today = new Date();
+            const todayString = today.toISOString().split('T')[0]; // '2025-04-24' 형식으로 변환
+            console.log("%^%^%^%^ today ^%^%^%^ = ", todayString);
+            
+            if (!this.selectedDate) {
+                alert("Please select a date first.🎈");
+            return;
+            }
+
+            // DD-MM-YYYY 형식을 YYYY-MM-DD 형식으로 변환
+            const [day, month, year] = selectedDate.split('-');
+            const formattedSelectedDate = `${year}-${month}-${day}`;
+
+            // 오늘 날짜 이전의 날짜가 선택되었는지 확인
+            if (formattedSelectedDate < todayString) {
+                alert("The selected date has already passed. Kindly choose another date.");
+                return;
+            }
+
+            try {
+                const response = await axios.get("http://localhost:8081/api/bookings/check", {
+                    params: {
+                        date: selectedDate,  // DD-MM-YYYY 형식
+                        time: this.selectedTime
+                    }
+                });
+
+                if (response.data.available) {
+                    console.log("예약 가능한 시간입니다.");
+                } else {
+                    alert("이미 예약된 시간이에요! 다른 시간을 선택해주세요.");
+                    this.selectedTime = ""; // 초기화
+                }
+                } catch (error) {
+                console.error("예약 확인 중 오류:", error);
+                alert("예약 확인 중 오류가 발생했습니다.");
+                }
+            }
     },
   computed: {
         displayWeekdayPrice() {
@@ -204,7 +245,7 @@ export default {
             const day = String(date.getDate()).padStart(2, '0');
             const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
             const year = date.getFullYear();
-            return `${day}/${month}/${year}`; // ✅ DD/MM/YYYY 형식으로 변환
+            return `${day}-${month}-${year}`; // ✅ DD/MM/YYYY 형식으로 변환
         },
         selectedDay() {
             if (!this.selectedDate) return "";
@@ -377,35 +418,6 @@ td {
     object-fit: cover; /* 이미지 비율에 맞게 채우기 */
     opacity: 0.8; /* 이미지 불투명도 설정, 1이면 불투명, 0이면 완전 투명 */
     filter: brightness(50%);  /*이미지 어둡게 */
-}
-
-.current-time{
-    display: flex;           /* flexbox 활성화 */
-    width: 100vw;
-    justify-content: flex-end;
-    padding-right: 50px;;
-}
-
-.booking-process-item {
-    width: 100vw; /* 뷰포트 전체 너비를 차지하도록 설정 */
-    display: flex;
-    height: 70px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background-color: #ffe6e6;
-    margin-bottom: 30px;
-}
-
-.step-info-item{
-    width: 50%; /* 각 항목의 너비를 25%로 설정 */
-    padding: 10px; /* 항목 간 간격을 위한 padding (옵션) */
-    box-sizing: border-box; /* padding이 width에 포함되도록 설정 */
-    align-items: center; /* 세로(수직) 가운데 정렬 */
-    justify-content: center; /* 가로(수평) 가운데 정렬 */
-    text-align: center;
-    cursor: pointer;
-    border: 1px solid #e6e6e6; /* ul 테두리 추가 */
 }
 
 .header_navigation_nav{

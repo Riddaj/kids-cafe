@@ -24,16 +24,10 @@
                 </div>
             </div>
             <!-- booking process (2단계) -->
-            <div class="booking-process">
-                <ul class="booking-process-item">
-                    <li class="step-info-item"><a href="#">Category</a></li>
-                    <li class="step-info-item"><a href="#">Time</a></li>
-                    <li class="step-info-item"><a href="#">Client</a></li>
-                </ul>
-            </div>
-            <div class="button-and-time">
+            <BookingProcess/>
+            <div>
                 <!-- 현재 시간 -->
-                <div class="current-time"><CurrentTime/></div>
+                <div><CurrentTime/></div>
             </div>
             <!-- ###########      메인 입력 내용        ########### -->
             <div class="main-card">
@@ -90,17 +84,18 @@
                         </table>
                     </div> 
                     <div class="total-amount">
-                        total:
+                        total: ${{ totalAmount }}
                     </div>
                     <div class="button-container">
                         <router-link :to="{path: `/book_a_party/client-info`, 
                         query: {
                             roomID: roomID,
                             roomName: roomName,
-                            selectedDate: selectedDate,
+                            selectedDate: formattedDate.date,
                             selectedTime: selectedTime,
                             selectedPrice: selectedPrice,
-                            selectedFoodOptions: JSON.stringify(selectedfoodoptions) // JSON 문자열로 변환
+                            food_price: totalAmount,
+                            selectedFoodOptions: JSON.stringify(selectedfoodoptions), // JSON 문자열로 변환
                         }
                         }">
                             <button type="submit" class="submit-button">Next</button>
@@ -117,32 +112,18 @@ import CurrentTime from '../components/CurrentTime.vue';
 import { useRoute, useRouter } from "vue-router"
 //import { ref, computed, watch } from "vue"; // ✅ watch 추가
 import { ref, computed, watch, onMounted } from "vue"; 
+import BookingProcess from '../components/BookingProcess.vue';
 
 export default {
-    //setup(){
-    //     const bookingStore = useBookingStore();
-
-    //     bookingStore.setBookingDetails({
-    //     roomID: bookingDetails.roomID,
-    //     roomName: bookingDetails.roomName,
-    //     selectedDate: bookingDetails.selectedDate,
-    //     selectedTime: bookingDetails.selectedTime,
-    //     selectedPrice: bookingDetails.selectedPrice,
-    //     selectedFoodOptions: selectedfoodoptions, // 선택된 음식 옵션 저장
-    //     });
-    // },
+    components:{
+        CurrentTime,
+        BookingProcess
+    },
     data(){
         return{
             foodoptions: [],
             //selectedroom:{}, //배열 대신 객체로 변경
             selectedfoodoptions: [], // 선택된 음식 옵션의 food_id를 저장할 배열
-            // bookingDetails: {
-            // roomID: this.$route.query.roomID || "",
-            // roomName: this.$route.query.roomName || "",
-            // selectedDate: this.$route.query.selectedDate || "",
-            // selectedTime: this.$route.query.selectedTime || "",
-            // selectedPrice: this.$route.query.selectedPrice || ""
-            // }
         };
     },
     computed: {
@@ -168,9 +149,20 @@ export default {
         const dayOfWeek = dateObj.toLocaleDateString("en-US", { weekday: "short" });
 
         return {
-            date: formatted,
-            dayofweek: dayOfWeek
-        };
+                date: formatted,
+                dayofweek: dayOfWeek
+            };
+        },
+        // 선택된 음식 옵션들의 가격 합산
+        totalAmount() {
+            let total = 0;
+            this.selectedfoodoptions.forEach(foodId => {
+                const food = this.foodoptions.find(f => f.FoodId === foodId);
+                if (food) {
+                    total += food.FoodPrice;
+                }
+            });
+            return total.toFixed(2); // 두 자릿수로 포맷팅
         }
   },
   watch: {
@@ -197,9 +189,6 @@ export default {
         // formatting Date 값도 처리
         //this.formattedDate = this.formattedDate || "";
             // 음식 옵션을 가져오는 fetch
-    },
-    components:{
-        CurrentTime
     },
     methods:{
         logSelectedOption() {
@@ -350,29 +339,6 @@ th {
     opacity: 0.8; /* 이미지 불투명도 설정, 1이면 불투명, 0이면 완전 투명 */
     filter: brightness(50%);  /*이미지 어둡게 */
 }
-
-.booking-process-item {
-    width: 100vw; /* 뷰포트 전체 너비를 차지하도록 설정 */
-    display: flex;
-    height: 70px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background-color: #ffe6e6;
-    margin-bottom: 30px;
-}
-
-.step-info-item{
-    width: 50%; /* 각 항목의 너비를 25%로 설정 */
-    padding: 10px; /* 항목 간 간격을 위한 padding (옵션) */
-    box-sizing: border-box; /* padding이 width에 포함되도록 설정 */
-    align-items: center; /* 세로(수직) 가운데 정렬 */
-    justify-content: center; /* 가로(수평) 가운데 정렬 */
-    text-align: center;
-    cursor: pointer;
-    border: 1px solid #e6e6e6; /* ul 테두리 추가 */
-}
-
 
 .header_navigation_nav{
     display: flex;

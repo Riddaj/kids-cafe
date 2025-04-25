@@ -28,11 +28,16 @@
   };
   </script>
   
-  <style scoped>
+  <style>
   .current-time {
     font-size: 16px;
     font-weight: bold;
-    color: black;
+    color: black !important;
   }
+
+  .current-time p{
+    color: black !important;
+  }
+
   </style>
   

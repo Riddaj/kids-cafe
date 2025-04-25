@@ -74,15 +74,6 @@ a {
     text-decoration: none;
 }
 
-.pick-branch-background {
-  height: 100vh;
-  width: 100vw;
-  background-image: url('~@/assets/screen.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0;
-}
 
 /* html과 body 태그에 높이 설정 */
 body {

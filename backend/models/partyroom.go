@@ -3,8 +3,6 @@ package models
 import (
 	"fmt"
 	"log"
-	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/johnnydev/kids-cafe-backend/firebase"
@@ -19,7 +17,7 @@ type Partyroom struct {
 	RoomPriceWeekend    int    `gorm:"type:int" firestore:"room_price_weekend"`
 	Capacity            int    `gorm:"type:int" firestore:"capacity"`
 	AdditionalHeadcount int    `gorm:"type:int" firestore:"additional_headcount"`
-	BranchID            int    `gorm:"type:int;not null" firestore:"branch_id"`
+	BranchID            string `gorm:"type:string" firestore:"branch_id"`
 	Branch              Branch `firestore:"branches"`
 
 	// description 필드 추가
@@ -35,13 +33,15 @@ func (Partyroom) TableName() string {
 
 // 모델 함수 - Firestore에서 Partyrooms 데이터를 가져오는 함수
 func GetPartyrooms(c *gin.Context) ([]Partyroom, error) {
-	branchIDStr := c.Param("branch_id")
-	branchID, err := strconv.Atoi(branchIDStr) //문자열 int로 변환
+	//branchIDStr := c.Param("branch_id")
+	//branchID, err := strconv.Atoi(branchIDStr) //문자열 int로 변환
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid branch_id"})
-		return nil, err // 오류 처리 후 적절히 반환
-	}
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid branch_id"})
+	// 	return nil, err // 오류 처리 후 적절히 반환
+	// }
+
+	branchID := c.Param("branch_id") // 문자열 그대로 사용
 
 	client, err := firebase.GetFirestoreClient()
 	if err != nil {

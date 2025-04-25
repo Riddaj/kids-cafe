@@ -16,7 +16,7 @@ type foodoption struct {
 	FoodForKids     string `gorm:"type:char(1);" firestore:"food_forkids"`
 	FoodDescription string `gorm:"type:varchar(100);" firestore:"food_description"`
 	FoodPrice       int    `gorm:"type:int;" firestore:"food_price"`
-	BranchID        int    `gorm:"type:int;" firestore:"branch_id"`
+	BranchID        string `gorm:"type:string;" firestore:"branch_id"`
 	Branch          Branch `firestore:"branch"` // 관계 설정
 }
 
