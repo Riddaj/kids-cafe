@@ -3,47 +3,53 @@
         <NavBar/>
         Please note that prices may vary depending on the location.
         <div class="main">
-            
             <div class="menu-wrapper">
-                
                 <div v-for="(categoryMenus, category) in categorizedMenus" :key="category">
-                <div class="category-wrapper" :style="{ backgroundColor: coloredCategories[category] }">
-                    <h2 class="category-title">
-                        <!-- <i :class="['fas', categoryIcons[category]]"></i> -->
-                        <span class="category-emoji">{{ categoryEmojis[category] }}</span> <!-- 이모지 추가 -->
-                        {{ category }}
-                    </h2>
+                    <div class="category-wrapper" :style="{ backgroundColor: coloredCategories[category] }">
+                        <h2 class="category-title">
+                            <!-- <i :class="['fas', categoryIcons[category]]"></i> -->
+                            <span class="category-emoji">{{ categoryEmojis[category] }}</span> <!-- 이모지 추가 -->
+                            {{ category }}
+                        </h2>
                         <!-- 메뉴 항목들. -->
                         <div v-for="menu in categoryMenus" :key="menu.MenuID" class="cafemenu-item">
-                            <div class="menu-name">{{ menu.MenuName }}</div>
-                            
-                            <ul class="menu-options">
-                                <!-- <li v-for="(option, index) in menu.MenuOptions" :key="index">
-                                    <span v-if="option.Size">{{ option.Size }} - </span>${{ option.Price }}
-                                </li> -->
-
-                                <!-- MenuOptions가 있고 길이가 1 이상일 경우 -->
-                                <li v-if="menu.MenuOptions && menu.MenuOptions.length">
-                                    <li v-for="(option, index) in menu.MenuOptions" :key="index">
-                                        <span v-if="option.Size">{{ option.Size }} - </span>${{ option.Price }}
-                                    </li>
-                                </li>
-
-                                <!-- MenuOptions가 없을 경우 단일 가격 보여주기 -->
-                                <li v-else>
-                                ${{ menu.Price }}
-                                </li>
-                            </ul>
+                            <!-- 메뉴, 가격을 묶는 헤더. 무적권 같은 줄. -->
+                            <div class="menu-header">
+                                <!-- 메뉴명 -->
+                                <div class="menu-name">
+                                    {{ menu.MenuName }}   
+                                </div>
+                                <!-- 단일 가격 -->
+                                <div v-if="Number(menu.Price) > 0" class="menu-price">
+                                    ${{ menu.Price }}
+                                </div>
+                                <!-- 옵션의 가격 총합이 0이면 그냥 종류가 다양한 메뉴. -->
+                                <div
+                                v-if="menu.MenuOptions && menu.MenuOptions.length && getPricedOptionTotal(menu) === 0"
+                                    class="menu-option-note"
+                                    >
+                                    {{ menu.MenuOptions.map(option => option.Size || option.Name || '').join(' / ') }}
+                                </div>
+                                <div v-if="menu.MenuOptions && menu.MenuOptions.length">
+                                    <!-- 옵션들에 가격이 다를 경우에는 오른쪽 정렬된 박스로 -->
+                                    <div v-if="menu.MenuOptions && getPricedOptionTotal(menu) > 0" class="menu-price">
+                                        <div v-for="(option, index) in menu.MenuOptions" :key="index">
+                                            {{ option.Size }} - ${{ option.Price }}
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
                     </div>
+                    </div>
                 </div>
-                <router-link :to="`/admin/menu/${branchID}`">
-                    <button>메뉴 등록 버튼</button>
-                </router-link>
-
             </div>
+            
         </div>
+        <router-link :to="`/admin/menu/${branchID}`">
+            <button>메뉴 등록 버튼</button>
+        </router-link>
     </div>
+
 </template>
 
 <script>
@@ -103,6 +109,13 @@ export default {
                 categories[category].push(menu);  // 카테고리에 해당하는 메뉴 추가
                 return categories;
             }, {});
+        },
+        getPricedOptionTotal(menu) {
+            if (!menu.MenuOptions) return 0;
+            return menu.MenuOptions.reduce((sum, option) => {
+            const price = Number(option.Price || 0);
+            return sum + price;
+            }, 0);
         }
     },
     created() {
@@ -139,7 +152,7 @@ const categoryEmojis = {
   'PIZZA': '🍕',
   'TWINKLE STAR': '🌟',
   'SNACK': '🍪',
-  'KIDS MENU': '👶',
+  'KIDS MENU': '🐣',
   'ALL DAY BREAKFAST': '🍳',
   'BURGERS & SPAGHETTI': '🍔🍝',
   'COLD DRINKS': '🥤',
@@ -181,40 +194,78 @@ const categoryEmojis = {
 .cafemenu-item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  
   flex-wrap: wrap; /* 혹시라도 넘치면 자동 줄바꿈 */
-  /*margin-bottom: 24px;*/
+  margin-bottom: 12px;
 
   word-wrap: break-word; /* 긴 단어를 적절히 잘라서 다음 줄로 넘기기 */
   white-space: normal;   /* 텍스트가 너무 길면 자동으로 줄 바꿈 */
 }
 
-.menu-name {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-bottom: 6px;
-  white-space: nowrap;
+/**
+메뉴 - 가격을 묶는 헤더
+*/
+.menu-header {
+  display: flex;
+  width:100%;
+  justify-content: space-between;
+  align-items: center;
+  /* gap: 12px; */
+  flex-wrap: wrap; /* 긴 경우 줄바꿈도 가능하게 */
+}
 
-  word-wrap: break-word; /* 긴 단어를 적절히 잘라서 다음 줄로 넘기기 */
-  white-space: normal;   /* 텍스트가 너무 길면 자동으로 줄 바꿈 */
+/**
+메뉴명
+ */
+.menu-name {
+    /* flex:1; */
+    font-weight: bold;
+    font-size: 1.2rem;
+    /* margin-bottom: 6px; */
+   
+    max-width:70%;
+    word-wrap: break-word; /* 긴 단어를 적절히 잘라서 다음 줄로 넘기기 */
+    white-space: normal;   /* 텍스트가 너무 길면 자동으로 줄 바꿈 */
+}
+
+/**
+가격 
+*/
+.menu-price {
+   
+    
+    white-space: nowrap;
+    font-weight: bold;
 }
 
 .menu-options {
-  display: flex;
+    
+    display: block;
+    
   /* flex-wrap: wrap; 한 줄 넘치면 줄바꿈 허용 */
   gap: 12px;        /* 옵션 간 간격 */
   padding: 0;
   margin: 0;
+
   list-style: none;
+  justify-content: space-between;
 }
 
-.menu-options li {
-  /*display: inline;
+/**
+메뉴 종류
+ */
+.menu-option-note {
+    width: 100% !important;
+  font-style: italic;
+  color: gray;
+
+  font-size: 0.95rem;
+  color: #555;
   display: flex;
-  align-items: center;
-  margin-right: 12px;  옵션 간 간격 */
-  white-space: nowrap;
+  flex-wrap: wrap;
+
 }
+
 
 .category-title{
     color: #ff6600; 
@@ -230,18 +281,12 @@ li {
   list-style-type: none; /* li에 대한 동그라미 기호 제거 (선택 사항) */
 }
 
-.logo_image{
-    width: 100%;  /* 부모 요소 크기에 맞춤 */
-    height: auto;  /* 가로 비율에 맞춰 세로 크기 자동 조정 */
-    max-width: 200px; /* 최대 크기 제한 */
-}
-
 .category-wrapper {
     
-    padding: 1rem;          /* 안쪽 여백 */
+    padding: 2rem;          /* 안쪽 여백 */
     margin: 1rem 0;         /* 위아래 여백 */
 
-    border-radius: 12px;
+    border-radius: 50px;
  
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
@@ -252,5 +297,7 @@ li {
   gap: 1rem; 
   margin-bottom: 2rem; */
 }
+
+
 
 </style>
