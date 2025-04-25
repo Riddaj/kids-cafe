@@ -1,89 +1,105 @@
 <template>
     <div id="app">
-        <header class="index-header">
-            <div class="sc-layouts-logo-container">
-                <a href="/" id="trx_sc_layouts_logo_598080678" 
-                class="sc_layouts_logo sc_layouts_logo_default trx_addons_inline_2112412811">
-                <!-- /.sc_layouts_logo -->		
-                <img fetchpriority="high" class="logo_image" src="//twinklekidscafe.com.au/wp-content/uploads/2018/08/Twinkle-Kids-Cafe_logo.png" 
-                alt="Twinkle Kids Cafe" width="2390" height="924"></a>
-                <!-- 브랜치 이름 표시 -->
-                <span v-if="branchName" class="branch-name">{{ branchName }}</span>
-            </div>
-            <div class="sc_layouts_item">
-                    <nav class="sc_layouts_menu" id="trx_sc_layouts_menu">
-                        <ul id="sc_layouts_menu" class="sc_layouts_menu_nav" style="touch-action: pan-y;">
-                            <li id="menu-item-3040" class="menu-item">
-                                <a href="/" class="sf-with-ul"><span>Location</span></a></li>
-                            <li id="menu-item-3044" class="menu-item">
-                                <a :href="`/price/${this.$route.params.branchID}`" class="sf-with-ul">
-                                    <span>Price</span></a>
-                            </li><li id="menu-item-3093" class="menu-item">
-                                <a href="/" class="sf-with-ul"><span>About us</span></a>
-                            </li><li id="menu-item-3046" class="menu-item">
-                                <a href="https://twinklekidscafe.com.au/macarthur-1parties-events/" class="sf-with-ul"><span>Parties &amp; Events</span></a>
-                            </li><li id="menu-item-3047" class="menu-item" data-width="110.012">
-                                <a :href="`/menu/${this.$route.params.branchID}`" class="sf-with-ul"><span>Cafe Menu</span></a>
-                            </li><li id="menu-item-3048" class="menu-item">
-                                <a href="/faq"><span>FAQ</span></a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="btn-container">
-                        <a class="btn-book" href="/book_a_party" title="Book a party">
-                            Book a party
-                        </a>
-                    </div>
-            </div>
-        </header>
-        <section class="slider">
-				<div class="main-text">
-			        <h1 class="elementor-heading-title elementor-size-default">Welcome to <br>Twinkle <br>Kids Cafe</h1>
-				</div>
-				<div class="main-text">
-                    <p>Welcome to the center where your children are able <br> 
-                        to play, learn, excercise and have the best Birthday 
-                        <br>parties!&nbsp;</p>
-                </div>
-                <!-- <div class="quickbtn-container">
-                        <a class="quickbtn-book" href="/book_a_party/quickbook" title="Quick Party Room Booking">
-                            Quick Party Room Booking
-                        </a>
-                </div> -->
-                <div class="image-wrapper">
-                    <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
-                    class="background-image1">
-                </div>
-		</section>
-
-
-        <!--
+        <NavBar/>
+        <swiper
+            ref="mySwiper"
+            :spaceBetween="30"
+            :centeredSlides="true"
+            :modules="modules"
+            :autoplay="{
+                delay: 2500,
+                disableOnInteraction: false
+            }"
+            :pagination="{
+                clickable: true
+            }"
+            :navigation="true"
+            class="mySwiper"
+            >
+            <swiper-slide v-for="(img, index) in images" :key="index">
+                <img :src="img" alt="gallery" class="w-full h-auto" />
+            </swiper-slide>
+        </swiper>
+        <div>
             <section class="slider">
-                <div class="info-01">
-                    <div class="price-menu-info">
-                        <h1 class="playland">Playland</h1>
+                    <div class="main-text">
+                        <div>
+                            <img src="@/assets/toys.png" alt="toys" class="toys" />
+                        </div>
+                        <h1>Welcome to <br>
+                            {{ branchName }}<br>
+                            Twinkle <br>
+                            Kids Cafe<br>
+                        </h1>
                     </div>
-                    <div class="price-menu-info">
-                        <p>We are  the best destination<br>for exciting and dynamic family<br>activities! Let’s have fun!</p>
+                    <div class="main-text">
+                        <p>Welcome to the center where your children are able <br> 
+                            to play, learn, excercise and have the best Birthday 
+                            <br>parties!&nbsp;</p>
                     </div>
-                </div>
-                
+                    <!-- 퀵 예약 버튼 -->
+                    <!-- <div class="quickbtn-container">
+                            <a class="quickbtn-book" href="/book_a_party/quickbook" title="Quick Party Room Booking">
+                                Quick Party Room Booking
+                            </a>
+                    </div> -->
             </section>
-        -->
+            <section>
+                <div class="image-wrapper">
+                        <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
+                        class="background-image1">
+                    </div>
+            </section>
+        </div>
+        <Footer/>
     </div>
 </template>
 <script>
 import axios from 'axios'; // axios를 import 추가
+import NavBar from '@/components/NavBar.vue';
+import Footer from '@/components/Footer.vue';
+
+import { Swiper, SwiperSlide } from 'swiper/vue'; // 이 부분만 수정
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/swiper-bundle.css';  // Swiper 스타일 추가
+
 
 export default {
+    components:{
+        NavBar,
+        Footer,
+        Swiper,
+        SwiperSlide,
+    },
     data() {
     return {
-      branchName: ''
+      branchName: '',
+      images: [
+        '/images/burwood/IMG-20250415-WA0079.jpg',
+        '/images/burwood/IMG-20250415-WA0093.jpg',
+        '/images/burwood/IMG-20250415-WA0085.jpg',
+        '/images/hornsby/IMG-20250415-WA0005.jpg',
+        '/images/hornsby/IMG-20250415-WA0023.jpg',
+        '/images/hornsby/IMG-20250415-WA0026.jpg',
+        '/images/hornsby/IMG-20250415-WA0002.jpg',
+      ],
     }
+  },
+  mounted(){
+    this.$nextTick(() => {
+      // Swiper 인스턴스를 가져와서 출력
+      console.log("왜 사진 안넘어가냐고;; == ", this.$refs.mySwiper.swiper);
+    });
   },
   async created() {
     const branchID = this.$route.params.branchID
     this.branchName = this.getBranchNameByID(branchID)
+  },
+    // Swiper 옵션은 템플릿 내에서 처리하므로 mounted에서 new Swiper()를 호출하지 않음
+  setup() {
+    return {
+      modules: [Autoplay, Pagination, Navigation],
+    };
   },
   methods: {
     getBranchNameByID(id) {
@@ -109,20 +125,28 @@ export default {
     z-index: 1; /* h1이 버튼 위에 오도록 z-index 설정 */
     text-align: right;
     position: relative; /* z-index가 제대로 작동하도록 위치 지정 */
-    color: #fbffdb;
+    color: black;
+}
+
+.slider {
+  position: relative;
+  z-index: 2; /* Swiper보다 위로 올라오지 않도록 2 이하로 설정 */
+  padding: 60px 20px; /* 원하는 만큼 패딩 추가 */
+  background-color: rgba(255, 255, 255, 0.95); /* 배경 설정 (필요시) */
 }
 
 .background-image1{
-    z-index: 0; /* 이미지가 가장 뒤에 있도록 z-index 설정 */
-    width: 100vw; /* 뷰포트 전체 너비를 차지하도록 설정 */
-    height: 100%;
-    position: absolute; /* 이미지 배경으로 설정 */
-    top: 0;
-    left: 0;
-    object-fit: cover; /* 이미지 비율에 맞게 채우기 */
-    opacity: 0.7; /* 이미지 불투명도 설정, 1이면 불투명, 0이면 완전 투명 */
+  width: 100%;
+  height: auto;
+  position: static; /* 기존 absolute 제거 */
+  object-fit: cover;
+  opacity: 0.7;
 }
 
+.toys{
+    width: 100px;
+    height: 100px;
+}
 ul {
   list-style-type: none; /* 동그라미 기호 제거 */
 }
@@ -130,88 +154,30 @@ ul {
 li {
   list-style-type: none; /* li에 대한 동그라미 기호 제거 (선택 사항) */
 }
-.logo_image{
-    width: 100%;  /* 부모 요소 크기에 맞춤 */
-    height: auto;  /* 가로 비율에 맞춰 세로 크기 자동 조정 */
-    max-width: 200px; /* 최대 크기 제한 */
+
+
+.swiper {
+    width: 100vw; /* 브라우저 전체 너비 */
+    height: 100vh; /* 전체 화면 높이 (또는 적절한 값) */
 }
 
-.index-header {
-    width: 100vw;
-    display: flex;
-    justify-content: space-between; /* 요소들을 가로로 균등하게 정렬 */
-    align-items: center; /* 세로 정렬 */
-    padding: 10px 10px; /* 여백 설정 */
-    background-color: #fff; /* 배경색 설정 (원하는 색상으로 변경 가능) */
-    margin: 0; /* 헤더의 외부 여백 제거 */
-    position: fixed; /* 화면 맨 위에 고정 */
-    top: 0; /* 최상단 배치 */
-    left: 0;
-    z-index: 1000; /* 다른 요소들 위에 배치 */
+.swiper-slide {
+  width: 100%;
+  height: 800px; /* 원하는 높이 */
+  text-align: center;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.sc-layouts-logo-container {
-    flex: 1; /* 동일한 너비로 분배 */
-    display: flex;
-    justify-content: center; /* 로고를 가운데 정렬 */
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 잘리지 않게 비율 맞춰 자르기 */
 }
 
-/** 로고를 왼쪽으로 정렬 */
-.sc_layouts_logo {  
-    display: inline-block; /* 로고를 inline-block으로 만들어 다른 요소와 함께 배치할 수 있도록 설정 */
-    margin-left: 0; /* 왼쪽 여백을 0으로 설정 */
-}
-
-.elementor-widget-wrap {
-    flex: 2; /* 메뉴가 로고보다 더 넓게 배치되도록 설정 */
-    display: flex;
-    justify-content: center; /* 메뉴를 가운데 정렬 */
-}
-
-.sc_layouts_item{
-    flex: 3; /* 메뉴와 버튼 영역 */
-    display: flex;
-    align-items: center; /* 수직 정렬 */
-    justify-content: space-between; /* 메뉴와 버튼 정렬 */
-}
-
-.sc_layouts_menu {
-    flex: 2; /* 메뉴 너비 조정 */
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* 메뉴 간 간격 */
-    margin-top: 40px; /* 원하는 값으로 조절 (10px, 15px 등) */
-}
-
-.sc_layouts_menu_nav {
-    display: flex;
-    list-style: none;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    height: 50px; /* 메뉴 높이 설정 (예: 50px) */
-}
-
-.sc_layouts_menu_nav .menu-item {
-    padding: 10px 15px; /* 메뉴 항목 내부 여백 */
-    white-space: nowrap; /* 줄바꿈 방지 */
-    min-width: 120px; /* 최소 너비 설정 */
-    height: 100%; /* 메뉴 항목의 높이에 맞게 설정 */
-    padding: 0 15px; /* 메뉴 항목의 좌우 여백 */
-}
-
-.sc_layouts_menu_nav .menu-item a {
-    color: #595959;
-    height: 100%; /* 메뉴 항목 높이에 맞게 100%로 설정 */
-    display: block; /* 클릭 영역 확보 */
-    padding: 10px 15px; /* 링크 내부 여백 */
-    text-decoration: none;
-    font-size: 16px; /* 글자 크기 조정 */
-}
-
-.menu-item > a:hover{
-    color: #ff6600; /* 호버 시 색상 변경 */
-}
 
 .btn-container {
     flex: 1; /* 버튼 영역도 동일한 비율로 배치 */

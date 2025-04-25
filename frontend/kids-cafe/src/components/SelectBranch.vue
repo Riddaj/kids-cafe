@@ -50,8 +50,8 @@ export default {
     }, 
     getBranchImage(branch_id) {
             const images = {
-                1: "https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359522132-RU2ZPENTVALEBF0Z47PG/285887484_694866768237604_5851615251096205906_n.jpg",
-                2: "https://twinklekidscafe.com.au/wp-content/uploads/2024/06/gallery-27-1.jpg"
+                'burwood': "https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359522132-RU2ZPENTVALEBF0Z47PG/285887484_694866768237604_5851615251096205906_n.jpg",
+                'hornsby': "https://twinklekidscafe.com.au/wp-content/uploads/2024/06/gallery-27-1.jpg"
             };
             return images[branch_id]; // 기본 이미지
         }

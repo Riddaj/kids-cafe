@@ -267,7 +267,9 @@ export default {
             const date = new Date(this.selectedDate);
             const day = date.getDay(); // 0: 일요일, 6: 토요일
             const isWeekend = (day === 0 || day === 6);
-            
+
+            console.log("date --= ===== ", day);
+            console.log("isweekend --= ===== ", isWeekend);
             const suffix = this.roomID.slice(-2);
             //const day = this.selectedDay; // Accessing the selectedDay computed property
             const time = this.timeOptions;
