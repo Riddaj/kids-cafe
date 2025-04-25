@@ -50,6 +50,7 @@ func main() {
 	r.GET("/api/menu/:branch_id", controllers.GetMenu)
 	r.GET("/api/price/:branch_id", controllers.GetPrice)
 	r.GET("/api/faq", controllers.GetFAQ)
+	r.POST("/api/addmenu/:branch_id", controllers.AddMenu)
 	// 엔드포인트 확인
 	/*
 		r.GET("/api/branches", func(c *gin.Context) {
