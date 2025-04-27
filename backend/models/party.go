@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -16,17 +17,18 @@ type Party struct {
 	PartyroomName   string   `firestore:"partyroom_name"`
 	Partydate       string   `firestore:"partydate"`
 	Partytime       string   `firestore:"partytime"`
+	PartyroomPrice  int      `firestore:"partyroom_price"`
 	FoodPrice       int      `firestore:"food_price"`
-	PartyOwnerPhone int      `firestore:"owner_phone"`
+	OwnerPhone      int      `firestore:"owner_phone"`
 	SelectedFood    []string `firestore:"selected_food"`
-	PartyKidName    string   `firestore:"kid_name"`
-	PartyOwnerName  string   `firestore:"owner_name"`
-	KidGender       string   `firestore:"kid_gender"`
-	KidAge          int      `firestore:"kid_age"`
-	KidRelation     string   `firestore:"kid_relation"`
-	Email           string   `firestore:"email"`
-	SpecialRequired []string `firestore:"special_required"`
-	OptionService   string   `firestore:"option_service"`
+	KidName         string   `json:"kid_name" firestore:"kid_name"`
+	OwnerName       string   `json:"owner_name" firestore:"owner_name"`
+	KidGender       string   `json:"kid_gender" firestore:"kid_gender"`
+	KidAge          int      `json:"kid_age" firestore:"kid_age"`
+	KidRelation     string   `json:"kid_relation" firestore:"kid_relation"`
+	Email           string   `json:"email" firestore:"email"`
+	SpecialRequired []string `json:"special_required" firestore:"special_required"`
+	OptionService   string   `json:"option_service" firestore:"option_service"`
 }
 
 // 테이블 이름을 명시적으로 설정
@@ -44,6 +46,8 @@ func SaveParty(ctx *gin.Context, client *firestore.Client) (Party, error) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "요청 파싱 실패"})
 		return party, err
 	}
+
+	fmt.Println("받은 아이 이름:", party.KidName)
 
 	branchID := ctx.Param("branch_id")
 	log.Printf("############ branchID =%s", branchID)

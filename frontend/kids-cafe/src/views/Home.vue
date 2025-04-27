@@ -75,8 +75,10 @@ export default {
     return {
       branchName: '',
       images: [
-        '/images/burwood/IMG-20250415-WA0079.jpg',
-        '/images/burwood/IMG-20250415-WA0093.jpg',
+        '/images/main/20250321_094707.jpg',
+        '/images/main/20250321_094810.jpg',
+        '/images/main/20250321_094831.jpg',
+        '/images/main/20250321_094733.jpg',
         '/images/burwood/IMG-20250415-WA0085.jpg',
         '/images/hornsby/IMG-20250415-WA0005.jpg',
         '/images/hornsby/IMG-20250415-WA0023.jpg',

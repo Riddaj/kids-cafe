@@ -188,17 +188,17 @@ export default {
             try {
             // form에 입력한 데이터 수집
             const bookingData = {
-                roomID: this.bookingDetails.roomID,
-                branchID: this.bookingDetails.branchID,
-                roomName: this.bookingDetails.roomName,
-                selectedDate: this.bookingDetails.selectedDate,
-                selectedTime: this.bookingDetails.selectedTime,
-                selectedPrice: this.bookingDetails.selectedPrice,
+                partyroom_id: this.bookingDetails.roomID,
+                branch_id: this.selectedroom.BranchID,
+                partyroom_name: this.bookingDetails.roomName,
+                partydate: this.bookingDetails.selectedDate,
+                partytime: this.bookingDetails.selectedTime,
+                partyroom_price: this.bookingDetails.selectedPrice,
                 food_price: this.bookingDetails.food_price,
                 selected_food: this.bookingDetails.selectedFoodOptions,
                 kid_name: this.kid_name,
                 kid_gender: this.kid_gender,
-                kid_age: this.kid_age,
+                kid_age: Number(this.kid_age),
                 owner_name: this.owner_name,
                 kid_relation: this.kid_relation,
                 owner_phone: this.owner_phone,
@@ -209,14 +209,18 @@ export default {
 
             console.log("📦 Booking Data 전송 준비:", bookingData);
 
+            console.log("kid name 말해봐 = ", this.kid_name);
+            console.log("📦📦📦 this.selectedroom.BranchID=== ", this.selectedroom.BranchID);
             // 백엔드로 POST 요청
             const response = await axios.post(`http://localhost:8081/api/save-party/${this.selectedroom.BranchID}`, bookingData);
 
             console.log("✅ 예약 성공:", response.data);
 
             // 성공 후 다음 페이지로 이동
-            this.$router.push('/book_a_party/booking-confirm');
-            state: bookingData
+            //this.$router.push('/book_a_party/booking-confirm');
+            //state: bookingData
+
+            this.$router.push({ name: 'booking-confirm', state: { bookingData: this.bookingData } });
         } catch (error) {
             console.error('❌ 예약 중 오류 발생:', error);
             alert('예약 중 오류가 발생했습니다. 다시 시도해 주세요.');
