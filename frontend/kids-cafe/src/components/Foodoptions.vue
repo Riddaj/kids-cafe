@@ -38,6 +38,7 @@
                         <!-- <p>{{ bookingDetails }}</p>  -->
                         <!-- <p>Room ID: {{computedbookingDetails.roomID }}</p> -->
                         <p>Room Name: {{ computedbookingDetails.roomName }}</p>
+                        <p>Room Deposit: {{ computedbookingDetails.roomDeposit }}</p>
                         <p>Selected Date: {{ formattedDate.date }}</p>
                         <p>Day of Week: {{ formattedDate.dayofweek }}</p>
                         <p>Selected Time: {{ computedbookingDetails.selectedTime }}</p>
@@ -91,6 +92,7 @@
                         query: {
                             roomID: roomID,
                             roomName: roomName,
+                            roomDeposit:roomDeposit,
                             selectedDate: formattedDate.date,
                             selectedTime: selectedTime,
                             selectedPrice: selectedPrice,
@@ -132,6 +134,7 @@ export default {
             return {
                 roomID: this.$route.query.roomID || "",
                 roomName: this.$route.query.roomName || "",
+                roomDeposit: this.$route.query.roomDeposit || "",
                 selectedDate: this.$route.query.selectedDate || "",
                 selectedTime: this.$route.query.selectedTime || "",
                 selectedPrice: this.$route.query.selectedPrice || ""
@@ -182,6 +185,7 @@ export default {
         
         this.roomID = this.$route.query.roomID || "";
         this.roomName = this.$route.query.roomName || "";
+        this.roomDeposit = this.$route.query.roomDeposit || "";
         this.selectedTime = this.$route.query.selectedTime || "";
         this.selectedDate = this.$route.query.selectedDate || "";
         this.selectedPrice = this.$route.query.selectedPrice || "";
@@ -210,6 +214,7 @@ export default {
             this.computedbookingDetails = {
                 roomID: query.roomID || "",
                 roomName: query.roomName || "",
+                roomDeposit: query.roomDeposit || "",
                 selectedDate: query.selectedDate || "",
                 selectedTime: query.selectedTime || "",
                 selectedPrice: query.selectedPrice || ""
@@ -258,7 +263,7 @@ export default {
 }
 
 .table-container {
-    width: 80%; /* 테이블 너비를 화면의 80%로 설정 (원하는 비율로 조정 가능) */
+    width: 100%; /* 테이블 너비를 화면의 80%로 설정 (원하는 비율로 조정 가능) */
     margin: 0 auto; /* 좌우 여백을 자동으로 설정하여 중앙 정렬 */
     padding: 20px; /* 테이블 주변에 20px의 내부 여백 추가 */
     box-sizing: border-box; /* 패딩을 너비에 포함시켜 전체 크기를 조정 */
@@ -269,7 +274,7 @@ export default {
     display: block;
     justify-content: center;
     text-align: center; /* 버튼을 가로로 중앙 정렬 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
 }
     
 /** 푸드 옵션 체크리스트 */

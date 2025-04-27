@@ -72,6 +72,9 @@
                         <tr>
                             <td>Price of Selected Day: <span class="highlight">{{ selectedPrice  }}</span></td>
                         </tr>
+                        <tr style="color:yellowgreen;">
+                            <td>Deposit required to confirm your reservation: <span class="highlight">{{ selectedroom.RoomDeposit  }}</span></td>
+                        </tr>
                         <tr>
                             <td class="button-td">
                                 <!-- <button type="submit" class="submit-button">Next</button>  -->
@@ -79,6 +82,7 @@
                                 query: {
                                 roomID: roomID,
                                 roomName: roomName,
+                                roomDeposit : selectedroom.RoomDeposit,
                                 selectedDate: selectedDate,
                                 selectedTime: selectedTime,
                                 selectedPrice: selectedPrice
@@ -119,6 +123,7 @@ export default {
              branchID: "", // 기본값 설정
              roomID: "",
              roomName: "",
+             roomDeposit: "",
              selectedDate: null, // ✅ null로 초기화 (날짜 객체 저장)
              dayofweek: "",  // ✅ dayofweek 추가
              //dateTimeInput: "",   

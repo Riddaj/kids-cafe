@@ -1,13 +1,43 @@
 <template>
     <footer>
         <div class="footer-content">
-            <div>
-                Follow us!
+            <!-- logo -->
+            <div class="logo-container">
+                <img class="logo_image" src="./../assets/twinkle_logo.webp" />
+                <!-- 
+                  <div class="contact-info">
+                    <ul v-if="branches && branches.length > 0">
+                      <li v-for="branch in branches" :key="branch.id" class="branch-item">
+                        <strong>{{ branch.branch_name }}</strong><br>
+                        Email: {{ branch.email }}<br>
+                        Phone: {{ branch.phone }}<br>
+                        Store Phone Number: {{ branch.branch_call }}
+                      </li>
+                    </ul>
+                  </div>
+                -->
             </div>
-            <a :href="getInstaLink"
-            target="_blank" class="instagram-link">
-            <img src="@/assets/insta.png" alt="Instagram" class="insta-icon" />
-            </a>
+            <div class="contact-info">
+                <div class="info-detail">
+                  <strong style="font-size: 25px;">Twinkle Kids Cafe</strong>
+                  <p>⏰ OPEN 7DAYS</p>
+                  <p>Mon~Fri: 9am - 6pm</p>
+                  <p>Sat~Sun: 9am - 7pm</p>
+                  <p>Check Weekly Updates from our Google Map</p>
+                </div>
+                <div class="info-detail">
+
+                </div>
+            </div>
+        </div>
+        <div class="insta">
+                Follow us!
+                <div>
+                  <a :href="getInstaLink"
+                  target="_blank" class="instagram-link">
+                  <img src="@/assets/insta.png" alt="Instagram" class="insta-icon" />
+                  </a>
+                </div>          
         </div>
     </footer>
 </template>
@@ -17,6 +47,7 @@ export default {
     return {
       // branchID를 기본 값으로 비워두거나 빈 값으로 초기화
       branchID: this.$route.params.branchID || '',
+      branches:[]
     };
   },
   computed: {
@@ -36,6 +67,22 @@ export default {
       }
     },
   },
+  mounted() {
+    this.fetchBranches();
+  },
+  methods: {
+    async fetchBranches() {
+      try {
+        const response = await axios.get("http://localhost:8081/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+        //firebase관련 추가로 repsonse.data뒤에 branches 입력
+        this.branches = response.data.branches;
+        //console.log("### 전체 response 객체 ### :", response);
+        console.log("### Branches data 나오라고 ### :", response.data);
+      } catch (error) {
+        console.error("#### Error fetching branches ##### :", error);
+      }
+    }
+  },
 
 }
 </script>
@@ -48,12 +95,37 @@ footer {
   width: 100%;
 }
 
+.contact-info{
+  color: black;
+  margin-right: 100px;
+}
+
+.contact-info p{
+  font-size: 12px;
+  text-align: left;
+}
+
 .footer-content {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 20px; /* Add space between text and icon */
+}
+
+.logo-container {
+    flex: 1;  /* 필요에 따라 비율을 조절하세요 */
+    align-items: flex-start;
+    margin: 50px;
+}
+
+.logo_image{
+  max-height: 80px;
+  height: auto;
+  max-width: 100%;
+}
+
+.insta {
+    flex: 1;  /* 필요에 따라 비율을 조절하세요 */
+    margin-right: 50px;
+    text-align: center;
 }
 
 .footer-content div {

@@ -18,76 +18,90 @@
                     <p>Room price: {{ bookingDetails.selectedPrice }}</p>
                 </div>
             </div>
-        </div>
-        <div>
-            <form @submit.prevent="submitBooking">
-                <div class="client-info">
-                    <div class="contact-info">
-                        <div class="section-title">Kid's Information</div>
-                        <div class="form-row">
-                            <label>Kid's Name: </label><input v-model="kid_name" type="text" class="info-detail-input" />
-                            <label>Gender: </label><input v-model="kid_gender" type="text" class="info-detail-input" />
-                            <label>Age Turning: </label><input v-model="kid_age" type="text" class="info-detail-input" />
-                        </div>
-                    </div>
-                    <div class="contact-info">
-                        <div class="section-title">Booking Contact Information</div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Party owner's Name: </label><input v-model="owner_name" type="text" class="info-detail-input" />
-                            </div>
-                            <div class="form-group">
-                                <label>Kid's relation: </label><input v-model="kid_relation" type="text" class="info-detail-input" />
-                            </div>
-                            <div class="form-group">
-                                <label>Phone Number: </label><input v-model="owner_phone" type="text" class="info-detail-input" />
-                            </div>
-                            <div class="form-group">
-                                <label>E-mail: </label><input v-model="email" type="text" class="info-detail-input" />
+            <div class="client-info-card">
+                <form @submit.prevent="submitBooking">
+                    <div class="client-info">
+                        <div class="contact-info">
+                            <div class="section-title">Kid's Information</div>
+                            <div class="form-row">
+                                <label>Kid's Name: </label><input v-model="kid_name" type="text" class="info-detail-input" />
+                                <label>Gender: </label><input v-model="kid_gender" type="text" class="info-detail-input" />
+                                <label>Age Turning: </label><input v-model="kid_age" type="text" class="info-detail-input" />
                             </div>
                         </div>
-                    </div>
-                    <div class="contact-info">
-                        <div class="section-title">Optional Service</div>
-                        <div class="form-row">
-                            <label>Balloon Decorations Theme: </label><input v-model="option_service" type="text" class="info-detail-input" />
+                        <div class="contact-info">
+                            <div class="section-title">Booking Contact Information</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Party owner's Name: </label><input v-model="owner_name" type="text" class="info-detail-input" />
+                                    <label>Kid's relation: </label><input v-model="kid_relation" type="text" class="info-detail-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number: </label><input v-model="owner_phone" type="text" class="info-detail-input" />
+                                    <label>E-mail: </label><input v-model="email" type="text" class="info-detail-input" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-info">
+                            <div class="section-title">Optional Service</div>
+                            <div class="form-row">
+                                <label><input type="checkbox" v-model="balloonDecorationsChecked" class="info-detail-check" />Balloon Decorations</label>
+                            </div>
+                            <div v-if="balloonDecorationsChecked" class="form-row">
+                                <label>Balloon Decorations Theme: </label>
+                                <input v-model="balloonDecorationsTheme" type="text" class="info-detail-input" />
+                            </div>
+                        </div>
+                        <div class="contact-info">
+                            <div class="section-title">Special Dietary Requirement(Allergy)</div>
+                            <div class="form-row">
+                                <label><input type="checkbox" value="Halal" v-model="selectedAllergies" class="info-detail-check"/>Halal</label>
+                                <label><input type="checkbox" value="Non-Halal" v-model="selectedAllergies" class="info-detail-check"/>Non-Halal</label>
+                                <label><input type="checkbox" value="Veggie" v-model="selectedAllergies" class="info-detail-check"/>Veggie</label>
+                                <!-- 
+                                    <p v-if="Array.isArray(selectedAllergies) && selectedAllergies.length > 0">
+                                        {{ selectedAllergies }}
+                                    </p>
+                                -->
+                            </div>
+                        </div>
+                        <div class="contact-info">
+                            <div class="section-title">Additional Requirement</div>
+                            <div class="form-row"><input type="text" v-model="addRequirement" class="addRequirement"/></div>
+                        </div>
+                        <div class="contact-info">
+                            <div class="section-title">Deposit Screenshot | Selected Room Deposit : {{ this.bookingDetails.roomDeposit }}</div>
+                            <div class="form-row"><input type="file" class="deposit"/></div>
+                        </div>
+                        <div class="agree-terms">
+                            ✨ All deposit payments are non-refundable. If you need to reschedule, at least 4
+                            weeks’ notice is required.<br/>
+                            ✨ 50% of the deposit can be transferred to store credit if the cancellation is made
+                            at least 4 weeks before the event.<br/>
+                            ✨ Outside food and drinks are not allowed, except for a birthday cake and gift bags.<br/>
+                            ✨ No outside balloon decorations are permitted.<br/>
+                            ✨ All children and adults must wear non-slip socks in the venue.<br/>
+                            ✨ Any painting, marking, or physical damage will incur a minimum damage fee of $200.<br/>
+                            ✨ The hirer(s) and their guests will be held responsible for any costs incurred to
+                            repair any damage caused to the venue.<br/>
+                            <div class="agree">
+                                <label>
+                                    <input type="checkbox" v-model="agree_terms" />
+                                </label>
+                                By signing below, I acknowledge that I have read and understood the Playground
+                                Rules and Policies above. I agree to comply with all Playground Rules and Policies and
+                                pay for all the listed charges, if applicable.
+                            </div>
+                        </div>
+                        <div class="button-container">
+                                <button type="submit" class="submit-button">
+                                    Next
+                                </button>
                         </div>
                     </div>
-                    <div class="contact-info">
-                        <div class="section-title">Special Dietary Requirement</div>
-                        <div class="form-row">
-                            <p>Allergy:</p>
-                            <label><input type="checkbox" value="Halal" v-model="selectedAllergies" />Halal</label>
-                            <label><input type="checkbox" value="Non-Halal" v-model="selectedAllergies" />Non-Halal</label>
-                            <label><input type="checkbox" value="Veggie" v-model="selectedAllergies" />Veggie</label>
-                            <p v-if="Array.isArray(selectedAllergies) && selectedAllergies.length > 0">
-                                {{ selectedAllergies }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="agreeTerms">
-                        ✨ All deposit payments are non-refundable. If you need to reschedule, at least 4
-                        weeks’ notice is required.<br/>
-                        ✨ 50% of the deposit can be transferred to store credit if the cancellation is made
-                        at least 4 weeks before the event.<br/>
-                        ✨ Outside food and drinks are not allowed, except for a birthday cake and gift bags.<br/>
-                        ✨ No outside balloon decorations are permitted.<br/>
-                        ✨ All children and adults must wear non-slip socks in the venue.<br/>
-                        ✨ Any painting, marking, or physical damage will incur a minimum damage fee of $200.<br/>
-                        ✨ The hirer(s) and their guests will be held responsible for any costs incurred to
-                        repair any damage caused to the venue.<br/>
-                        ✅ By signing below, I acknowledge that I have read and understood the Playground
-                        Rules and Policies above. I agree to comply with all Playground Rules and Policies and
-                        pay for all the listed charges, if applicable.
-                    </div>
-                    <div class="button-container">
-                            <button type="submit" class="submit-button">
-                                Next
-                            </button>
-                    </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+    </div>
     </div>
 </template>
 
@@ -105,9 +119,12 @@ export default {
     },
     data(){
         return{
+            balloonDecorationsChecked: false, // 체크박스 상태
+            balloonDecorationsTheme: '',      // 테마 입력
             bookingDetails:{
                 roomID: "",
                 roomName: "",
+                roomDeposit:"",
                 selectedDate: "",
                 selectedTime: "",
                 selectedPrice: "",
@@ -137,6 +154,7 @@ export default {
         this.bookingDetails.roomID = this.$route.params.roomID || this.$route.query.roomID || "";
         this.bookingDetails.branchID = this.$route.params.branch_id || this.$route.query.branch_id || ""; 
         this.bookingDetails.roomName = decodeURIComponent(this.$route.query.roomName) || ""; // query string에서 가져오기
+        this.bookingDetails.roomDeposit =  this.$route.params.roomDeposit || this.$route.query.roomDeposit || ""; 
         this.bookingDetails.selectedDate = this.$route.params.selectedDate  || this.$route.query.selectedDate || "";
         this.bookingDetails.selectedTime = this.$route.params.selectedTime || this.$route.query.selectedTime || "";
         this.bookingDetails.selectedPrice = this.$route.params.selectedPrice || this.$route.query.selectedPrice || "";
@@ -205,6 +223,10 @@ export default {
                 email: this.email,
                 option_service: this.option_service,
                 special_required: this.selectedAllergies,
+                balloonDecorationsChecked: this.balloonDecorationsChecked,
+                balloonDecorationsTheme: this.balloonDecorationsTheme,
+                addRequirement : this.addRequirement,
+                agree_terms: this.agree_terms
             };
 
             console.log("📦 Booking Data 전송 준비:", bookingData);
@@ -219,8 +241,9 @@ export default {
             // 성공 후 다음 페이지로 이동
             //this.$router.push('/book_a_party/booking-confirm');
             //state: bookingData
+            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-            this.$router.push({ name: 'booking-confirm', state: { bookingData: this.bookingData } });
+            this.$router.push({ name: 'booking-confirm'});
         } catch (error) {
             console.error('❌ 예약 중 오류 발생:', error);
             alert('예약 중 오류가 발생했습니다. 다시 시도해 주세요.');
@@ -233,6 +256,58 @@ export default {
 <style scoped>
 html,body {
   color: black;
+}
+
+.form-row{
+    margin-bottom: 0.2rem;
+}
+
+.info-detail-check{
+    margin-bottom: 20px;
+}
+
+.addRequirement{
+    width: 600px;
+    height: 150px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 5px;                /* 입력 필드에 패딩 추가 */
+    border: 1px solid #ccc;      /* 입력 필드 테두리 */
+    border-radius: 2px;          /* 입력 필드 테두리 둥글게 */
+    box-sizing: border-box;  /* box-sizing 설정 */
+}
+
+.info-detail-input {
+    /*flex-grow: 1;                 입력 필드는 가용 공간을 모두 차지 */
+    width: 150px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 5px;                /* 입력 필드에 패딩 추가 */
+    border: 1px solid #ccc;      /* 입력 필드 테두리 */
+    border-radius: 2px;          /* 입력 필드 테두리 둥글게 */
+    box-sizing: border-box;  /* box-sizing 설정 */
+    }
+
+.main-card{
+    display: flex;
+    justify-content: center;
+}
+
+.client-info-card{
+    border-radius: 10px;
+    padding: 15px;
+    width: 1000px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #374151;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .selected-room-card{
@@ -257,36 +332,6 @@ html,body {
     object-fit: contain; /* 이미지 비율을 유지하면서 가능한 공간에 맞추기 */
     display: block;
     margin: 0 auto; /* 이미지 중앙 정렬 %이거 하니까 적용됨% */
-}
-
-.info-detail-input {
-        /*flex-grow: 1;                 입력 필드는 가용 공간을 모두 차지 */
-        width: 60%;
-        margin-bottom: 20px;
-        padding: 5px;                /* 입력 필드에 패딩 추가 */
-        border: 1px solid #ccc;      /* 입력 필드 테두리 */
-        border-radius: 2px;          /* 입력 필드 테두리 둥글게 */
-        box-sizing: border-box;  /* box-sizing 설정 */
-    }
-
-.info-detail label {
-        margin-left: 15%;
-        width: 30%;                 /* 레이블의 고정 너비 설정 */
-        text-align: left;           /* 레이블 텍스트를 오른쪽 정렬 */
-    }
-
-/* 각 입력 항목을 감싸는 div 스타일 */
-.client-info div {
-    display: flex;
-    flex-direction: row;  /* label과 input을 가로로 정렬 */
-    align-items: center;  /* label과 input 세로 정렬 */
-    gap: 10px;  /* label과 input 사이에 간격 추가 */
-}
-
-/* 레이블 스타일 */
-.client-info label {
-  font-weight: bold;
-  margin-bottom: 5px;  /* 레이블과 입력란 간격 */
 }
 
 .agreeTerms{
@@ -317,40 +362,7 @@ html,body {
     margin-bottom: 30px;
 }
 
-.contact-info {
-  margin-bottom: 2rem;
-  /* background-color: #f9fafb; */
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+.agree{
+    margin-top: 20px;
 }
-
-.form-group{
-    display: flex;
-    flex-direction: column; /* 라벨과 인풋을 세로로 */
-}
-
-.section-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #374151;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 0.5rem;
-}
-
-.form-row {
-    display: flex;
-    flex-direction: column; /* 세로 방향으로 정렬 */
-    gap: 1rem; /* 요소 간 간격 추가 */
-    margin-top: 1rem;
-}
-
-.form-row label {
-    font-weight: bold;
-    margin-bottom: 0.2rem;
-    margin-top: 0.5rem;  /* label 위쪽 여백 추가 */
-}
-
-
 </style>

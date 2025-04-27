@@ -2,13 +2,7 @@
     <div id="app">
         <BookingBar/>
         <h1>Booking Confirmation</h1>
-        <div>
-            Congratulations!
-            A birthday party always requires a lot of details!<br>
-            We will contact you soon to discuss more details.<br>
-            Please wait for a moment.<br>
-            Thank you.
-        <div>
+        <div class="table-container">
             <table class="confirmation-table">
                 <thead>
                     <tr>
@@ -19,31 +13,31 @@
                 <tbody>
                     <tr>
                         <td>Party Room Name</td>
-                        <td>{{ bookingDetails.partyroom_name }}</td>
+                        <td>{{ bookingData.partyroom_name || 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td>Selected Date</td>
-                        <td>{{ bookingDetails.partytime }}</td>
+                        <td>{{ bookingData.partytime || 'N/A' }}</td>
                     </tr>
                     <tr>
-                        <td>Total Price</td>
-                        <td>{{ bookingDetails.total_price }}</td>
+                        <td>Total Price(Partyroom + Food)</td>
+                        <td>{{ (parseFloat(bookingData.partyroom_price) + parseFloat(bookingData.food_price)).toFixed(2) || 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td>Kid's Name</td>
-                        <td>{{ bookingDetails.kid_name }}</td>
+                        <td>{{ bookingData.kid_name || 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td>Owner's Name</td>
-                        <td>{{ bookingDetails.owner_name }}</td>
+                        <td>{{ bookingData.owner_name || 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td>Phone</td>
-                        <td>{{ bookingDetails.owner_phone }}</td>
+                        <td>{{ bookingData.owner_phone || 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td>{{ bookingDetails.email }}</td>
+                        <td>{{ bookingData.email || 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td>Special Dietary Requirements</td>
@@ -52,37 +46,84 @@
                 </tbody>
             </table>
         </div>
-            <div class="button-container">
-                <router-link :to="`/`">
-                    <button type="submit" class="submit-button">go home</button>
-                </router-link>
-            </div>
-        </div>  
+        <div class="contact-msg">
+            Congratulations!
+            A birthday party always requires a lot of details!<br>
+            We will contact you soon to discuss more details.<br>
+            Please wait for a moment.<br>
+            Thank you.
+        </div>
+        <div class="button-container">
+            <router-link :to="`/`">
+                <button type="submit" class="submit-button">go home</button>
+            </router-link>
+        </div>
 </div>
 </template>
 
 <script>
 import BookingBar from '../components/BookingBar.vue';
 
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const bookingData = ref({});  // 기본값을 빈 객체로 설정
+
 export default {
-    components: {
-        BookingBar
-    },
-    data(){
-        return {
-            bookingDetails: this.$route.query
-        };
-    },
-    mounted() {
-        const bookingData = this.$router.history.state;
-        console.log("받은 정보:", bookingData);
-        }
-    }
+  components:{
+    BookingBar
+  },
+  name: 'BookingConfirm',
+  setup() {
+    onMounted(() => {
+      const storedData = sessionStorage.getItem('bookingData');
+      console.log("storedData ===== ", storedData);
+      if (storedData) {
+        bookingData.value = JSON.parse(storedData);  // ref 객체의 값을 업데이트
+        
+      }
+    });
+
+    return {
+      bookingData,  // ref 객체를 반환하여 템플릿에서 사용
+    };
+  },
+}
 
 </script>
 
 <style scoped>
-.submit-button:hover{
+.table-container{
+    display: block;
+    justify-content: center;
+    text-align: center; /* 버튼을 가로로 중앙 정렬 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/** 옵션 체크리스트 */
+table {
+    width: 80%;
+    border-collapse: collapse;
+    }
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    }
+
+th {
+    background-color: #c6ecc6;
+    }
+
+.contact-msg{
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
+    .submit-button:hover{
     background-color: #6699ff; /* 버튼 배경 색상 */
 }
 

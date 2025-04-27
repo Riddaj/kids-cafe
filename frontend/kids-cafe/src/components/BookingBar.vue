@@ -6,9 +6,11 @@
                     <li class="header__nav-item">
                         <a class="go-home" href="/" target="_self">Twinkle Kids Cafe </a>
                     </li>
-                    <li class="header__nav-item">
-                        <a class="go-my-booking" href="#client/bookings/type/upcoming">My Bookings</a>
-                    </li>
+                    <!-- 
+                        <li class="header__nav-item">
+                            <a class="go-my-booking" href="#client/bookings/type/upcoming">My Bookings</a>
+                        </li>
+                    -->
                     <li class="header__nav-item">
                         <a class="go-faq" href="#client/bookings/type/upcoming">FAQ</a>
                     </li>

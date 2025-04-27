@@ -11,24 +11,28 @@ import (
 )
 
 type Party struct {
-	BranchID        string   `firestore:"branch_id"`
-	PartyID         string   `firestore:"party_id"`
-	PartyroomID     string   `firestore:"partyroom_id"`
-	PartyroomName   string   `firestore:"partyroom_name"`
-	Partydate       string   `firestore:"partydate"`
-	Partytime       string   `firestore:"partytime"`
-	PartyroomPrice  int      `firestore:"partyroom_price"`
-	FoodPrice       int      `firestore:"food_price"`
-	OwnerPhone      int      `firestore:"owner_phone"`
-	SelectedFood    []string `firestore:"selected_food"`
-	KidName         string   `json:"kid_name" firestore:"kid_name"`
-	OwnerName       string   `json:"owner_name" firestore:"owner_name"`
-	KidGender       string   `json:"kid_gender" firestore:"kid_gender"`
-	KidAge          int      `json:"kid_age" firestore:"kid_age"`
-	KidRelation     string   `json:"kid_relation" firestore:"kid_relation"`
-	Email           string   `json:"email" firestore:"email"`
-	SpecialRequired []string `json:"special_required" firestore:"special_required"`
-	OptionService   string   `json:"option_service" firestore:"option_service"`
+	BranchID                  string   `firestore:"branch_id"`
+	PartyID                   string   `firestore:"party_id"`
+	PartyroomID               string   `firestore:"partyroom_id"`
+	PartyroomName             string   `firestore:"partyroom_name"`
+	Partydate                 string   `firestore:"partydate"`
+	Partytime                 string   `firestore:"partytime"`
+	PartyroomPrice            int      `firestore:"partyroom_price"`
+	FoodPrice                 int      `firestore:"food_price"`
+	OwnerPhone                int      `firestore:"owner_phone"`
+	SelectedFood              []string `firestore:"selected_food"`
+	KidName                   string   `json:"kid_name" firestore:"kid_name"`
+	OwnerName                 string   `json:"owner_name" firestore:"owner_name"`
+	KidGender                 string   `json:"kid_gender" firestore:"kid_gender"`
+	KidAge                    int      `json:"kid_age" firestore:"kid_age"`
+	KidRelation               string   `json:"kid_relation" firestore:"kid_relation"`
+	Email                     string   `json:"email" firestore:"email"`
+	BalloonDecorationsChecked bool     `json:"balloonDecorationsChecked"`
+	BalloonDecorationsTheme   string   `json:"balloonDecorationsTheme"`
+	SpecialRequired           []string `json:"special_required" firestore:"special_required"`
+	OptionService             string   `json:"option_service" firestore:"option_service"`
+	AddRequirement            string   `json:"addRequirement"`
+	AgreeTerms                bool     `json:"agree_terms"`
 }
 
 // 테이블 이름을 명시적으로 설정
