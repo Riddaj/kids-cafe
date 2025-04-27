@@ -1,32 +1,6 @@
 <template>
     <div>
-        <header class="booking-header">
-            <div id="sb_menu" class="header_menu_wrapper">
-                <ul class="header_navigation_nav" id="sb_menu_list_item_container">
-                    <li class="header__nav-item">
-                        <a class="go-home" href="/" target="_self">Twinkle Kids Cafe </a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a class="go-my-booking" href="#client/bookings/type/upcoming">My Bookings</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a class="go-faq" href="#client/bookings/type/upcoming">FAQ</a>
-                    </li>
-                </ul>
-            </div>
-        </header>
-        <!-- 메인 사진 and booking button -->
-        <div class="wrapper">
-            <div><h1 class="company-logo-and-name">Twinkle Kids Cafe</h1></div>
-            <!--<div class="btn-container">
-                <router-link class="btn-book" to="/book_a_party/simplybook/confirm_detail" title="Book Now">Book Now</router-link>
-                <a class="btn-book" href="#" @click="showBookingInfo = !showBookingInfo" title="Book Now">Book Now</a>
-            </div>-->
-            <div class="background-wrapper">
-                <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
-                alt="Background" class="background-image" />
-            </div>
-        </div>
+        <BookingBar/>
         <!-- booking process (2단계) -->
         <BookingProcess/>
         <div class="button-and-time">
@@ -67,11 +41,13 @@
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
 import BookingProcess from '../components/BookingProcess.vue';
+import BookingBar from '../components/BookingBar.vue';
 
 export default {
     components: {
         CurrentTime,
-        BookingProcess
+        BookingProcess,
+        BookingBar
     }, 
     data() {
         return {

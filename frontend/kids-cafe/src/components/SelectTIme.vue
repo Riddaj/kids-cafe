@@ -1,28 +1,6 @@
 <template>
   <div>
-    <header class="booking-header">
-            <div id="sb_menu" class="header_menu_wrapper">
-                <ul class="header_navigation_nav" id="sb_menu_list_item_container">
-                    <li class="header__nav-item">
-                        <a class="go-home" href="/" target="_self">Twinkle Kids Cafe </a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a class="go-my-booking" href="#client/bookings/type/upcoming">My Bookings</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a class="go-faq" href="#client/bookings/type/upcoming">FAQ</a>
-                    </li>
-                </ul>
-            </div>
-        </header>
-        <!-- 메인 사진 and booking button -->
-        <div class="wrapper">
-            <div><h1 class="company-logo-and-name">Twinkle Kids Cafe</h1></div>
-            <div class="background-wrapper">
-                <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
-                alt="Background" class="background-image" />
-            </div>
-        </div>
+        <BookingBar/>
         <BookingProcess/>
         <div>
             <!-- 현재 시간 -->
@@ -101,6 +79,7 @@
 import { useRoute } from 'vue-router';
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
+import BookingBar from '../components/BookingBar.vue';
 import BookingProcess from '../components/BookingProcess.vue';
 import { ref, computed, watch } from "vue"; // ✅ watch 추가
 import Vue3Datepicker from '@vuepic/vue-datepicker';
@@ -115,7 +94,8 @@ export default {
     components: {
         CurrentTime,
         Vue3Datepicker,
-        BookingProcess
+        BookingProcess,
+        BookingBar
     }, 
      data() {
          return {

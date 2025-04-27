@@ -23,7 +23,7 @@ const routes = [
   { path: '/', component: PickBranch },
   { path: '/home/:branchID', component: Home },
   // { path: '/book_a_party', component: Booking },
-  { path: '/book_a_party', component: SimplyBook },
+  { path: '/book_a_party/:branchID', component: SimplyBook },
   { path: '/book_a_party/quickbook', component: QuickBook },
   { path: '/book_a_party/confirm_detail', component: ConfirmDetail },
   { path: '/book_a_party/select_room/:branchID', component: Partyroom },

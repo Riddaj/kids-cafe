@@ -20,6 +20,12 @@
         <img :src="img" alt="gallery" class="w-full h-auto" />
       </swiper-slide>
     </swiper>
+    <div class="hiring">
+      <img src="@/assets/partyroom.png">
+    </div>
+    <div class="hiring">
+      <img src="@/assets/private.png">
+    </div>
   </div>
 </template>
 
@@ -90,6 +96,13 @@ html,
 body {
   position: relative;
   height: 100%;
+}
+
+.hiring img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
 }
 
 .swiper {

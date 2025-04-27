@@ -27,12 +27,12 @@
                     <li id="menu-item-3047" class="menu-item">
                         <a :href="`/menu/${this.$route.params.branchID}`" class="sf-with-ul"><span>Cafe Menu</span></a>
                     </li><li id="menu-item-3048" class="menu-item">
-                        <a href="/faq"><span>FAQ</span></a>
+                        <a :href="`/faq/${this.$route.params.branchID}`"><span>FAQ</span></a>
                     </li>
                 </ul>
             </nav>
             <div class="btn-container">
-                <a class="btn-book" href="/book_a_party" title="Book a party">
+                <a class="btn-book" :href="`/book_a_party/${this.$route.params.branchID}`" title="Book a party">
                     Book a party
                 </a>
             </div>

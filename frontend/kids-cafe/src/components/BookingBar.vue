@@ -12,7 +12,7 @@
                         </li>
                     -->
                     <li class="header__nav-item">
-                        <a class="go-faq" href="#client/bookings/type/upcoming">FAQ</a>
+                        <a class="go-faq" :href="`/faq/${this.$route.params.branchID}`">FAQ</a>
                     </li>
                 </ul>
             </div>
@@ -30,7 +30,13 @@
 
 <script>
 export default {
-
+    data(){
+    return{
+    }
+  },
+    async created() {
+    const branchID = this.$route.params.branchID
+  },
 }
 </script>
 
