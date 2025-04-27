@@ -1,23 +1,36 @@
 <template>
   <div id="app">
     <NavBar/>
+    <div class="main">
         <h1>FREQUENTLY ASKED QUESTION</h1>
-        <!-- 확장, 닫힘 버튼 -->
+        <!-- 확장, 닫힘 버튼 
         <div class="flex flex-wrap gap-2 mb-6">
-            <Button type="button" icon="pi pi-plus" label="Expand All" @click="expandAll" />
-            <Button type="button" icon="pi pi-minus" label="Collapse All" @click="collapseAll" />
+            <Button class="btn" type="button" icon="pi pi-plus" label="Expand All" @click="expandAll">Expand All</Button>
+            <Button class="btn" type="button" icon="pi pi-minus" label="Collapse All" @click="collapseAll">Collapse All</Button>
+        </div>-->
+        <div  v-if="FAQs && FAQs.length > 0"  class="faq-card">
+            <div v-for="(FAQ, index) in FAQs" :key="FAQ.FaqID" 
+            :style="{ backgroundColor: getRandomColor(index) }" class="faq-item">
+                <div class="faq-question">
+                    {{ FAQ.FaqQuestion }}<br>
+                </div>
+                <div class="faq-answer">
+                    {{ FAQ.FaqAnswer }}<br>
+                </div>
+            </div>
         </div>
-        <Tree 
+        <!-- <Tree 
             :value="treeData" 
             :expanded-keys="expandedKeys" 
+            expandMode="multiple"  
             class="w-full md:w-[30rem]"
             @update:expanded-keys="onToggle" 
-            @node-click="onFAQClick" 
-        />
-        <div v-if="selectedFAQ">
-        <h2>Answer</h2>
-        <p>{{ selectedFAQ }}</p>
-        </div>
+            @select="onFAQClick" 
+        /> -->
+        <!-- <div v-if="selectedFAQ">
+            <p>{{ selectedFAQ }}</p>
+        </div> -->
+    </div>
     </div>
 </template>
 
@@ -26,15 +39,19 @@ import axios from 'axios'; // axios를 import 추가
 import NavBar from './NavBar.vue';
 import PrimeVue from 'primevue/config';
 import Tree from 'primevue/tree';
+import Button from 'primevue/button'; // <-- Button 추가!
 
 export default {
     components: {
         NavBar,
-        Tree
+        Tree,
+        Button,
+        PrimeVue
     },
     data(){
         return{
             FAQs :[],
+            colors: ['#FFEBEE', '#E8F5E9', '#E3F2FD', '#FFF3E0', '#F3E5F5'], // 색상 배열
             //branchID: this.$route.params.branchID,
             // URL 파라미터에서 branchID 가져오기
             treeData: [],
@@ -47,6 +64,10 @@ export default {
         this.fetchFAQ();
     },
     methods:{
+        // 색상을 랜덤으로 선택하는 메소드
+        getRandomColor(index) {
+            return this.colors[index % this.colors.length]; // 색상을 인덱스를 기준으로 순차적으로 선택
+        },
         async fetchFAQ() {
                 //console.log("✨🎉✨ Branch ID ✨🎉✨:", this.branchID);  // 값이 제대로 있는지 확인
     
@@ -59,35 +80,99 @@ export default {
 
                     // Tree 컴포넌트에 적합한 형식으로 데이터를 변환
                     this.treeData = this.FAQs.map(faq => ({
-                    label: faq.FaqQuestion,
-                    data: faq.FaqAnswer,
-                    }));
+                        key: faq.FaqID, // (optional) 에러 방지 위해 key 추가
+                        label: faq.FaqQuestion,
+                        children: [
+                            {
+                            key: faq.FaqID + '_answer',
+                            label: faq.FaqAnswer,  // 답변을 child로 넣기
+                            }
+                        ]
+                        }));
+
+                        console.log("✨ 변환된 Tree 데이터:", this.treeData);
                 } catch (error) {
                     console.error("#### Error fetching fetchFAQ ##### :", error);
                 }
             },
         // Tree 항목 클릭 시 호출되는 메소드
         onFAQClick(event) {
-            this.selectedFAQ = event.node.data; // 클릭된 항목의 답변을 선택
+            console.log("왜안나와 답변 == ", this.selectedFAQ);
+            this.selectedFAQ = {
+                question: event.node.label,
+                answer: event.node.children[0].label,  // 첫 번째 자식 항목에 있는 답변을 가져옴
+            };
+            //this.selectedFAQ = event.node.children[0].label;  // 첫 번째 자식 항목에 있는 답변을 가져옴
         },
         // Tree 펼침/축소 상태 업데이트 메소드
         onToggle(event) {
-            this.expandedKeys = event.value;
+            this.expandedKeys = event.value || {}; // 여기를 수정!
         },
+        expandAll() {
+            const expanded = {};
+            this.treeData.forEach((node, index) => {
+            expanded[index] = true;
+            });
+            this.expandedKeys = expanded;
+        },
+        collapseAll() {
+            this.expandedKeys = {};
+        }
     },
 }
 
 </script>
 
 <style scoped>
-
-.faq-body{
-    text-align: left;
-    margin: 20px 20px 20px 50px;
+.main {
+  display: flex;
+  flex-direction: column; /* 👉 세로로 나열 */
+  justify-content: left;
+  padding: 120px 0 40px; /* top padding으로 헤더 피하기 */
 }
 
-.set{
-    margin-bottom: 10px;
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
+.faq-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.faq-item {
+  text-align: left;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.faq-answer {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .faq-item {
+    padding: 15px;
+  }
+
+}
 </style>
