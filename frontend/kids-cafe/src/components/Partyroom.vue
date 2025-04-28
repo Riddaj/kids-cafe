@@ -3,10 +3,8 @@
         <BookingBar/>
         <!-- booking process (2단계) -->
         <BookingProcess/>
-        <div class="button-and-time">
             <!-- 현재 시간 -->
-            <div class="current-time"><CurrentTime/></div>
-        </div>
+        <CurrentTime/>
         <div class="partyroom_info">
             <h1>Party room</h1>
             <div v-if="partyrooms && partyrooms.length > 0"  class="partyroom-container">

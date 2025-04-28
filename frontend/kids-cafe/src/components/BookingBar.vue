@@ -41,6 +41,12 @@ export default {
 </script>
 
 <style>
+#app {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .booking-header{
     width: 100vw;
     display: flex;

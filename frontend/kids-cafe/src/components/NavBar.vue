@@ -18,9 +18,13 @@
                     <li id="menu-item-3044" class="menu-item">
                         <a :href="`/price/${this.$route.params.branchID}`" class="sf-with-ul">
                             <span>Price</span></a>
-                    </li><li id="menu-item-3093" class="menu-item">
-                        <a :href="`/about-us/${this.$route.params.branchID}`"><span>About Us</span></a>
-                    </li><li id="menu-item-3046" class="menu-item">
+                    </li>
+                    <!-- 
+                        <li id="menu-item-3093" class="menu-item">
+                            <a :href="`/about-us/${this.$route.params.branchID}`"><span>About Us</span></a>
+                        </li>
+                    -->
+                    <li id="menu-item-3046" class="menu-item">
                         <a :href="`/parties-events/${this.$route.params.branchID}`"><span>Parties &amp; Events</span></a>
                     </li>
                     <!-- </li><li id="menu-item-3047" class="menu-item" data-width="110.012" :class="{ 'active': activeMenu === 'Cafe Menu' }" @click="setActiveMenu('Cafe Menu')"> -->
