@@ -48,6 +48,18 @@
             <input v-model="menu.ImgUrl" type="url" />
         </label> -->
 
+
+        <!-- Flavors. 맛 종류. 가격은 같음. -->
+        <div class="flavors-section">
+            <h3>Flavors</h3>
+            <div v-for="(flavor, index) in menu.Flavors" :key="'flavor-' + index" class="flavor">
+                <input v-model="menu.Flavors[index]" placeholder="Flavor Name" />
+                <button type="button" @click="removeFlavor(index)">❌</button>
+            </div>
+            <button type="button" @click="addFlavor">➕ Add Flavor</button>
+        </div>
+
+        <!-- 옵션 부분. 옵션별 가격이 다름.-->
         <div class="options-section">
             <h3>Options</h3>
             <div v-for="(option, index) in menu.MenuOptions" :key="index" class="option">
@@ -60,7 +72,7 @@
 
         <button type="submit" class="submit-btn">✅ Register</button>
         </form>
-    </div>
+        </div>
     </div>
 </template>
 
@@ -83,6 +95,7 @@ export default {
             MenuOptions: [],
             Price: 0,
             branchID: "",
+            Flavors: [],
             },
         };
     },
@@ -91,14 +104,18 @@ export default {
         this.branchID = this.$route.params['branchID']
     },
     methods:{
-
-
-        
+      
         addOption() {
         this.menu.MenuOptions.push({ size: "", price: 0 });
         },
         removeOption(index) {
         this.menu.MenuOptions.splice(index, 1);
+        },
+        addFlavor() {
+        this.menu.Flavors.push('');
+        },
+        removeFlavor(index) {
+        this.menu.Flavors.splice(index, 1);
         },
         submitForm() {
             //console.log(this.$route.params['branchID'])

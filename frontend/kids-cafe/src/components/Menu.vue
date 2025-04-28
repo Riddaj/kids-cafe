@@ -13,7 +13,7 @@
                         </h2>
                         <!-- 메뉴 항목들. -->
                         <div v-for="menu in categoryMenus" :key="menu.MenuID" class="cafemenu-item">
-                            <!-- 메뉴, 가격을 묶는 헤더. 무적권 같은 줄. -->
+                            <!-- 메뉴, 가격을 묶는 헤더. 옵션이 없는 경우 같은 줄. -->
                             <div class="menu-header">
                                 <!-- 메뉴명 -->
                                 <div class="menu-name">
@@ -24,19 +24,26 @@
                                     ${{ menu.Price }}
                                 </div>
                                 <!-- 옵션의 가격 총합이 0이면 그냥 종류가 다양한 메뉴. -->
-                                <div
+                                <!-- <div
                                 v-if="menu.MenuOptions && menu.MenuOptions.length && getPricedOptionTotal(menu) === 0"
                                     class="menu-option-note"
                                     >
                                     {{ menu.MenuOptions.map(option => option.Size || option.Name || '').join(' / ') }}
-                                </div>
-                                <div v-if="menu.MenuOptions && menu.MenuOptions.length">
-                                    <!-- 옵션들에 가격이 다를 경우에는 오른쪽 정렬된 박스로 -->
-                                    <div v-if="menu.MenuOptions && getPricedOptionTotal(menu) > 0" class="menu-price">
-                                        <div v-for="(option, index) in menu.MenuOptions" :key="index">
-                                            {{ option.Size }} - ${{ option.Price }}
-                                        </div>
+                                </div> -->
+                                <!-- 맛 종류 -->
+                                <div v-if="menu.Flavors && menu.Flavors.length" class="menu-option-note">
+                                    <div v-for="(flavor, index) in menu.Flavors" :key="index">
+                                        {{ flavor }}<span v-if="index !== menu.Flavors.length - 1"> / </span>
                                     </div>
+                                </div>
+
+                                <!-- 옵션이 있는 경우. -->
+                                <div v-if="menu.MenuOptions && menu.MenuOptions.length">
+                                   
+                                    <div v-for="(option, index) in menu.MenuOptions" :key="index">
+                                        {{ option.Size }} - ${{ option.Price }}
+                                    </div>
+                                
                                 </div>
                         </div>
                     </div>
@@ -110,13 +117,13 @@ export default {
                 return categories;
             }, {});
         },
-        getPricedOptionTotal(menu) {
-            if (!menu.MenuOptions) return 0;
-            return menu.MenuOptions.reduce((sum, option) => {
-            const price = Number(option.Price || 0);
-            return sum + price;
-            }, 0);
-        }
+        // getPricedOptionTotal(menu) {
+        //     if (!menu.MenuOptions) return 0;
+        //     return menu.MenuOptions.reduce((sum, option) => {
+        //     const price = Number(option.Price || 0);
+        //     return sum + price;
+        //     }, 0);
+        // }
     },
     created() {
         this.fetchmenu();  // 컴포넌트 생성 시 메뉴 데이터 가져오기
