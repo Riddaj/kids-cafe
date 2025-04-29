@@ -18,6 +18,7 @@ import AddMenu from '../components/AddMenu.vue';
 import Price from '../components/Price.vue';
 import PartiesEvents from '../components/PartiesEvents.vue';
 import AboutUs from '../components/AboutUs.vue';
+import Partylist from '../components/Partylist.vue';
 
 const routes = [
   { path: '/', component: PickBranch },
@@ -38,6 +39,7 @@ const routes = [
   { path: '/admin/menu/:branchID', component: AddMenu },
   { path: '/parties-events/:branchID', component: PartiesEvents },
   { path: '/about-us/:branchID', component: AboutUs },
+  { path: '/party-list/:branchID', component: Partylist },
 ];
 
 const router = createRouter({

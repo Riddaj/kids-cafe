@@ -189,12 +189,12 @@ export default {
                 if (response.data.available) {
                     console.log("예약 가능한 시간입니다.");
                 } else {
-                    alert("이미 예약된 시간이에요! 다른 시간을 선택해주세요.");
+                    alert("This time is already booked! Please select a different time, or contact us!");
                     this.selectedTime = ""; // 초기화
                 }
                 } catch (error) {
                 console.error("예약 확인 중 오류:", error);
-                alert("예약 확인 중 오류가 발생했습니다.");
+                alert("An error occurred while confirming the reservation.");
                 }
             }
     },

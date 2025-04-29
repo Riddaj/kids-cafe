@@ -1,47 +1,13 @@
 <template>
     <div id="app"> 
-        <header class="booking-header">
-            <div id="sb_menu" class="header_menu_wrapper">
-                <ul class="header_navigation_nav" id="sb_menu_list_item_container">
-                    <li class="header__nav-item">
-                        <a class="go-home" href="/" target="_self">Twinkle Kids Cafe </a>
-                    </li>
-                    <!-- 
-                        <li class="header__nav-item">
-                            <a class="go-my-booking" href="#client/bookings/type/upcoming">My Bookings</a>
-                        </li>
-                    -->
-                    <li class="header__nav-item">
-                        <a class="go-faq" :href="`/faq/${this.$route.params.branchID}`">FAQ</a>
-                    </li>
-                </ul>
-            </div>
-        </header>
-        <!-- 메인 사진 and booking button -->
-        <div class="wrapper">
-            <div><h1 class="company-logo-and-name">Twinkle Kids Cafe</h1></div>
-            <div class="btn-container">
-                <!--<router-link class="btn-book" to="/book_a_party/simplybook/confirm_detail" title="Book Now">Book Now</router-link>-->
-                <a class="btn-book" href="#" @click="showBookingInfo = !showBookingInfo" title="Book Now">Book Now</a>
-            </div>
-            <div class="background-wrapper">
-                <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
-                alt="Background" class="background-image" />
-            </div>
-        </div>
+        <BookingBar/>
         <!-- booking process (2단계) -->
-        <div class="booking-process">
-            <ul class="booking-process-item">
-                <li class="step-info-item"><a href="#">Category</a></li>
-                <li class="step-info-item"><a href="#">Time</a></li>
-                <li class="step-info-item"><a href="#">Client</a></li>
-            </ul>
+        <BookingProcess/>
+        <div class="btn-container">
+            <!--<router-link class="btn-book" to="/book_a_party/simplybook/confirm_detail" title="Book Now">Book Now</router-link>-->
+            <a class="btn-book" href="#" @click="showBookingInfo = !showBookingInfo" title="Book Now">Book Now</a>
         </div>
-        <div class="button-and-time">
-            <!-- 현재 시간 -->
-            <div class="current-time"><CurrentTime/></div>
-        </div>
-        <!-- 변경될 부분 -->
+        <CurrentTime/>
         <component 
         :is="showBookingInfo ? 'SelectBranch' : 'div'"  
         :branches="branches" 
@@ -71,6 +37,8 @@ import axios from "axios";
 import ConfirmDetail from '../components/ConfirmDetail.vue';
 import Partyroom from '../components/Partyroom.vue';
 import SelectBranch from '../components/SelectBranch.vue';
+import BookingProcess from '../components/BookingProcess.vue';
+import BookingBar from '../components/BookingBar.vue';
 
 export default {
     data() {
@@ -86,7 +54,9 @@ export default {
         CurrentTime,
         ConfirmDetail,
         Partyroom,
-        SelectBranch
+        SelectBranch,
+        BookingProcess,
+        BookingBar
     },  
     methods: {
     async fetchBranches() {
@@ -106,6 +76,15 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+html, body, #app {
+  width: 100vw;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
 ul {
   list-style-type: none; /* 동그라미 기호 제거 */
@@ -137,6 +116,8 @@ a{
 
 .wrapper{
     justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 .company-logo-and-name{
   color: white;
@@ -150,21 +131,25 @@ a{
   margin-bottom: 10px; /* h1과 버튼 간의 간격 */
 }
 
-.btn-container{
+.btn-container {
     display: flex;
-    justify-content: center; 
+    justify-content: center;  /* 가로 중앙 */
+    align-items: center;      /* 세로 중앙 */
+    margin-top: 0;             /* margin-top 없애기 */
+    position: relative;        /* 위치 기준 잡기 */
+    z-index: 10;               /* 버튼이 다른 요소들 위로 오게 */
 }
 
 .btn-book {
-    margin-top: 220px; /* h1과 버튼 간의 간격 */
-    background-color: #ffb3b3; /* 버튼 배경 색상 */
-    color: white; /* 텍스트 색상 */
-    text-decoration: none; /* 링크 스타일 제거 */
-    padding: 20px 20px; /* 버튼의 내부 여백을 조정하여 길이를 늘림 */
-    border-radius: 5px; /* 둥근 모서리 */
-    font-size: 16px; /* 글자 크기 */
-    z-index: 1; /* h1이 버튼 위에 오도록 z-index 설정 */
-    position: relative; /* z-index가 제대로 작동하도록 위치 지정 */
+    background-color: #ffb3b3;
+    color: white;
+    text-decoration: none;
+    padding: 20px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    z-index: 1;
+    position: relative;
+    /* margin-top: 220px; <-- 이거 삭제!!! */
 }
 
 .background-image{
@@ -179,13 +164,6 @@ a{
     object-fit: cover; /* 이미지 비율에 맞게 채우기 */
     opacity: 0.8; /* 이미지 불투명도 설정, 1이면 불투명, 0이면 완전 투명 */
     filter: brightness(50%);  /*이미지 어둡게 */
-}
-
-.current-time{
-    display: flex;           /* flexbox 활성화 */
-    width: 100vw;
-    justify-content: flex-end;
-    padding-right: 50px;;
 }
 
 .booking-process-item {
@@ -214,7 +192,7 @@ a{
     display: flex;
     list-style: none;
     text-align: center;
-    padding-right: 50px; /* 네비게이션 바 오른쪽 여백 추가 ############# 이게 오른쪽 여백 적용되는 부분################*/ 
+    /* padding-right: 50px; /* 네비게이션 바 오른쪽 여백 추가 ############# 이게 오른쪽 여백 적용되는 부분################*/  
     margin: 0;
     height: 30px; /* 메뉴 높이 설정 (예: 50px) */
 }
