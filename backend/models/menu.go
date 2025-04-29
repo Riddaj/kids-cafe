@@ -24,6 +24,7 @@ type Menu struct {
 	ImgUrl       string   `gorm:"type:string;" firestore:"imgUrl"`
 	BranchID     string   `gorm:"type:int;" firestore:"branch_id"`
 	Price		 float64	`gorm:type:int;" firestore:"price"`
+	Flavors      []string `firestore:"flavors"`
 }
 
 // 테이블 이름을 명시적으로 설정

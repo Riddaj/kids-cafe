@@ -18,8 +18,8 @@ type Party struct {
 	Partydate                 string   `firestore:"partydate"`
 	Partytime                 string   `firestore:"partytime"`
 	PartyroomPrice            int      `firestore:"partyroom_price"`
-	FoodPrice                 int      `firestore:"food_price"`
-	OwnerPhone                int      `firestore:"owner_phone"`
+	FoodPrice                 string   `json:"food_price" firestore:"food_price"`
+	OwnerPhone                string   `json:"owner_phone" firestore:"owner_phone"`
 	SelectedFood              []string `firestore:"selected_food"`
 	KidName                   string   `json:"kid_name" firestore:"kid_name"`
 	OwnerName                 string   `json:"owner_name" firestore:"owner_name"`
@@ -52,7 +52,8 @@ func SaveParty(ctx *gin.Context, client *firestore.Client) (Party, error) {
 	}
 
 	fmt.Println("받은 아이 이름:", party.KidName)
-
+	fmt.Println("저나번호:", party.OwnerPhone)
+	
 	branchID := ctx.Param("branch_id")
 	log.Printf("############ branchID =%s", branchID)
 	party.BranchID = branchID
