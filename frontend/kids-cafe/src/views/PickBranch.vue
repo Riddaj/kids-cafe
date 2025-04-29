@@ -111,6 +111,10 @@ body {
     justify-content: center; /* 중앙 정렬 */
 }
 
+.branch-name{
+    font-size: 30px;
+}
+
 /* 카드 스타일 */
 .branch-card {
     position: relative;  /* 자식 요소에 absolute 적용을 위해 */

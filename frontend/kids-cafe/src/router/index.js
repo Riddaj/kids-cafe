@@ -47,4 +47,12 @@ const router = createRouter({
   routes,
 });
 
+// 여기에 추가!
+router.beforeEach((to, from, next) => {
+  const defaultTitle = 'Twinkle Kids Cafe';
+  document.title = to.meta.title || defaultTitle;
+  next();
+});
+
+
 export default router;
