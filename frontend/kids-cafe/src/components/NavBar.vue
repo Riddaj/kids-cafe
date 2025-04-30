@@ -95,7 +95,7 @@ li {
 .logo_image{
     max-height: 106px;
     height: auto;
-    max-width: 100%;
+    max-width: 70%;
 }
 
 .index-header {

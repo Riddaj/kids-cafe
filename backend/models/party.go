@@ -20,7 +20,7 @@ type Party struct {
 	PartyroomPrice            int      `firestore:"partyroom_price"`
 	FoodPrice                 string   `json:"food_price" firestore:"food_price"`
 	OwnerPhone                string   `json:"owner_phone" firestore:"owner_phone"`
-	SelectedFood              []string `firestore:"selected_food"`
+	SelectedFood              []string `json:"selected_food" firestore:"selected_food"`
 	KidName                   string   `json:"kid_name" firestore:"kid_name"`
 	OwnerName                 string   `json:"owner_name" firestore:"owner_name"`
 	KidGender                 string   `json:"kid_gender" firestore:"kid_gender"`
@@ -53,7 +53,7 @@ func SaveParty(ctx *gin.Context, client *firestore.Client) (Party, error) {
 
 	fmt.Println("받은 아이 이름:", party.KidName)
 	fmt.Println("저나번호:", party.OwnerPhone)
-	
+
 	branchID := ctx.Param("branch_id")
 	log.Printf("############ branchID =%s", branchID)
 	party.BranchID = branchID
