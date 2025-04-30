@@ -28,7 +28,7 @@
 
   @keyframes moveAround {
     0%   { top: 0; left: 0; }
-    25%  { top: 0; left: calc(100vw - 100px); }
+    25%  { top: 0; left: calc(100vw - 70px); }
     50%  { top: calc(100vh - 70px); left: calc(100vw - 70px); }
     75%  { top: calc(100vh - 70px); left: 0; }
     100% { top: 0; left: 0; }
