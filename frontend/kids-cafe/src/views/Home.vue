@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" style="background-color: ivory;">
         <NavBar/>
         <swiper
             ref="mySwiper"
