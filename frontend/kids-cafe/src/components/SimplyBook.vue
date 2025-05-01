@@ -29,6 +29,10 @@
                 </div>
             </template>
         </component>
+        <!-- ✅ 아래 여백 주기 -->
+        <div style="margin-top: 150px;"></div>
+        <!-- ✅ Footer 컴포넌트 추가 -->
+        <Footer />
     </div>
 </template>
 <script>
@@ -39,6 +43,7 @@ import Partyroom from '../components/Partyroom.vue';
 import SelectBranch from '../components/SelectBranch.vue';
 import BookingProcess from '../components/BookingProcess.vue';
 import BookingBar from '../components/BookingBar.vue';
+import Footer from './Footer.vue';
 
 export default {
     data() {
@@ -56,7 +61,8 @@ export default {
         Partyroom,
         SelectBranch,
         BookingProcess,
-        BookingBar
+        BookingBar,
+        Footer
     },  
     methods: {
     async fetchBranches() {

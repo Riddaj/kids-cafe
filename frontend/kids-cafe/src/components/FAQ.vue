@@ -31,6 +31,7 @@
             <p>{{ selectedFAQ }}</p>
         </div> -->
     </div>
+    <Footer/>
     </div>
 </template>
 
@@ -40,13 +41,15 @@ import NavBar from './NavBar.vue';
 import PrimeVue from 'primevue/config';
 import Tree from 'primevue/tree';
 import Button from 'primevue/button'; // <-- Button 추가!
+import Footer from './Footer.vue';
 
 export default {
     components: {
         NavBar,
         Tree,
         Button,
-        PrimeVue
+        PrimeVue,
+        Footer
     },
     data(){
         return{
@@ -129,6 +132,7 @@ export default {
   flex-direction: column; /* 👉 세로로 나열 */
   justify-content: left;
   padding: 120px 0 40px; /* top padding으로 헤더 피하기 */
+  padding-bottom: 150px;
 }
 
 h1 {

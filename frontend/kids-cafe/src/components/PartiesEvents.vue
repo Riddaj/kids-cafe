@@ -26,11 +26,13 @@
     <div class="hiring">
       <img src="@/assets/private.png">
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import NavBar from './NavBar.vue';
+import Footer from './Footer.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue'; // 이 부분만 수정
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';  // Swiper 스타일 추가
@@ -39,6 +41,7 @@ export default {
   name: 'App',
   components: {
     NavBar,
+    Footer,
     Swiper,
     SwiperSlide,
   },

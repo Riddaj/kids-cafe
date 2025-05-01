@@ -32,6 +32,10 @@
                 No party rooms available.
             </div>
         </div>
+        <!-- ✅ 아래 여백 주기 -->
+        <div style="margin-top: 150px;"></div>
+        <!-- ✅ Footer 컴포넌트 추가 -->
+        <Footer />
     </div>
 </template>
 
@@ -40,12 +44,14 @@ import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
 import BookingProcess from '../components/BookingProcess.vue';
 import BookingBar from '../components/BookingBar.vue';
+import Footer from './Footer.vue';
 
 export default {
     components: {
         CurrentTime,
         BookingProcess,
-        BookingBar
+        BookingBar,
+        Footer
     }, 
     data() {
         return {

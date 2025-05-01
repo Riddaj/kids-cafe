@@ -55,17 +55,19 @@
         <router-link :to="`/admin/menu/${branchID}`">
             <button>메뉴 등록 버튼</button>
         </router-link>
+        <Footer/>
     </div>
-
 </template>
 
 <script>
 import axios from 'axios'; // axios를 import 추가
 import NavBar from './NavBar.vue';
+import Footer from './Footer.vue';
 
 export default {
     components: {
         NavBar,
+        Footer
     },
     data(){
         return{
