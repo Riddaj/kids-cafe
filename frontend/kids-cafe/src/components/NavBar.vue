@@ -3,7 +3,7 @@
         
         <!-- logo -->
         <div class="sc-layouts-logo-container">
-            <a href="/" class="sc_layouts_logo ">
+            <a :href="`/home/${this.$route.params.branchID}`" class="sc_layouts_logo ">
             <img fetchpriority="high" class="logo_image" src="./../assets/twinkle_logo.webp" width="2390" height="924"  loading="eager" alt="Logo fallback" /></a>
             <!-- 브랜치 이름 표시 -->
             <span v-if="branchName" class="branch-name">{{ branchName }}</span>

@@ -46,8 +46,11 @@
             </section>
             <section>
                 <div class="image-wrapper">
-                        <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
-                        class="background-image1">
+                  <img :src="getBranchImage(branchID)" class="background-image1" />
+                  <!-- 
+                    <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
+                    class="background-image1">
+                  -->
                     </div>
             </section>
         </div>
@@ -73,6 +76,7 @@ export default {
     },
     data() {
     return {
+      branchID:this.$route.params.branchID,
       branchName: '',
       images: [],
     }
@@ -127,6 +131,13 @@ export default {
         // 필요하면 계속 추가 가능
       }
       return branchMap[id] || 'Unknown Branch'
+    },
+    getBranchImage(branchID) {
+      const images = {
+        burwood: "https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg",
+        hornsby: "/images/hornsby.jpg"
+      };
+      return images[branchID]; // fallback
     }
   }
 }
