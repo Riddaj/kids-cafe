@@ -65,7 +65,7 @@
                     <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
                     <div class="event-content">
                         <li>Valid for entrance before 10am</li>
-                        <li>Monday to Friday Only</li><br>
+                        <li  style="color: darkred;">Monday to Friday Only</li><br>
                     </div>
                 </div>
                 <div class="event-card">
@@ -79,12 +79,21 @@
                     </div>
                 </div>
                 <div class="event-card">
-                    <div class="event-title">Under 12 months, Free entry for 2 hours</div>
+                    <div class="event-title">
+                        Over $40, 1 hour FREE Extended
+                    </div>
                     <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
                     <div class="event-content">
-                        <li>We required ID or Certificate</li>
-                        <li>A regular kids' entry fee will be charged after 2 hours</li>
+                        <li>When you order FOOD from our cafe menu over $40, you will get another free hour for one child.</li>
                     </div>
+                    <!-- 
+                        <div class="event-title">Under 12 months, Free entry for 2 hours</div>
+                        <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
+                        <div class="event-content">
+                            <li>We required ID or Certificate</li>
+                            <li>A regular kids' entry fee will be charged after 2 hours</li>
+                        </div>
+                    -->
                 </div>
             </div>
         </div>
@@ -212,6 +221,7 @@ h2{
     color: #014739;
     font-size: 20px;
     font-weight: bold;
+    margin-top: 20px;
     margin-bottom: 25px;
 }
 .event-cards-container {
