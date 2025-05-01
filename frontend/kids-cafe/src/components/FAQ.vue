@@ -142,6 +142,8 @@ h1 {
   flex-direction: column;
   gap: 20px;
   margin-top: 20px;
+  margin-left: 80px;
+  margin-right: 80px;
 }
 
 .faq-item {

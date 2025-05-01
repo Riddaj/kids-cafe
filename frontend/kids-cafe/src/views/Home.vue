@@ -74,20 +74,36 @@ export default {
     data() {
     return {
       branchName: '',
-      images: [
-        '/images/main/20250321_094707.jpg',
-        '/images/main/20250321_094810.jpg',
-        '/images/main/20250321_094831.jpg',
-        '/images/main/20250321_094733.jpg',
-        '/images/burwood/IMG-20250415-WA0085.jpg',
+      images: [],
+    }
+  },
+  mounted(){
+
+    const branchID = this.$route.params.branchID;
+    console.log("branchID ****** = ", branchID)
+
+    if(branchID === 'burwood'){
+      this.images = [
+      '/images/main/20250321_094707.jpg',
+      '/images/main/20250321_094810.jpg',
+      '/images/burwood/mmexport1746090489101.jpg',
+      '/images/main/20250321_094831.jpg',
+      '/images/main/20250321_094733.jpg',
+      '/images/burwood/IMG-20250415-WA0085.jpg',
+    ];
+    }else if(branchID === 'hornsby'){
+      this.images = [
+        '/images/hornsby/IMG-20250430-WA0000.jpg',
+        '/images/hornsby/IMG-20250430-WA0001.jpg',
+        '/images/hornsby/IMG-20250430-WA0008.jpg',
+        '/images/hornsby/IMG-20250430-WA0011.jpg',
         '/images/hornsby/IMG-20250415-WA0005.jpg',
         '/images/hornsby/IMG-20250415-WA0023.jpg',
         '/images/hornsby/IMG-20250415-WA0026.jpg',
         '/images/hornsby/IMG-20250415-WA0002.jpg',
-      ],
+      ];
     }
-  },
-  mounted(){
+
     this.$nextTick(() => {
       // Swiper 인스턴스를 가져와서 출력
       console.log("왜 사진 안넘어가냐고;; == ", this.$refs.mySwiper.swiper);
