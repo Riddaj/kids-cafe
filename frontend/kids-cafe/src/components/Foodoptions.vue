@@ -65,12 +65,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(foodoption, index) in foodoptions" :key="foodoption.FoodId">
+                                <tr v-for="(foodoption, index) in foodoptions" :key="foodoption.FoodName">
                                 <td>
                                     <input 
                                     type="checkbox" 
                                     v-model="selectedfoodoptions"
-                                    :value="foodoption.FoodId"
+                                    :value="foodoption.FoodName"
                                     @change="logSelectedOption"
                                     />
                                 </td>
@@ -159,8 +159,8 @@ export default {
         // 선택된 음식 옵션들의 가격 합산
         totalAmount() {
             let total = 0;
-            this.selectedfoodoptions.forEach(foodId => {
-                const food = this.foodoptions.find(f => f.FoodId === foodId);
+            this.selectedfoodoptions.forEach(foodName => {
+                const food = this.foodoptions.find(f => f.FoodName === foodName);
                 if (food) {
                     total += food.FoodPrice;
                 }

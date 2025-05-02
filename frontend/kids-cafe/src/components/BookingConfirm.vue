@@ -40,7 +40,12 @@
                         <td>{{ bookingData.email || 'N/A' }}</td>
                     </tr>
                     <tr>
+                        <td>Selected Foods</td>
+                        <td>{{ bookingData.selected_food || 'N/A' }}</td>
+                    </tr>
+                    <tr>
                         <td>Special Dietary Requirements</td>
+                        <td></td>
                         <!-- <td>{{ bookingDetails.special_required.join(', ') }}</td> -->
                     </tr>
                 </tbody>
@@ -95,10 +100,15 @@ export default {
 
 <style scoped>
 .table-container{
-    display: block;
+    display: flex;
     justify-content: center;
     text-align: center; /* 버튼을 가로로 중앙 정렬 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+/* ✅ 왼쪽 열 너비 조정 */
+.confirmation-table td:first-child {
+    width: 30%;
 }
 
 /** 옵션 체크리스트 */
