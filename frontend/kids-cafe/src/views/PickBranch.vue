@@ -18,6 +18,7 @@
                             <img :src="getBranchImage(branch.branch_id)" 
                             :alt="`Branch ${branch.branch_name}`" 
                             class="branch-image">
+                            <div class="image-overlay"></div> <!-- 그라데이션용 오버레이 -->
                         </div>
                     </div>
                 </router-link>
@@ -102,6 +103,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 /* 로고 이미지 */
@@ -143,7 +145,7 @@ body {
     text-align: center;
     transition: transform 0.2s;
     overflow: hidden; /* ✅ 이미지 넘어가면 잘라내기 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     background-color: transparent; /* ✅ 배경색 제거 or 투명하게 */
 }
 
@@ -160,8 +162,21 @@ body {
     border-radius: 15px;
     display: block; /* ✅ inline 요소 여백 제거 */
     justify-content: center; /* 중앙 정렬 */
+    object-fit: cover; /* 이미지 비율 유지 */
+    opacity: 0.6;       /* 이미지를 어둡게 */
 }
 
+/* 그라데이션 오버레이 */
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%; /* 전체 덮거나, 원하면 height: 40% 등으로 조정 */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, #0a8066 100%);
+  border-radius: 15px;
+  pointer-events: none; /* 클릭 이벤트 방지 */
+}
 
 .branch-card h3 {
     font-size: 18px;

@@ -86,7 +86,7 @@ a{
     flex-direction: column; /* 세로 방향 배치 */
     justify-content: space-between; /* 내용과 버튼 사이 여백 자동 조정 */
     align-items: center; /* 중앙 정렬 */
-    background: white;
+    background: transparent;
     border-radius: 10px;
     padding: 15px;
     width: 250px;
