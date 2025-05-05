@@ -20,6 +20,8 @@ import PartiesEvents from '../components/PartiesEvents.vue';
 import AboutUs from '../components/AboutUs.vue';
 import Partylist from '../components/Partylist.vue';
 import Entryrules from '../components/Entryrules.vue';
+import Contact from '../components/Contact.vue';
+
 
 const routes = [
   { path: '/', component: PickBranch },
@@ -42,6 +44,7 @@ const routes = [
   { path: '/parties-events/:branchID', component: PartiesEvents },
   { path: '/about-us/:branchID', component: AboutUs },
   { path: '/party-list/:branchID', component: Partylist },
+  { path: '/contact/:branchID', component: Contact },
 ];
 
 const router = createRouter({

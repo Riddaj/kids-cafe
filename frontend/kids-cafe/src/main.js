@@ -6,6 +6,8 @@ import router from './router'  // router 설정을 import
 import '@/assets/css/global.css';  // 글로벌 CSS 연결
 import PrimeVue from 'primevue/config';  // PrimeVue 설정 import
 import Tree from 'primevue/tree';        // Tree 컴포넌트 import
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 //const pinia = createPinia();  // ✅ Pinia 인스턴스 생성
 

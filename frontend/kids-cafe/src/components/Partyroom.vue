@@ -2,7 +2,7 @@
     <div>
         <BookingBar/>
         <!-- booking process (2단계) -->
-        <BookingProcess/>
+        <!-- <BookingProcess/> -->
             <!-- 현재 시간 -->
         <CurrentTime/>
         <div class="partyroom_info">
