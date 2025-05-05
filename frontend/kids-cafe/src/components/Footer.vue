@@ -23,7 +23,7 @@
                   <p>⏰ OPEN 7DAYS</p>
                   <p>Mon~Fri: 9am - 6pm</p>
                   <p>Sat~Sun: 9am - 7pm</p>
-                  <p>Check Weekly Updates from our Google Map</p>
+                  <p>Check Weekly Updates from our Google Map & Instagram</p>
                 </div>
                 <div class="info-detail">
 

@@ -59,7 +59,9 @@
                         <tr>
                             <td class="button-td">
                                 <!-- <button type="submit" class="submit-button">Next</button>  -->
-                                <router-link :to="{path: `/book_a_party/foodopitions`,     
+                                <router-link 
+                                v-if="selectedroom.RoomName === 'Private party'"
+                                :to="{path: `/book_a_party/foodopitions`,     
                                 query: {
                                 roomID: roomID,
                                 roomName: roomName,
@@ -71,6 +73,24 @@
                                 }">
                                     <button type="submit" class="submit-button">Next</button>
                                 </router-link>
+
+                                <!-- 🧁 Party Room Hiring일 경우 -->
+                                <router-link
+                                v-else-if="selectedroom.RoomName === 'Party room hiring'"
+                                :to="{
+                                    path: '/book_a_party/client-info',
+                                    query: {
+                                    roomID: roomID,
+                                    roomName: roomName,
+                                    roomDeposit: selectedroom.RoomDeposit,
+                                    selectedDate: formattedDate,
+                                    selectedTime: selectedTime,
+                                    selectedPrice: selectedPrice
+                                    }
+                                }"
+                                >
+                                <button type="submit" class="submit-button">Next</button>
+                            </router-link>
                             </td>
                         </tr>
                     </table>

@@ -19,6 +19,7 @@ import Price from '../components/Price.vue';
 import PartiesEvents from '../components/PartiesEvents.vue';
 import AboutUs from '../components/AboutUs.vue';
 import Partylist from '../components/Partylist.vue';
+import Entryrules from '../components/Entryrules.vue';
 
 const routes = [
   { path: '/', component: PickBranch },
@@ -34,6 +35,7 @@ const routes = [
   { path: '/book_a_party/client-info', component: ClientInfo },
   { path: '/book_a_party/booking-confirm', name: 'booking-confirm', component: BookingConfirm },
   { path: '/faq/:branchID', component: FAQ },
+  { path: '/entryrules/:branchID', component: Entryrules },
   { path: '/menu/:branchID', name: 'menu', component: Menu },
   { path: '/price/:branchID', component: Price },
   { path: '/admin/menu/:branchID', component: AddMenu },
