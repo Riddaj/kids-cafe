@@ -4,7 +4,7 @@
             <div id="sb_menu" class="header_menu_wrapper">
                 <ul class="header_navigation_nav" id="sb_menu_list_item_container">
                     <li class="header__nav-item">
-                        <a class="go-home" href="/" target="_self">Twinkle Kids Cafe </a>
+                        <a class="go-home" :href="`/home/${this.$route.params.branchID}`" target="_self">Twinkle Kids Cafe </a>
                     </li>
                     <!-- 
                         <li class="header__nav-item">
@@ -18,13 +18,13 @@
             </div>
         </header>
         <!-- 메인 사진 and booking button -->
-        <div class="wrapper">
+        <!-- <div class="wrapper">
             <div><h1 class="company-logo-and-name">Twinkle Kids Cafe</h1></div>
             <div class="background-wrapper">
                 <img src="https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg" 
                 alt="Background" class="background-image" />
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -56,9 +56,9 @@ export default {
     padding: 20px 40px 20px 20px; /* 위쪽 20px, 오른쪽 40px, 아래쪽 20px, 왼쪽 20px */
     background-color: #fff; /* 배경색 설정 (원하는 색상으로 변경 가능) */
     margin: 0; /* 헤더의 외부 여백 제거 */
-    position: fixed; /* 화면 맨 위에 고정 */
-    top: 0; /* 최상단 배치 */
-    left: 0;
+    /* position: fixed; 
+    top: 0; 
+    left: 0; */
     /* right: 0; 오른쪽 끝까지 확장 */
     z-index: 1000; /* 다른 요소들 위에 배치 */
 }

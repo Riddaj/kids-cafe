@@ -33,10 +33,13 @@
                     </li><li id="menu-item-3048" class="menu-item">
                         <a :href="`/faq/${this.$route.params.branchID}`"><span>FAQ</span></a>
                     </li>
+                    <li class="menu-item">
+                        <a :href="`/contact/${this.$route.params.branchID}`"><span>Contact Us</span></a>
+                    </li>
                 </ul>
             </nav>
             <div class="btn-container">
-                <a class="btn-book" :href="`/book_a_party/${this.$route.params.branchID}`" title="Book a party">
+                <a class="btn-book" :href="`/book_a_party/select_room/${this.$route.params.branchID}`" title="Book a party">
                     Book a party
                 </a>
             </div>

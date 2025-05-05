@@ -1,34 +1,72 @@
 <template>
-    <div id="app"> 
+    <div id="app" @click="shootConfetti"> 
         <BookingBar/>
-        <!-- booking process (2단계) -->
-        <!-- <BookingProcess/> -->
-        <div class="btn-container">
-            <!--<router-link class="btn-book" to="/book_a_party/simplybook/confirm_detail" title="Book Now">Book Now</router-link>-->
-            <a class="btn-book" href="#" @click="showBookingInfo = !showBookingInfo" title="Book Now">Book Now</a>
-        </div>
-        <CurrentTime/>
         <component 
         :is="showBookingInfo ? 'SelectBranch' : 'div'"  
         :branches="branches" 
         v-if="branches.length > 0">
             <!-- Contact Info (예약 정보로 변경 가능) -->
             <template v-if="!showBookingInfo">
-                <button class="button" @click="shootConfetti">
-                🎉 Like
-            </button>
+                <!-- <button class="button" @click="shootConfetti">
+                  🎉 Like
+                </button> -->
+                
+                <h1 >Contact us</h1>
                 <div class="contact-info">
-                    <h1>Contact us</h1>
-                    <ul v-if="branches && branches.length > 0">
+
+                <div class="contact-info">
+                <div class="contact-info-item">
+                  <div class="contact-info-icon">
+                    <i class="fas fa-home"></i>
+                  </div>
+                  
+                  <div class="contact-info-content">
+                    <h4>Address</h4>
+                    <p>{{ currentBranch.location }}</p>
+                  </div>
+                </div>
+                
+                <div class="contact-info-item">
+                  <div class="contact-info-icon">
+                    <i class="fas fa-phone"></i>
+                  </div>
+                  
+                  <div class="contact-info-content">
+                    <h4>Phone</h4>
+                    <p>{{ currentBranch.phone }}</p>
+                  </div>
+                </div>
+                
+                <div class="contact-info-item">
+                  <div class="contact-info-icon">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  
+                  <div class="contact-info-content">
+                    <h4>Email</h4>
+                  <p>{{ currentBranch.email }}</p>
+                  </div>
+                </div>
+              </div>
+                    <!-- <li class="branch-item">
+                      <div class="contact-info-icon">
+                      <i class="fas fa-home"></i>
+                    </div>
+                    <strong>{{ currentBranch.branch_name }}</strong><br>
+                    Email: {{ currentBranch.email }}<br>
+                    Phone: {{ currentBranch.phone }}<br>
+                    Store Phone Number: {{ currentBranch.branch_call }}
+                  </li> -->
+                    <!-- <ul v-if="branches && branches.length > 0">
                         <li v-for="branch in branches" :key="branch.id" class="branch-item">
                             <strong>{{ branch.branch_name }}</strong><br>
                             Email: {{ branch.email }}<br>
                             Phone: {{ branch.phone }}<br>
                             Store Phone Number: {{ branch.branch_call }}
-                            <!-- <hr/> -->
+                        
                         </li>
                         <br>
-                    </ul>
+                    </ul> -->
                 </div>
             </template>
         </component>
@@ -67,12 +105,16 @@ export default {
     data() {
         return {
             showBookingInfo : false,
-            branches:[]
+            branches:[],
+            //branchID: this.$route.params.branchID,
+            currentBranch: null, // 현재 선택된 브랜치
         };
     },  
     mounted() {
-    this.fetchBranches();
+      this.fetchBranches();
+      
     },
+ 
     components: {
         CurrentTime,
         ConfirmDetail,
@@ -96,7 +138,14 @@ export default {
         //firebase관련 추가로 repsonse.data뒤에 branches 입력
         this.branches = response.data.branches;
         //console.log("### 전체 response 객체 ### :", response);
-        console.log("### Branches data 나오라고 ### :", response.data);
+        console.log("### Branches data 나오라고 ### :", this.branches);
+        //현재 브랜치에 해당하는 것만 필터.
+        //console.log('BranchID ;:: ' +  ${branchID});
+        const branchID = String(this.$route.params.branchID);
+        console.log('BranchID ;:: ' + branchID);
+        // branchID에 해당하는 데이터만 currentBranch에 저장
+        this.currentBranch = this.branches.find(branch => branch.branch_id === branchID);
+        console.log(this.currentBranch);
       } catch (error) {
         console.error("#### Error fetching branches ##### :", error);
       }
@@ -171,18 +220,6 @@ a{
     z-index: 10;               /* 버튼이 다른 요소들 위로 오게 */
 }
 
-.btn-book {
-    background-color: #ffb3b3;
-    color: white;
-    text-decoration: none;
-    padding: 20px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    z-index: 1;
-    position: relative;
-    /* margin-top: 220px; <-- 이거 삭제!!! */
-}
-
 .background-image{
     width: 100vw; /* 뷰포트 전체 너비를 차지하도록 설정 */
     margin: 0 auto; /* 가로 중앙 정렬 */
@@ -254,9 +291,9 @@ a{
     margin-top: 20px;
     justify-content: center;
     text-align: left;
-    color: #003366;
+    color: #ffffff;
     padding: 20px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+    /* box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08); */
     margin: 0 auto; /* 가로 중앙 정렬 */
     width: 80%; /* 또는 적절한 width 설정 */
 }
@@ -264,6 +301,7 @@ a{
 .branch-item{
     margin-top: 10px;
     margin-bottom: 30px; /* 각 항목 간의 간격을 넓히기 */
+    margin:40px;
 }
 
 
@@ -308,5 +346,39 @@ button {
 
 .button:active {
   transform: scale(1.01);
+}
+
+
+.contact-info-item {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.contact-info-icon {
+  height: 70px;
+  width: 70px;
+  background-color: #eb6d54;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.contact-info-icon i {
+  font-size: 30px;
+  line-height: 70px;
+}
+
+.contact-info-content {
+  margin-left: 20px;
+}
+
+.contact-info-content h4 {
+  color: #657C6A;
+  font-size: 1.4em;
+  margin-bottom: 5px;
+}
+
+.contact-info-content p {
+  color: #657C6A;
+  font-size: 1em;
 }
 </style>

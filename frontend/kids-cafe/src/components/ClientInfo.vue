@@ -2,7 +2,7 @@
     <div id="app">
         <BookingBar/>
         <!-- booking process (2단계) -->
-        <BookingProcess/>
+        <!-- <BookingProcess/> -->
         <!-- 현재 시간 -->
         <CurrentTime/>
         <div class="main-card">

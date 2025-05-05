@@ -1,7 +1,7 @@
 <template>
   <div>
         <BookingBar/>
-        <BookingProcess/>
+        <!-- <BookingProcess/> -->
         <div>
             <!-- 현재 시간 -->
             <div><CurrentTime/></div>
