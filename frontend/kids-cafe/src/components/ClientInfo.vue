@@ -101,13 +101,17 @@
                     </div>
                 </form>
             </div>
-    </div>
+        </div>
+        <!-- ✅ 아래 여백 주기 -->
+        <div style="margin-top: 150px;"></div>
+         <Footer/>
     </div>
 </template>
 
 <script>
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
+import Footer from '../components/Footer.vue';
 import BookingProcess from '../components/BookingProcess.vue';
 import BookingBar from '../components/BookingBar.vue';
 
@@ -115,7 +119,8 @@ export default {
     components:{
         CurrentTime,
         BookingProcess,
-        BookingBar
+        BookingBar,
+        Footer
     },
     data(){
         return{

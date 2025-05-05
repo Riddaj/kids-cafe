@@ -105,12 +105,16 @@
                     </div>
                 </div>
             </div>
+        <!-- ✅ 아래 여백 주기 -->
+        <div style="margin-top: 150px;"></div>
+         <Footer/>
     </div>
 </template>
 
 <script>
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
+import Footer from '../components/Footer.vue';
 import { useRoute, useRouter } from "vue-router"
 //import { ref, computed, watch } from "vue"; // ✅ watch 추가
 import { ref, computed, watch, onMounted } from "vue"; 
@@ -119,7 +123,8 @@ import BookingProcess from '../components/BookingProcess.vue';
 export default {
     components:{
         CurrentTime,
-        BookingProcess
+        BookingProcess,
+        Footer
     },
     data(){
         return{

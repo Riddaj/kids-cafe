@@ -26,7 +26,10 @@
                         </tr>
                         <tr>
                             <td>
-                                <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd" inline @change="onDateChange"></vue3-datepicker>
+                                <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd" 
+                                inline
+                                :auto-apply="true" 
+                                @change="onDateChange"></vue3-datepicker>
                             </td>
                         </tr>
                         <tr>
@@ -73,6 +76,9 @@
                     </table>
              </div>
          </div>
+        <!-- ✅ 아래 여백 주기 -->
+        <div style="margin-top: 150px;"></div>
+         <Footer/>
   </div>
 </template>
 <script>
@@ -80,6 +86,7 @@ import { useRoute } from 'vue-router';
 import axios from 'axios'; // axios를 import 추가
 import CurrentTime from '../components/CurrentTime.vue';
 import BookingBar from '../components/BookingBar.vue';
+import Footer from '../components/Footer.vue';
 import BookingProcess from '../components/BookingProcess.vue';
 import { ref, computed, watch } from "vue"; // ✅ watch 추가
 import Vue3Datepicker from '@vuepic/vue-datepicker';
@@ -95,7 +102,8 @@ export default {
         CurrentTime,
         Vue3Datepicker,
         BookingProcess,
-        BookingBar
+        BookingBar,
+        Footer
     }, 
      data() {
          return {

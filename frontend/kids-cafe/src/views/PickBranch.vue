@@ -173,7 +173,7 @@ body {
   left: 0;
   right: 0;
   height: 100%; /* 전체 덮거나, 원하면 height: 40% 등으로 조정 */
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, #0a8066 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, #ffeb91 100%);
   border-radius: 15px;
   pointer-events: none; /* 클릭 이벤트 방지 */
 }

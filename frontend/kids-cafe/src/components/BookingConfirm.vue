@@ -63,11 +63,15 @@
                 <button type="submit" class="submit-button">go home</button>
             </router-link>
         </div>
+        <!-- ✅ 아래 여백 주기 -->
+        <div style="margin-top: 150px;"></div>
+         <Footer/>
 </div>
 </template>
 
 <script>
 import BookingBar from '../components/BookingBar.vue';
+import Footer from '../components/Footer.vue';
 
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -77,7 +81,8 @@ const bookingData = ref({});  // 기본값을 빈 객체로 설정
 
 export default {
   components:{
-    BookingBar
+    BookingBar,
+    Footer
   },
   name: 'BookingConfirm',
   setup() {
