@@ -28,9 +28,13 @@
                         <a :href="`/parties-events/${this.$route.params.branchID}`"><span>Parties &amp; Events</span></a>
                     </li>
                     <!-- </li><li id="menu-item-3047" class="menu-item" data-width="110.012" :class="{ 'active': activeMenu === 'Cafe Menu' }" @click="setActiveMenu('Cafe Menu')"> -->
-                    <li id="menu-item-3047" class="menu-item">
+                    <!-- <li id="menu-item-3047" class="menu-item">
                         <a :href="`/menu/${this.$route.params.branchID}`" class="sf-with-ul"><span>Cafe Menu</span></a>
-                    </li><li id="menu-item-3048" class="menu-item">
+                    </li> -->
+                    <li class="menu-item">
+                        <a :href="`/entryrules/${this.$route.params.branchID}`"><span>Entry Rules</span></a>
+                    </li>
+                    <li id="menu-item-3048" class="menu-item">
                         <a :href="`/faq/${this.$route.params.branchID}`"><span>FAQ</span></a>
                     </li>
                     <li class="menu-item">

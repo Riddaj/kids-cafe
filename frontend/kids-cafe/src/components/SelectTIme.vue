@@ -15,7 +15,7 @@
                     <div>Room deposit: {{ selectedroom.RoomDeposit }}</div>
                     <div>{{ displayWeekdayPrice  }}</div>
                     <div>{{ displayWeekendPrice }}</div>
-                    <div>{{ selectedroom.Description }}</div>
+                    <div><p class="multiline">{{ selectedroom.Description }}</p></div>
                 </div>
              </div>
              <div class="main-time-pick">
@@ -313,6 +313,11 @@ tr {
 
 td {
   padding: 10px;        /* 셀 안의 내용에 여백 */
+}
+
+.multiline {
+  white-space: pre-line;
+  text-align: left;
 }
 
 .button-td{

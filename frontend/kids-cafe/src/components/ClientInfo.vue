@@ -25,8 +25,19 @@
                             <div class="section-title">Kid's Information</div>
                             <div class="form-row">
                                 <label>Kid's Name: </label><input v-model="kid_name" type="text" class="info-detail-input" />
-                                <label>Gender: </label><input v-model="kid_gender" type="text" class="info-detail-input" />
-                                <label>Age Turning: </label><input v-model="kid_age" type="text" class="info-detail-input" />
+                                <label>Gender: </label>
+                                <select v-model="kid_gender" class="info-detail-input">
+                                    <option disabled value="">Please select</option>
+                                    <option value="Girl">Girl</option>
+                                    <option value="Boy">Boy</option>
+                                </select>
+                                <!-- <input v-model="kid_gender" type="text" class="info-detail-input" /> -->
+                                <label>Age Turning: </label>
+                                <select v-model="kid_age" class="info-detail-input">
+                                    <option disabled value="">Please select</option>
+                                    <option v-for="n in 12" :key="n" :value="n">{{ n }}</option>
+                                </select>
+                                <!-- <input v-model="kid_age" type="text" class="info-detail-input" /> -->
                             </div>
                         </div>
                         <div class="contact-info">
@@ -43,13 +54,15 @@
                             </div>
                         </div>
                         <div class="contact-info">
-                            <div class="section-title">Optional Service</div>
+                            <div class="section-title">Optional Service 
+                            </div>
                             <div class="form-row">
                                 <label><input type="checkbox" v-model="balloonDecorationsChecked" class="info-detail-check" />Balloon Decorations</label>
                             </div>
                             <div v-if="balloonDecorationsChecked" class="form-row">
                                 <label>Balloon Decorations Theme: </label>
                                 <input v-model="balloonDecorationsTheme" type="text" class="info-detail-input" />
+                                <p style="font-size: 15px; color: #f0598b;">🎈For more details, we’ll be in contact with you soon.</p>
                             </div>
                         </div>
                         <div class="contact-info">
@@ -57,7 +70,8 @@
                             <div class="form-row">
                                 <label><input type="checkbox" value="Halal" v-model="selectedAllergies" class="info-detail-check"/>Halal</label>
                                 <label><input type="checkbox" value="Non-Halal" v-model="selectedAllergies" class="info-detail-check"/>Non-Halal</label>
-                                <label><input type="checkbox" value="Veggie" v-model="selectedAllergies" class="info-detail-check"/>Veggie</label>
+                                <label><input type="checkbox" value="Veggie" v-model="selectedAllergies" class="info-detail-check"/>Veggie(includes Chicken)</label>
+                                <label><input type="checkbox" value="Veggie" v-model="selectedAllergies" class="info-detail-check"/>Strict vegan</label>
                                 <!-- 
                                     <p v-if="Array.isArray(selectedAllergies) && selectedAllergies.length > 0">
                                         {{ selectedAllergies }}

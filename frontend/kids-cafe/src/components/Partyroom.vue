@@ -19,7 +19,7 @@
                             {{ partyroom.RoomName }}<br>
                             <hr/>
                             Deposit: {{ partyroom.RoomDeposit }}<br>
-                            <div>{{ partyroom.Description }}</div>
+                            <div><p class="multiline">{{ partyroom.Description }}</p></div>
                         </div>
                         <div class="description">
                             <router-link :to="`/book_a_party/select-time/${partyroom.RoomID}?branch_id=${partyroom.BranchID}&room_name=${partyroom.RoomName}`" class="select-room">
@@ -108,6 +108,12 @@ export default {
 .wrapper{
     justify-content: center;
 }
+
+.multiline {
+  white-space: pre-line;
+  text-align: left;
+}
+
 .company-logo-and-name{
   color: white;
   top: 50%; /* 수직 중앙 정렬 */
