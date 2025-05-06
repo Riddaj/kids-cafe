@@ -89,7 +89,7 @@
                             <div class="form-row">
                                 <select v-model="payment_method" class="info-detail-input" style="width: 350px;">
                                 <option disabled value="">-- Please select --</option>
-                                <option value="deposit and text us">Bank Transfer (Please text us after payment)</option>
+                                <option value="deposit and text us">Bank Transfer and Send payment screenshot by text</option>
                                 <option value="pay at cafe and confirm with a staff">Pay at Café and confirm with a staff</option>
                                 </select>
                             </div>
