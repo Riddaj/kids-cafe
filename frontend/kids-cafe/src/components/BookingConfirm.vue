@@ -59,7 +59,7 @@
             Thank you.
         </div>
         <div class="button-container">
-            <router-link :to="`/`">
+            <router-link :to="`/home/${bookingData.branch_id}`">
                 <button type="submit" class="submit-button">go home</button>
             </router-link>
         </div>
