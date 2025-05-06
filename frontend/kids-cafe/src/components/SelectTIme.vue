@@ -29,7 +29,7 @@
                                 <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd" 
                                 inline
                                 :auto-apply="true" 
-                                @change="onDateChange"></vue3-datepicker>
+                                @update:modelValue="onDateChange"></vue3-datepicker>
                             </td>
                         </tr>
                         <tr>
@@ -156,9 +156,11 @@ export default {
     this.fetchSelectedroomData(roomID);
   },
     methods: {
+        // 선택된 날짜가 바뀔 때 시간, 가격,,, 초기화
         onDateChange(date) {
-            // 선택된 날짜가 바뀔 때 alert 띄우기
-            alert(`선택된 날짜는 ${date}입니다.`);
+            console.log(`선택된 날짜는 ${date}입니다.`);
+            this.selectedTime = null;
+
         },
         async fetchSelectedroomData(roomId) {
         console.log("📌 Axios 요청 보냄 - room_Id:", this.roomID);
@@ -179,7 +181,16 @@ export default {
                 console.error('Error fetching selected room data:', error);
             }
         },
+        /**
+         * 시간 선택
+         */
         async selectTime(option) {
+            if (!this.selectedDate) {
+                alert("Please select a date first.🎈");
+                return;
+            }
+
+
             this.selectedTime = option;  // 선택된 옵션을 저장
             console.log("선택된 시간:", this.selectedTime); // 콘솔로 확인
 
@@ -191,10 +202,6 @@ export default {
             const todayString = today.toISOString().split('T')[0]; // '2025-04-24' 형식으로 변환
             console.log("%^%^%^%^ today ^%^%^%^ = ", todayString);
             
-            if (!this.selectedDate) {
-                alert("Please select a date first.🎈");
-            return;
-            }
 
             // DD-MM-YYYY 형식을 YYYY-MM-DD 형식으로 변환
             const [day, month, year] = selectedDate.split('-');
@@ -273,14 +280,17 @@ export default {
             return dateandday;
 
         }, 
+        // 날짜 선택
         selectedPrice(){
             // if (!this.selectedTime || !this.selectedDate) 
             //     return alert("Please select date and time for the party.");
+            console.log("previously selected Date ::::" + this.selectedDate);
 
             const date = new Date(this.selectedDate);
             const day = date.getDay(); // 0: 일요일, 6: 토요일
             const isWeekend = (day === 0 || day === 6);
 
+            //지금 선택한 날짜
             console.log("date --= ===== ", day);
             console.log("isweekend --= ===== ", isWeekend);
             const suffix = this.roomID.slice(-2);
