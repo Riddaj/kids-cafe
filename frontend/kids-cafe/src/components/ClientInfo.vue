@@ -16,6 +16,7 @@
                     <!-- <p>Day of Week: {{ formattedDate.dayofweek }}</p> -->
                     <p>Selected Time: {{ bookingDetails.selectedTime }}</p>
                     <p>Room price: {{ bookingDetails.selectedPrice }}</p>
+                    <p>Room Deposit: {{ bookingDetails.roomDeposit }}</p>
                 </div>
             </div>
             <div class="client-info-card">
@@ -84,7 +85,7 @@
                             <div class="form-row"><input type="text" v-model="addRequirement" class="addRequirement"/></div>
                         </div>
                         <div class="contact-info">
-                            <div class="section-title">Payment Method</div>
+                            <div class="section-title">Payment Method<p style="color: #f0598b; font-size: 15px;">Room Deposit: {{ bookingDetails.roomDeposit }}</p></div>
                             <div class="form-row">
                                 <select v-model="payment_method" class="info-detail-input" style="width: 350px;">
                                 <option disabled value="">-- Please select --</option>
@@ -93,7 +94,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="contact-info" v-if="paymentMethod === 'deposit and text us'">
+                        <div class="contact-info" v-if="payment_method === 'deposit and text us'">
                             <div class="contact-info">
                                 bank_bsb : 62245<br>
                                 bank_account : 10556992
