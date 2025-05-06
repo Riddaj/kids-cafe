@@ -47,6 +47,8 @@ func main() {
 	r.GET("/api/foodoptions", controllers.Getfoodoptions)
 	r.GET("/api/bookings/check", controllers.CheckBookingAvailability)
 	r.POST("/api/save-party/:branch_id", controllers.SaveParty)
+	//파티 정보 불러오기
+	r.GET("/api/get-party/:branch_id", controllers.GetParty)
 	r.GET("/api/menu/:branch_id", controllers.GetMenu)
 	r.GET("/api/price/:branch_id", controllers.GetPrice)
 	r.GET("/api/faq", controllers.GetFAQ)

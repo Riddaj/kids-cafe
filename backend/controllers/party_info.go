@@ -74,38 +74,60 @@ func SaveParty(c *gin.Context) {
 		"message": "파티가 성공적으로 추가되었습니다.",
 	})
 
-	// if c.Request.Method == http.MethodPost {
-	// 	var party models.Party
-
-	// 	// JSON 요청 바디 파싱
-	// 	if err := json.NewDecoder(c.Request.Body).Decode(&party); err != nil {
-	// 		fmt.Println("❌ JSON 파싱 에러:", err)
-	// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 		return
-	// 	}
-
-	// 	fmt.Printf("📌 받은 데이터: %+v\n", party) // 🔴 디버깅 로그 추가
-
-	// 	// Firebase 초기화
-	// 	firebase.InitializeFirebase()
-
-	// 	// Firestore 클라이언트 가져오기
-	// 	client, err := firebase.GetFirestoreClient()
-	// 	if err != nil {
-	// 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error connecting to Firestore: %v", err)})
-	// 		return
-	// 	}
-
-	// 	// Firestore에 파티 정보 저장
-	// 	_, _, err = client.Collection("party").Add(context.Background(), party)
-	// 	if err != nil {
-	// 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error saving party to Firestore: %v", err)})
-	// 		return
-	// 	}
-
-	// 	// 성공적인 응답
-	// 	c.JSON(http.StatusOK, gin.H{"message": "Party booking saved successfully"})
-	// } else {
-	// 	c.JSON(http.StatusMethodNotAllowed, gin.H{"error": "Invalid request method"})
-	// }
 }
+
+// 모든 지점(branch) 목록을 가져오는 API (특정 branch_id에 대한 필터 추가)
+func GetParty(c *gin.Context) {
+	// GetPartyrooms 함수 호출, branchID는 URL 파라미터로 받음
+	parties, err := models.GetParty(c)
+	if err != nil {
+		// GetPartyrooms에서 error가 발생한 경우
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 데이터가 없으면 404 Not Found 응답
+	if parties == nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No parties found for this branch"})
+		return
+	}
+
+	// 정상적으로 partyrooms 데이터를 반환
+	c.JSON(http.StatusOK, gin.H{"parties": parties})
+
+}
+
+// if c.Request.Method == http.MethodPost {
+// 	var party models.Party
+
+// 	// JSON 요청 바디 파싱
+// 	if err := json.NewDecoder(c.Request.Body).Decode(&party); err != nil {
+// 		fmt.Println("❌ JSON 파싱 에러:", err)
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+
+// 	fmt.Printf("📌 받은 데이터: %+v\n", party) // 🔴 디버깅 로그 추가
+
+// 	// Firebase 초기화
+// 	firebase.InitializeFirebase()
+
+// 	// Firestore 클라이언트 가져오기
+// 	client, err := firebase.GetFirestoreClient()
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error connecting to Firestore: %v", err)})
+// 		return
+// 	}
+
+// 	// Firestore에 파티 정보 저장
+// 	_, _, err = client.Collection("party").Add(context.Background(), party)
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error saving party to Firestore: %v", err)})
+// 		return
+// 	}
+
+// 	// 성공적인 응답
+// 	c.JSON(http.StatusOK, gin.H{"message": "Party booking saved successfully"})
+// } else {
+// 	c.JSON(http.StatusMethodNotAllowed, gin.H{"error": "Invalid request method"})
+// }

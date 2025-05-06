@@ -8,13 +8,14 @@ import (
 	"cloud.google.com/go/firestore"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/johnnydev/kids-cafe-backend/firebase"
 )
 
 type Party struct {
 	BranchID                  string   `firestore:"branch_id"`
 	PartyID                   string   `firestore:"party_id"`
-	PartyroomID               string   `firestore:"partyroom_id"`
-	PartyroomName             string   `firestore:"partyroom_name"`
+	PartyroomID               string   `json:"partyroom_id" firestore:"partyroom_id"`
+	PartyroomName             string   `json:"partyroom_name" firestore:"partyroom_name"`
 	Partydate                 string   `firestore:"partydate"`
 	Partytime                 string   `firestore:"partytime"`
 	PartyroomPrice            int      `firestore:"partyroom_price"`
@@ -75,4 +76,55 @@ func SaveParty(ctx *gin.Context, client *firestore.Client) (Party, error) {
 	})
 
 	return party, nil
+}
+
+// 모델 함수 - Firestore에서 party 데이터를 가져오는 함수
+func GetParty(c *gin.Context) ([]Party, error) {
+	//branchIDStr := c.Param("branch_id")
+	//branchID, err := strconv.Atoi(branchIDStr) //문자열 int로 변환
+
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid branch_id"})
+	// 	return nil, err // 오류 처리 후 적절히 반환
+	// }
+
+	branchID := c.Param("branch_id") // 문자열 그대로 사용
+
+	client, err := firebase.GetFirestoreClient()
+	if err != nil {
+		// Firestore 클라이언트 연결 실패 시 에러 반환
+		return nil, fmt.Errorf("failed to get Firestore client: %v", err)
+	}
+	defer client.Close() // 클라이언트 종료
+
+	// "partyrooms" 컬렉션의 모든 문서 가져오기
+	iter := client.Collection("party").Where("branch_id", "==", branchID).Documents(c)
+	var parties []Party
+
+	for {
+		doc, err := iter.Next()
+		if err != nil {
+			break
+		}
+
+		var party Party
+		//doc.DataTo(&partyroom)
+		if err := doc.DataTo(&party); err != nil {
+			// DataTo에서 오류가 나면 오류 메시지를 출력하고, 해당 문서 건너뛰기
+			log.Printf("#### Error while converting document data ####: %v", err)
+			continue
+		}
+		//partyroom.RoomID = doc.Ref.ID // Firestore 문서 ID 저장
+		party.PartyID = doc.Data()["party_id"].(string) // 문서 내 room_id 필드 값 가져오기
+
+		parties = append(parties, party)
+	}
+
+	// 데이터가 없을 경우
+	if len(parties) == 0 {
+		return nil, nil // 데이터가 없으면 nil 반환
+	}
+
+	// 데이터가 있을 경우
+	return parties, nil // 정상적으로 partyrooms 반환
 }
