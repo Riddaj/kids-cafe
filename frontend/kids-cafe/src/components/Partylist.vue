@@ -1,8 +1,38 @@
 <template>
-  <div id="app">
+  <div class="party-table-wrapper">
     <h1>Party list</h1>
     <div class="table-container">
-
+        <table class="party-table">
+        <thead>
+          <tr>
+            <th>Kid's Name</th>
+            <th>Branch</th>
+            <th>Room type</th>
+            <th>Party Date(dd/mm/yyyy)</th>
+            <th>Time</th>
+            <th>Owner</th>
+            <th>Phone</th>
+            <!-- <th>Balloon Theme</th> -->
+            <th>Food</th>
+            <th>Additional Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(party, index) in parties" :key="index">
+            <td>{{ party.kid_name }}</td>
+            <td>{{ party.BranchID }}</td>
+            <td>{{ party.partyroom_name }}</td>
+            <td>{{ party.Partydate }}</td>
+            <td>{{ party.Partytime }}</td>
+            <!-- <td>${{ party.food_price }}</td> -->
+            <td>{{ party.owner_name }}</td>
+            <td>{{ party.owner_phone }}</td>
+            <!-- <td>{{ party.balloonDecorationsTheme }}</td> -->
+            <td>{{ party.selected_food }}</td>
+            <td>{{ party.addRequirement || '—' }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -42,6 +72,38 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.party-table-wrapper {
+  padding: 40px;
+  max-width: 100%;
+  overflow-x: auto;
+}
 
+.party-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.party-table thead {
+  background-color: #f97e7e;
+  color: white;
+}
+
+.party-table th,
+.party-table td {
+  border: 1px solid #ddd;
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.party-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.party-table tbody tr:hover {
+  background-color: #ffe6e6;
+}
 </style>
