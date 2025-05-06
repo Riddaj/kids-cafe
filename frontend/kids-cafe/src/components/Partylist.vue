@@ -13,6 +13,8 @@
             <th>Owner</th>
             <th>Phone</th>
             <th>Payment</th>
+            <th>Room Price</th>
+            <th>Food Price</th>
             <!-- <th>Balloon Theme</th> -->
             <th>Food</th>
             <th>Additional Note</th>
@@ -29,6 +31,8 @@
             <td>{{ party.owner_name }}</td>
             <td>{{ party.owner_phone }}</td>
             <td>{{ party.payment_method }}</td>
+            <td>{{ party.partyroom_price }}</td>
+            <td>{{ party.food_price }}</td>
             <!-- <td>{{ party.balloonDecorationsTheme }}</td> -->
             <td>{{ party.selected_food }}</td>
             <td>{{ party.addRequirement || '—' }}</td>

@@ -18,8 +18,8 @@ type Party struct {
 	PartyroomName             string   `json:"partyroom_name" firestore:"partyroom_name"`
 	Partydate                 string   `firestore:"partydate"`
 	Partytime                 string   `firestore:"partytime"`
-	PartyroomPrice            int      `firestore:"partyroom_price"`
-	FoodPrice                 string   `json:"food_price" firestore:"food_price"`
+	PartyroomPrice            int      `json:"partyroom_price" firestore:"partyroom_price"`
+	FoodPrice                 int      `json:"food_price" firestore:"food_price"`
 	OwnerPhone                string   `json:"owner_phone" firestore:"owner_phone"`
 	SelectedFood              []string `json:"selected_food" firestore:"selected_food"`
 	KidName                   string   `json:"kid_name" firestore:"kid_name"`
