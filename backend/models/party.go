@@ -33,7 +33,9 @@ type Party struct {
 	SpecialRequired           []string `json:"special_required" firestore:"special_required"`
 	OptionService             string   `json:"option_service" firestore:"option_service"`
 	AddRequirement            string   `json:"addRequirement"`
-	AgreeTerms                bool     `json:"agree_terms"`
+	PaymentMethod             string   `json:"payment_method" firestore:"payment_method"`
+	//DepositImageURL           string   `json:"deposit_image_url" firestore:"deposit_image_url"`
+	AgreeTerms bool `json:"agree_terms"`
 }
 
 // 테이블 이름을 명시적으로 설정

@@ -12,6 +12,7 @@
             <th>Time</th>
             <th>Owner</th>
             <th>Phone</th>
+            <th>Payment</th>
             <!-- <th>Balloon Theme</th> -->
             <th>Food</th>
             <th>Additional Note</th>
@@ -27,6 +28,7 @@
             <!-- <td>${{ party.food_price }}</td> -->
             <td>{{ party.owner_name }}</td>
             <td>{{ party.owner_phone }}</td>
+            <td>{{ party.payment_method }}</td>
             <!-- <td>{{ party.balloonDecorationsTheme }}</td> -->
             <td>{{ party.selected_food }}</td>
             <td>{{ party.addRequirement || '—' }}</td>
@@ -52,12 +54,23 @@ export default {
     this.fetchParty();
   },
   methods: {
+        // 날짜 문자열을 Date 객체로 변환
+      parseDate(str) {
+        const [day, month, year] = str.split('-');
+        return new Date(`${year}-${month}-${day}`);
+      },
       async fetchParty() {
         console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
         try {
           const response = await axios.get(`http://localhost:8081/api/get-party/${this.branchID}`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
-          this.parties = response.data.parties;
+        //this.parties = response.data.parties;
+
+          // 정렬: 날짜 오름차순
+        this.parties = response.data.parties.sort((a, b) => {
+          return this.parseDate(a.Partydate) - this.parseDate(b.Partydate);
+        });
+
           // 전체 응답 객체 찍어보기
           console.log("### 전체 response 객체 ### :", response);
           console.log("### parties data ### :", response.data.parties);

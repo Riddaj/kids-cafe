@@ -1,20 +1,6 @@
 <template>
     <div>
-        <header class="booking-header">
-                <div id="sb_menu" class="header_menu_wrapper">
-                    <ul class="header_navigation_nav" id="sb_menu_list_item_container">
-                        <li class="header__nav-item">
-                            <a class="go-home" href="/" target="_self">Twinkle Kids Cafe </a>
-                        </li>
-                        <li class="header__nav-item">
-                            <a class="go-my-booking" href="#client/bookings/type/upcoming">My Bookings</a>
-                        </li>
-                        <li class="header__nav-item">
-                            <a class="go-faq" href="#client/bookings/type/upcoming">FAQ</a>
-                        </li>
-                    </ul>
-                </div>
-            </header>
+        <BookingBar/>
             <!-- 메인 사진 and booking button -->
             <div class="wrapper">
                 <div><h1 class="company-logo-and-name">Twinkle Kids Cafe</h1></div>
@@ -119,12 +105,14 @@ import { useRoute, useRouter } from "vue-router"
 //import { ref, computed, watch } from "vue"; // ✅ watch 추가
 import { ref, computed, watch, onMounted } from "vue"; 
 import BookingProcess from '../components/BookingProcess.vue';
+import BookingBar from '../components/BookingBar.vue';
 
 export default {
     components:{
         CurrentTime,
         BookingProcess,
-        Footer
+        Footer,
+        BookingBar
     },
     data(){
         return{

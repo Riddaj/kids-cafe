@@ -21,10 +21,10 @@
       </swiper-slide>
     </swiper>
     <div class="hiring">
-      <img src="@/assets/partyroom.png">
+      <img :src="getPartyroomImage(branchID)" alt="party room" />
     </div>
     <div class="hiring">
-      <img src="@/assets/private.png">
+      <img :src="getPrivateRoomImage(branchID)" alt="private room" />
     </div>
     <Footer/>
   </div>
@@ -47,6 +47,7 @@ export default {
   },
   data() {
     return {
+      branchID: this.$route.params.branchID,
       images: [],
     };
   },
@@ -55,6 +56,24 @@ export default {
     return {
       modules: [Autoplay, Pagination, Navigation],
     };
+  },
+  methods: {
+    getPartyroomImage(branchID) {
+      const images = {
+        burwood: require('@/assets/B_hiring.png'),
+        hornsby: require('@/assets/H_hiring.png'),
+        // 필요 시 다른 지점 추가
+      };
+      return images[branchID];
+    },
+    getPrivateRoomImage(branchID) {
+      const images = {
+        burwood: require('@/assets/B_private.png'),
+        hornsby: require('@/assets/H_private.png'),
+        // 필요 시 다른 지점 추가
+      };
+      return images[branchID];
+    },
   },
   mounted() {
 

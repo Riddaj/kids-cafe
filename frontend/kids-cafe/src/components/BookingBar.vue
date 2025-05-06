@@ -4,7 +4,7 @@
             <div id="sb_menu" class="header_menu_wrapper">
                 <ul class="header_navigation_nav" id="sb_menu_list_item_container">
                     <li class="header__nav-item">
-                        <a class="go-home" :href="`/home/${this.$route.params.branchID}`" target="_self">Twinkle Kids Cafe </a>
+                        <a class="go-home" :href="`/home/${branchID}`" target="_self">Twinkle Kids Cafe </a>
                     </li>
                     <!-- 
                         <li class="header__nav-item">
@@ -12,7 +12,7 @@
                         </li>
                     -->
                     <li class="header__nav-item">
-                        <a class="go-faq" :href="`/faq/${this.$route.params.branchID}`">FAQ</a>
+                        <a class="go-faq" :href="`/faq/${branchID}`">FAQ</a>
                     </li>
                 </ul>
             </div>
@@ -35,8 +35,20 @@ export default {
     }
   },
     async created() {
-    const branchID = this.$route.params.branchID
+        // URL에 branch_id가 있을 경우 localStorage에 저장
+        const branchFromQuery = this.$route.query.branch_id || this.$route.query.branchID;
+        if (branchFromQuery) {
+        localStorage.setItem('branchID', branchFromQuery);
+        }
+        //const branchID = this.$route.params.branchID
+        //const branchID = this.$route.query.branch_id;
   },
+  computed: {
+        branchID() {
+        // localStorage에서 branchID 가져오기
+        return localStorage.getItem('branchID') || 'burwood'; // 기본값 설정
+        }
+    }
 }
 </script>
 

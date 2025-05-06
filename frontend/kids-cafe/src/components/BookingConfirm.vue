@@ -36,8 +36,8 @@
                         <td>{{ bookingData.owner_phone || 'N/A' }}</td>
                     </tr>
                     <tr>
-                        <td>Email</td>
-                        <td>{{ bookingData.email || 'N/A' }}</td>
+                        <td>Payment method</td>
+                        <td>{{ bookingData.payment_method || 'N/A' }}</td>
                     </tr>
                     <tr>
                         <td>Selected Foods</td>

@@ -84,9 +84,38 @@
                             <div class="form-row"><input type="text" v-model="addRequirement" class="addRequirement"/></div>
                         </div>
                         <div class="contact-info">
-                            <div class="section-title">Deposit Screenshot | Selected Room Deposit : {{ this.bookingDetails.roomDeposit }}</div>
-                            <div class="form-row"><input type="file" class="deposit"/></div>
+                            <div class="section-title">Payment Method</div>
+                            <div class="form-row">
+                                <select v-model="payment_method" class="info-detail-input" style="width: 350px;">
+                                <option disabled value="">-- Please select --</option>
+                                <option value="deposit and text us">Bank Transfer (Please text us after payment)</option>
+                                <option value="pay at cafe and confirm with a staff">Pay at Café and confirm with a staff</option>
+                                </select>
+                            </div>
                         </div>
+                        <div class="contact-info" v-if="paymentMethod === 'deposit and text us'">
+                            <div class="contact-info">
+                                bank_bsb : 62245<br>
+                                bank_account : 10556992
+                            </div>
+                        </div>
+                        <!-- Deposit 파일 업로드 영역 (선택된 경우에만 표시) 
+                        <div class="contact-info" v-if="paymentMethod === 'deposit'">
+                            <div class="contact-info">
+                                <div class="section-title">Deposit Screenshot | Selected Room Deposit : {{ this.bookingDetails.roomDeposit }}</div>
+                                <div class="form-row">
+                                    <input type="file" 
+                                    style="display: none"
+                                    ref="depositFileInput" 
+                                    class="deposit" 
+                                    @change="handleFileChange"/>
+                                    <button class="submit-button" @click="triggerFileInput">Upload Screenshot</button>
+                                    <p v-if="depositFileName">📎 Selected: {{ depositFileName }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                        <div style="margin-bottom: 50px;"></div>
                         <div class="agree-terms">
                             ✨ All deposit payments are non-refundable. If you need to reschedule, at least 4
                             weeks’ notice is required.<br/>
@@ -129,6 +158,8 @@ import Footer from '../components/Footer.vue';
 import BookingProcess from '../components/BookingProcess.vue';
 import BookingBar from '../components/BookingBar.vue';
 
+
+
 export default {
     components:{
         CurrentTime,
@@ -138,6 +169,9 @@ export default {
     },
     data(){
         return{
+            paymentMethod: '',         // ✅ 초기화되어 있어야 함!
+           // depositImageFile: null,
+           // depositFileName: '',
             balloonDecorationsChecked: false, // 체크박스 상태
             balloonDecorationsTheme: '',      // 테마 입력
             bookingDetails:{
@@ -160,6 +194,7 @@ export default {
             email: '',
             option_service: '',
             selectedAllergies: [], // checkbox는 배열로
+            payment_method:''
         }
     },
     computed:{
@@ -196,6 +231,16 @@ export default {
         this.fetchSelectedroomData(this.bookingDetails.roomID);
     },
     methods:{
+        // triggerFileInput() {
+        //     this.$refs.depositFileInput.click();
+        // },
+        // handleFileChange(event) {
+        //     const file = event.target.files[0];
+        //     if (file) {
+        //         this.depositImageFile = file;
+        //         this.depositFileName = file.name; // ✅ 파일 이름 저장
+        //     }
+        // },
         //기존 정보 불러오기
         async fetchSelectedroomData(roomId) {
         console.log("📌 Axios 요청 보냄 - room_Id:", this.bookingDetails.roomID);
@@ -222,31 +267,46 @@ export default {
             console.log("선택된 시간:", this.selectedTime); // 콘솔로 확인
         },
         async submitBooking() {
+            if (!this.agree_terms) {
+                alert("Please agree to the terms and conditions before proceeding.");
+                return;
+            }
+
             try {
-            // form에 입력한 데이터 수집
-            const bookingData = {
-                partyroom_id: this.bookingDetails.roomID,
-                branch_id: this.selectedroom.BranchID,
-                partyroom_name: this.bookingDetails.roomName,
-                partydate: this.bookingDetails.selectedDate,
-                partytime: this.bookingDetails.selectedTime,
-                partyroom_price: this.bookingDetails.selectedPrice,
-                food_price: this.bookingDetails.food_price,
-                selected_food: this.bookingDetails.selectedFoodOptions,
-                kid_name: this.kid_name,
-                kid_gender: this.kid_gender,
-                kid_age: Number(this.kid_age),
-                owner_name: this.owner_name,
-                kid_relation: this.kid_relation,
-                owner_phone: this.owner_phone,
-                email: this.email,
-                option_service: this.option_service,
-                special_required: this.selectedAllergies,
-                balloonDecorationsChecked: this.balloonDecorationsChecked,
-                balloonDecorationsTheme: this.balloonDecorationsTheme,
-                addRequirement : this.addRequirement,
-                agree_terms: this.agree_terms
-            };
+            
+                //const formData = new FormData();
+                // form에 입력한 데이터 수집
+                const bookingData = {
+                //formData.append('bookingData', JSON.stringify({
+                    partyroom_id: this.bookingDetails.roomID,
+                    branch_id: this.selectedroom.BranchID,
+                    partyroom_name: this.bookingDetails.roomName,
+                    partydate: this.bookingDetails.selectedDate,
+                    partytime: this.bookingDetails.selectedTime,
+                    partyroom_price: this.bookingDetails.selectedPrice,
+                    food_price: this.bookingDetails.food_price,
+                    selected_food: this.bookingDetails.selectedFoodOptions,
+                    kid_name: this.kid_name,
+                    kid_gender: this.kid_gender,
+                    kid_age: Number(this.kid_age),
+                    owner_name: this.owner_name,
+                    kid_relation: this.kid_relation,
+                    owner_phone: this.owner_phone,
+                    email: this.email,
+                    option_service: this.option_service,
+                    special_required: this.selectedAllergies,
+                    balloonDecorationsChecked: this.balloonDecorationsChecked,
+                    balloonDecorationsTheme: this.balloonDecorationsTheme,
+                    addRequirement : this.addRequirement,
+                    agree_terms: this.agree_terms,
+                    payment_method : this.payment_method
+                };
+                //}));
+
+                // ✅ 파일 추가
+                // if (this.depositImageFile) {
+                //     formData.append('depositScreenshot', this.depositImageFile);
+                // }
 
             console.log("📦 Booking Data 전송 준비:", bookingData);
 
@@ -254,6 +314,12 @@ export default {
             console.log("📦📦📦 this.selectedroom.BranchID=== ", this.selectedroom.BranchID);
             // 백엔드로 POST 요청
             const response = await axios.post(`http://localhost:8081/api/save-party/${this.selectedroom.BranchID}`, bookingData);
+            
+            // const response = await axios.post(
+            //     `http://localhost:8081/api/save-party/${this.selectedroom.BranchID}`,
+            //     formData,
+            //     { headers: { 'Content-Type': 'multipart/form-data' } }
+            // );
 
             console.log("✅ 예약 성공:", response.data);
 
