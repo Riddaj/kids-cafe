@@ -164,7 +164,7 @@ export default {
 .swiper-overlay-text {
   position: absolute;
   top: 85%; /* 세로 기준 중앙 */
-  left: 25%; /* 가로 기준 중앙 */
+  left: 30%; /* 가로 기준 중앙 */
   transform: translate(-50%, -50%);
   z-index: 10;
   color: white;
