@@ -40,6 +40,9 @@
                     <li class="menu-item">
                         <a :href="`/contact/${this.$route.params.branchID}`"><span>Contact Us</span></a>
                     </li>
+                    <li class="menu-item">
+                        <a :href="`/login`"><span>Log In</span></a>
+                    </li>
                 </ul>
             </nav>
             <div class="btn-container">
@@ -110,7 +113,7 @@ li {
     display: flex;
     justify-content: space-between; /* 요소들을 가로로 균등하게 정렬 */
     align-items: center; /* 세로 정렬 */
-    padding: 10px 10px; /* 여백 설정 */
+    padding: 6px 6px; /* 여백 설정 */
     background-color: #fff; /* 배경색 설정 (원하는 색상으로 변경 가능) */
     margin: 0; /* 헤더의 외부 여백 제거 */
     position: fixed; /* 화면 맨 위에 고정 */
@@ -162,11 +165,11 @@ li {
 }
 
 .sc_layouts_menu_nav .menu-item {
-    padding: 10px 15px; /* 메뉴 항목 내부 여백 */
+    padding: 6px 11px; /* 메뉴 항목 내부 여백 */
     white-space: nowrap; /* 줄바꿈 방지 */
-    min-width: 120px; /* 최소 너비 설정 */
+    min-width: 100px; /* 최소 너비 설정 */
     height: 100%; /* 메뉴 항목의 높이에 맞게 설정 */
-    padding: 0 15px; /* 메뉴 항목의 좌우 여백 */
+    padding: 0 10px; /* 메뉴 항목의 좌우 여백 */
 }
 
 .sc_layouts_menu_nav .menu-item a {

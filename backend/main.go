@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/johnnydev/kids-cafe-backend/controllers"
 	"github.com/johnnydev/kids-cafe-backend/firebase"
+	"github.com/johnnydev/kids-cafe-backend/models"
 	// "github.com/johnnydev/kids-cafe-backend/models"
 )
 
@@ -48,11 +49,14 @@ func main() {
 	r.GET("/api/bookings/check", controllers.CheckBookingAvailability)
 	r.POST("/api/save-party/:branch_id", controllers.SaveParty)
 	//파티 정보 불러오기
-	r.GET("/api/get-party/:branch_id", controllers.GetParty)
+	r.GET("/api/get-party", controllers.GetParty)
 	r.GET("/api/menu/:branch_id", controllers.GetMenu)
 	r.GET("/api/price/:branch_id", controllers.GetPrice)
 	r.GET("/api/faq", controllers.GetFAQ)
 	r.POST("/api/addmenu/:branch_id", controllers.AddMenu)
+
+	//파티 컨펌
+	r.POST("/api/confirm-party", models.ConfirmPartyByID)
 	// 엔드포인트 확인
 	/*
 		r.GET("/api/branches", func(c *gin.Context) {

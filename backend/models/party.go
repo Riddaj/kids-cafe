@@ -35,7 +35,8 @@ type Party struct {
 	AddRequirement            string   `json:"addRequirement"`
 	PaymentMethod             string   `json:"payment_method" firestore:"payment_method"`
 	//DepositImageURL           string   `json:"deposit_image_url" firestore:"deposit_image_url"`
-	AgreeTerms bool `json:"agree_terms"`
+	AgreeTerms  bool `json:"agree_terms" firestore:"agree_terms"`
+	IsConfirmed bool `json:"is_confirmed" firestore:"is_confirmed"`
 }
 
 // 테이블 이름을 명시적으로 설정
@@ -56,6 +57,9 @@ func SaveParty(ctx *gin.Context, client *firestore.Client) (Party, error) {
 
 	fmt.Println("받은 아이 이름:", party.KidName)
 	fmt.Println("저나번호:", party.OwnerPhone)
+
+	// ✅ 기본값 설정
+	party.IsConfirmed = false
 
 	branchID := ctx.Param("branch_id")
 	log.Printf("############ branchID =%s", branchID)
@@ -90,7 +94,7 @@ func GetParty(c *gin.Context) ([]Party, error) {
 	// 	return nil, err // 오류 처리 후 적절히 반환
 	// }
 
-	branchID := c.Param("branch_id") // 문자열 그대로 사용
+	//branchID := c.Param("branch_id") // 문자열 그대로 사용
 
 	client, err := firebase.GetFirestoreClient()
 	if err != nil {
@@ -100,7 +104,9 @@ func GetParty(c *gin.Context) ([]Party, error) {
 	defer client.Close() // 클라이언트 종료
 
 	// "partyrooms" 컬렉션의 모든 문서 가져오기
-	iter := client.Collection("party").Where("branch_id", "==", branchID).Documents(c)
+	//iter := client.Collection("party").Where("branch_id", "==", branchID).Documents(c)
+	iter := client.Collection("party").Documents(c)
+
 	var parties []Party
 
 	for {
@@ -129,4 +135,35 @@ func GetParty(c *gin.Context) ([]Party, error) {
 
 	// 데이터가 있을 경우
 	return parties, nil // 정상적으로 partyrooms 반환
+}
+
+// party confirm
+func ConfirmPartyByID(c *gin.Context) {
+	var req struct {
+		PartyID string `json:"party_id"`
+	}
+
+	// JSON 요청 바디 바인딩
+	if err := c.ShouldBindJSON(&req); err != nil || req.PartyID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request"})
+		return
+	}
+
+	client, err := firebase.GetFirestoreClient()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Firestore 연결 실패"})
+		return
+	}
+	defer client.Close()
+
+	// 해당 문서를 찾아서 is_confirmed 필드만 업데이트
+	_, err = client.Collection("party").Doc(req.PartyID).Update(c, []firestore.Update{
+		{Path: "is_confirmed", Value: true},
+	})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "업데이트 실패"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "확정 완료"})
 }

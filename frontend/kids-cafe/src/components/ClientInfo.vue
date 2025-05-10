@@ -85,21 +85,36 @@
                             <div class="form-row"><input type="text" v-model="addRequirement" class="addRequirement"/></div>
                         </div>
                         <div class="contact-info">
-                            <div class="section-title">Payment Method<p style="color: #f0598b; font-size: 15px;">Room Deposit: {{ bookingDetails.roomDeposit }}</p></div>
-                            <div class="form-row">
-                                <select v-model="payment_method" class="info-detail-input" style="width: 350px;">
-                                <option disabled value="">-- Please select --</option>
-                                <option value="deposit and text us">Bank Transfer and Send payment screenshot by text</option>
-                                <option value="pay at cafe and confirm with a staff">Pay at Café and confirm with a staff</option>
-                                </select>
+                            <div class="section-title">
+                                <div value="deposit and text us">Bank Transfer and Send payment screenshot by text</div>
+                                <p style="color: #f0598b; font-size: 20px;">Room Deposit: {{ bookingDetails.roomDeposit }}</p>
+                                <div style="color: #f0598b; font-size: 15px;">To confirm your booking, the deposit must be verified.
+                                    <br> Kindly send a screenshot of your payment to 0493 314 669 at your earliest convenience.</div>
                             </div>
+                            <!-- <div class="form-row">
+                                 
+                                    <label>Please let us know your Receipt No: </label><input v-model="receipt_no" type="text" class="info-detail-input" />
+                                    
+                            </div>-->
+                            <!--<div class="form-row">
+                                
+                                <select v-model="payment_method" class="info-detail-input" style="width: 350px;">
+                                 <option disabled value="">-- Please select --</option>   
+                                <option value="deposit and text us">Bank Transfer and Send payment screenshot by text</option>-->
+                                <!-- 
+                                    <option value="pay at cafe and confirm with a staff">Pay at Café and confirm with a staff</option>
+                                   
+                                </select> 
+                            </div>-->
                         </div>
-                        <div class="contact-info" v-if="payment_method === 'deposit and text us'">
+                        <!-- <div class="contact-info" v-if="payment_method === 'deposit and text us'"> -->
+                            
                             <div class="contact-info">
                                 bank_bsb : 62245<br>
-                                bank_account : 10556992
+                                bank_account : 10556992<br>
+                               <!-- Pay ID: --> 
                             </div>
-                        </div>
+                         <!--</div> -->
                         <!-- Deposit 파일 업로드 영역 (선택된 경우에만 표시) 
                         <div class="contact-info" v-if="paymentMethod === 'deposit'">
                             <div class="contact-info">
@@ -275,6 +290,7 @@ export default {
 
             try {
             
+                console.log("📌 food_price 타입은:", typeof this.bookingDetails.food_price);
                 //const formData = new FormData();
                 // form에 입력한 데이터 수집
                 const bookingData = {

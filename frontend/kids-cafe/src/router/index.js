@@ -18,9 +18,10 @@ import AddMenu from '../components/AddMenu.vue';
 import Price from '../components/Price.vue';
 import PartiesEvents from '../components/PartiesEvents.vue';
 import AboutUs from '../components/AboutUs.vue';
-import Partylist from '../components/Partylist.vue';
+import AdminDashboard from '../components/AdminDashboard.vue';
 import Entryrules from '../components/Entryrules.vue';
 import Contact from '../components/Contact.vue';
+import Login from '../components/Login.vue';
 
 
 const routes = [
@@ -43,8 +44,9 @@ const routes = [
   { path: '/admin/menu/:branchID', component: AddMenu },
   { path: '/parties-events/:branchID', component: PartiesEvents },
   { path: '/about-us/:branchID', component: AboutUs },
-  { path: '/party-list/:branchID', component: Partylist },
+  { path: '/admin', component: AdminDashboard },
   { path: '/contact/:branchID', component: Contact },
+  { path: '/login', component: Login },
 ];
 
 const router = createRouter({
@@ -56,7 +58,18 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const defaultTitle = 'Twinkle Kids Cafe';
   document.title = to.meta.title || defaultTitle;
-  next();
+
+   // ✅ 2. 어드민 경로 보호
+   const requiresAuth = to.path.startsWith("/admin");
+   const token = localStorage.getItem("authToken");
+ 
+   if (requiresAuth && !token) {
+     next('/login/');
+   } else {
+     next();
+   }
+
+  // next();
 });
 
 

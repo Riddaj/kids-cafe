@@ -1,6 +1,8 @@
 <template>
     <div id="app" style="background-color: ivory;">
         <NavBar/>
+        <!-- Swiper + 텍스트 래퍼 -->
+      <div class="swiper-wrapper-container">
         <swiper
             ref="mySwiper"
             :spaceBetween="30"
@@ -20,6 +22,12 @@
                 <img :src="img" alt="gallery" class="w-full h-auto" />
             </swiper-slide>
         </swiper>
+        <!-- ✅ 텍스트 오버레이 -->
+        <div class="swiper-overlay-text">
+          <h1>Welcome to Twinkle Kids Cafe!</h1>
+          <p style="color: white;">Let’s play, learn, and celebrate!</p>
+        </div>
+      </div>
         <div>
             <section class="slider">
                     <div class="main-text">
@@ -105,6 +113,8 @@ export default {
         '/images/hornsby/IMG-20250415-WA0023.jpg',
         '/images/hornsby/IMG-20250415-WA0026.jpg',
         '/images/hornsby/IMG-20250415-WA0002.jpg',
+        '/images/hornsby/IMG-20250430-WA0003.jpg',
+        '/images/hornsby/IMG-20250430-WA0005.jpg',
       ];
     }
 
@@ -144,6 +154,34 @@ export default {
 </script>
 
 <style>
+.swiper-wrapper-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.swiper-overlay-text {
+  position: absolute;
+  top: 85%; /* 세로 기준 중앙 */
+  left: 25%; /* 가로 기준 중앙 */
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.6); 
+}
+
+.swiper-overlay-text h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.swiper-overlay-text p {
+  font-size: 1.5rem;
+  text-align: left;
+}
+
 #app {
     margin: 0;
     padding: 0;
