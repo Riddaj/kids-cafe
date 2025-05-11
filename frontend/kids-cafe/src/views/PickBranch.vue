@@ -64,7 +64,8 @@ export default {
     }, 
     getBranchImage(branch_id) {
             const images = {
-                'burwood' : "/images/burwood/IMG-20250415-WA0121.jpg",
+                'burwood' : "/images/burwood/main3.png",
+                //'burwood' : "/images/burwood/IMG-20250415-WA0121.jpg",
                 //'burwood': "https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359522132-RU2ZPENTVALEBF0Z47PG/285887484_694866768237604_5851615251096205906_n.jpg",
                 'hornsby': "/images/hornsby.jpg"
             };
