@@ -32,6 +32,8 @@
                   </div>
                   
                   <div class="contact-info-content">
+                    <h4>Branch</h4>
+                    <p>{{ currentBranch.branch_call }}</p>
                     <h4>Phone</h4>
                     <p>{{ currentBranch.phone }}</p>
                   </div>

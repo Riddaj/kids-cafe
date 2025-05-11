@@ -60,7 +60,7 @@ export default {
   methods: {
     getPartyroomImage(branchID) {
       const images = {
-        burwood: require('@/assets/B_hiring.png'),
+        burwood: require('@/assets/B_hiring2.png'),
         hornsby: require('@/assets/H_hiring.png'),
         // 필요 시 다른 지점 추가
       };

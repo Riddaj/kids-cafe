@@ -65,7 +65,7 @@
                     <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
                     <div class="event-content">
                         <li>Valid for entrance before 10am</li>
-                        <li  style="color: #f0598b;">Monday to Friday Only, <br>Except Public holidays</li><br>
+                        <li  style="color: #f0598b;">Monday to Friday Only, <br>Except Public holidays and School holidays</li><br>
                     </div>
                 </div>
                 <div class="event-card">
