@@ -16,7 +16,7 @@ var app *firebase.App
 
 // Firebase 초기화
 func InitializeFirebase() {
-	serviceAccount := "routes/kids-cafe-booking-project-firebase-adminsdk-fbsvc-e1544abf3a.json"
+	serviceAccount := "/etc/secrets/kids-cafe-booking-project-firebase-adminsdk-fbsvc-e1544abf3a.json"
 	opt := option.WithCredentialsFile(serviceAccount)
 	var err error
 	app, err = firebase.NewApp(context.Background(), nil, opt)

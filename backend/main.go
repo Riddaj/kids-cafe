@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -32,6 +33,11 @@ func main() {
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "Welcome to Kids Cafe API!"})
+	})
+
+	// ✅ Render용 Health Check
+	r.GET("/healthz", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok"})
 	})
 
 	// CORS 미들웨어 설정
@@ -69,8 +75,15 @@ func main() {
 	// CORS 미들웨어 설정
 	r.Use(cors.Default()) // 기본 설정 (모든 도메인 허용)
 
-	r.Run(":8081") // 백엔드 서버 실행
+	//r.Run(":8081") // 백엔드 서버 실행
+	port := os.Getenv("PORT") // ✅ Render에서 자동으로 지정됨
+	if port == "" {
+		port = "8081" // ✅ 로컬 개발 시 기본 포트
+	}
 
 	r.SetTrustedProxies(nil) // 프록시를 신뢰하지 않도록 설정
+
+	fmt.Println("🚀 Listening on port", port)
+	r.Run(":" + port) // ✅ 포트를 문자열로 이어 붙여 사용
 
 }
