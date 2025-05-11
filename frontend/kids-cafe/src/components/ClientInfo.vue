@@ -27,10 +27,11 @@
                             <div class="form-row">
                                 <label>Kid's Name: </label><input v-model="kid_name" type="text" class="info-detail-input" />
                                 <label>Gender: </label>
-                                <select v-model="kid_gender" class="info-detail-input">
+                                <select class="info-detail-input" v-model="kid_gender" >
                                     <option disabled value="">Please select</option>
                                     <option value="Girl">Girl</option>
                                     <option value="Boy">Boy</option>
+                                    <option value="Other">Other</option>
                                 </select>
                                 <!-- <input v-model="kid_gender" type="text" class="info-detail-input" /> -->
                                 <label>Age Turning: </label>
@@ -58,7 +59,11 @@
                             <div class="section-title">Optional Service 
                             </div>
                             <div class="form-row">
-                                <label><input type="checkbox" v-model="balloonDecorationsChecked" class="info-detail-check" />Balloon Decorations</label>
+                                <label class="info-detail-check">
+                                    <input type="checkbox" v-model="balloonDecorationsChecked"  />
+                                    <span class="checkmark"></span>
+                                        Balloon Decorations
+                                    </label>
                             </div>
                             <div v-if="balloonDecorationsChecked" class="form-row">
                                 <label>Balloon Decorations Theme: </label>
@@ -69,10 +74,27 @@
                         <div class="contact-info">
                             <div class="section-title">Special Dietary Requirement(Allergy)</div>
                             <div class="form-row">
-                                <label><input type="checkbox" value="Halal" v-model="selectedAllergies" class="info-detail-check"/>Halal</label>
-                                <label><input type="checkbox" value="Non-Halal" v-model="selectedAllergies" class="info-detail-check"/>Non-Halal</label>
-                                <label><input type="checkbox" value="Veggie" v-model="selectedAllergies" class="info-detail-check"/>Veggie(includes Chicken)</label>
-                                <label><input type="checkbox" value="Veggie" v-model="selectedAllergies" class="info-detail-check"/>Strict vegan</label>
+                                <label class="info-detail-check">
+                                    <input type="checkbox" value="Halal" v-model="selectedAllergies"/>
+                                    <span class="checkmark"></span>
+                                    Halal
+                                </label>
+                                <label class="info-detail-check">
+                                    <input type="checkbox" value="Non-Halal" v-model="selectedAllergies" class="info-detail-check"/>
+                                    <span class="checkmark"></span>
+                                    Non-Halal
+                                </label>
+                                <label class="info-detail-check">
+                                    <input type="checkbox" value="Veggie" v-model="selectedAllergies" class="info-detail-check"/>
+                                    <span class="checkmark"></span>
+                                    Veggie(includes chicken)
+                                </label>
+                                    <span class="checkmark"></span>
+                                <label class="info-detail-check">
+                                    <input type="checkbox" value="Vegan" v-model="selectedAllergies" class="info-detail-check"/>
+                                    <span class="checkmark"></span>
+                                    Strict Vegan</label>
+                                    
                                 <!-- 
                                     <p v-if="Array.isArray(selectedAllergies) && selectedAllergies.length > 0">
                                         {{ selectedAllergies }}
@@ -82,7 +104,9 @@
                         </div>
                         <div class="contact-info">
                             <div class="section-title">Additional Requirement</div>
-                            <div class="form-row"><input type="text" v-model="addRequirement" class="addRequirement"/></div>
+                            <div class="form-row">
+                                <textarea class="addRequirement" v-model="addRequirement" ></textarea>
+                            </div>
                         </div>
                         <div class="contact-info">
                             <div class="section-title">
@@ -153,9 +177,9 @@
                             </div>
                         </div>
                         <div class="button-container">
-                                <button type="submit" class="submit-button">
-                                    Next
-                                </button>
+                            <button type="submit" class="submit-button">
+                                Next
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -282,7 +306,78 @@ export default {
             this.selectedTime = option;  // 선택된 옵션을 저장
             console.log("선택된 시간:", this.selectedTime); // 콘솔로 확인
         },
+
+        //Next Button
         async submitBooking() {
+
+            //validation check
+            //kid's name
+            if (!this.kid_name || this.kid_name.trim() === '') 
+            {
+                alert('Please enter the child\'s name.');
+                return;
+            }
+
+            //kid's gender
+            if (!this.kid_gender) 
+            {
+                alert('Please select the kid\'s gender.');
+                return;
+            }
+
+            //age turning
+            if (!this.kid_age) 
+            {
+                alert('Please select the kid\'s age.');
+                return;
+            }
+
+            //Party owner's name
+            if (!this.owner_name || this.owner_name.trim() === '') 
+            {
+                alert('Please enter the kid\'s name.');
+                return;
+            }
+
+            //Kid's relation
+            if (!this.kid_relation || this.kid_relation.trim() === '') 
+            {
+                alert('Please enter the kid\'s relation.');
+                return;
+            }
+
+             //phone number
+             if (!this.owner_phone || this.owner_phone.trim() === '') 
+            {
+                alert('Please enter the phone number.');
+                return;
+            }
+
+            // 호주 전화번호 정규식: 10자리, 04로 시작하는 모바일 번호 또는 0X로 시작하는 유선 번호
+            const auPhonePattern = /^0[2-478]\d{8}$/;
+
+            if (!auPhonePattern.test(this.owner_phone.replace(/\s+/g, ''))) {
+                alert('Please enter a valid Australian phone number.');
+                return;
+            }
+
+            //email
+            if (!this.email || this.email.trim() === '') 
+            {
+                alert('Please enter the email.');
+                return;
+            }
+
+            // 이메일 형식 검사
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(this.email.trim())) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+
+
             if (!this.agree_terms) {
                 alert("Please agree to the terms and conditions before proceeding.");
                 return;
@@ -368,27 +463,119 @@ html,body {
     margin-bottom: 20px;
 }
 
-.addRequirement{
+/**
+additional reqquirements
+textarea
+ */
+.addRequirement {
     width: 600px;
     height: 150px;
     margin-right: 20px;
     margin-bottom: 20px;
-    padding: 5px;                /* 입력 필드에 패딩 추가 */
-    border: 1px solid #ccc;      /* 입력 필드 테두리 */
-    border-radius: 2px;          /* 입력 필드 테두리 둥글게 */
-    box-sizing: border-box;  /* box-sizing 설정 */
+    padding: 15px; /* 패딩을 더 주어서 퐁실하게 */
+    border: 1px solid #ddd;  /* 부드러운 테두리 */
+    border-radius: 15px;      /* 둥글게 */
+    box-sizing: border-box;
+    font-size: 16px;         /* 좀 더 큰 폰트 */
+    line-height: 1.6;        /* 줄 간격을 여유 있게 */
+    background-color: #f9f9f9;  /* 밝은 배경색 */
+    color: #333;             /* 어두운 텍스트 색상 */
+    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
 }
 
+.addRequirement:focus {
+    outline: none;  /* 포커스 시 기본 테두리 없애기 */
+    border-color: #88b7d5;  /* 포커스 시 테두리 색상 변경 */
+    box-shadow: 0 0 10px rgba(136, 183, 213, 0.6); /* 푸른빛 그림자 */
+    background-color: #fff;  /* 포커스 시 배경색 변경 */
+}
+
+.addRequirement::placeholder {
+    color: #aaa;  /* 플레이스홀더 텍스트 색상 */
+    font-style: italic; /* 플레이스홀더 이탤릭 */
+}
+
+
 .info-detail-input {
-    /*flex-grow: 1;                 입력 필드는 가용 공간을 모두 차지 */
     width: 150px;
+    max-width: 300px;
+    padding: 10px 14px;
     margin-right: 20px;
     margin-bottom: 20px;
-    padding: 5px;                /* 입력 필드에 패딩 추가 */
-    border: 1px solid #ccc;      /* 입력 필드 테두리 */
-    border-radius: 2px;          /* 입력 필드 테두리 둥글게 */
-    box-sizing: border-box;  /* box-sizing 설정 */
-    }
+    
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    color: #333;
+
+    background-color: #fafafa;
+
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+.info-detail-input:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    background-color: #fff;
+}
+
+/**
+체크박스 */
+.info-detail-check {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    color: #333;
+    margin-bottom: 20px;
+    user-select: none;
+}
+
+/* 기본 체크박스 숨김 */
+.info-detail-check input[type="checkbox"] {
+    display: none;
+}
+
+/* 가짜 체크박스 */
+.info-detail-check .checkmark {
+    width: 20px;
+    height: 20px;
+    background-color: #fafafa;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-left: 10px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+/* 체크됐을 때 표시 */
+.info-detail-check input[type="checkbox"]:checked + .checkmark::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 12px;
+    border: solid #4A90E2;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* 체크되면 배경 강조 */
+.info-detail-check input[type="checkbox"]:checked + .checkmark {
+    background-color: #fff;
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+}
 
 .main-card{
     display: flex;
