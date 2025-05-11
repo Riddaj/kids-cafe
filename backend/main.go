@@ -42,7 +42,7 @@ func main() {
 
 	// CORS 미들웨어 설정
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:8080"}, // 허용할 출처
+		AllowOrigins: []string{"https://kids-cafe-booking-project.web.app"}, // 허용할 출처
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
 	}))
