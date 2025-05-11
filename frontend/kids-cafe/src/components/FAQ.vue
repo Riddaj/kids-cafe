@@ -75,7 +75,7 @@ export default {
                 //console.log("✨🎉✨ Branch ID ✨🎉✨:", this.branchID);  // 값이 제대로 있는지 확인
     
                 try {
-                    const response = await axios.get(`http://localhost:8081/api/faq`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+                    const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/faq`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
     
                     this.FAQs = response.data.FAQs;
                     //console.log("### 전체 response 객체 ### :", response);

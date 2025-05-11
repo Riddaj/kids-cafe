@@ -96,7 +96,7 @@ export default {
 
             console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
             try {
-                const response = await axios.get(`http://localhost:8081/api/menu/${this.branchID}`);
+                const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/menu/${this.branchID}`);
                 this.menus = response.data.menus;
                 this.categorizeMenu(); 
                 console.log("### menu data 나오라고 ### :", response.data.menus);

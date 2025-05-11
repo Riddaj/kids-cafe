@@ -145,7 +145,7 @@ export default {
     getBranchImage(branchID) {
       const images = {
         burwood: "https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359448650-N89Q21OUSYRU8ROW18F1/Burwood+Plaza+Max3MB_72DPI_VCLAMedia+%2854+of+101%29.jpg",
-        hornsby: "/images/hornsby.jpg"
+        hornsby: "/images/hornsby_a.jpg"
       };
       return images[branchID]; // fallback
     }
@@ -298,4 +298,87 @@ li {
     color: white;
     background-color: #ff8080;
 }
+
+/* ===== Responsive Styling for Mobile & Tablet ===== */
+
+/* 모바일 (최대 767px) */
+@media (max-width: 767px) {
+  .swiper-wrapper-container {
+    height: 50vh;
+  }
+
+  .swiper-overlay-text h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .swiper-overlay-text p {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .slider {
+    padding: 30px 10px;
+  }
+
+  .main-text h1 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .main-text p {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .background-image1 {
+    height: 200px;
+  }
+
+  .btn-book {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .quickbtn-book {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+
+  .swiper-slide {
+    height: 300px;
+  }
+}
+
+/* 태블릿 (768px ~ 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .swiper-overlay-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .swiper-overlay-text p {
+    font-size: 1.2rem;
+  }
+
+  .slider {
+    padding: 40px 15px;
+  }
+
+  .main-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .main-text p {
+    font-size: 1.1rem;
+  }
+
+  .background-image1 {
+    height: 350px;
+  }
+
+  .swiper-slide {
+    height: 500px;
+  }
+}
+
 </style>

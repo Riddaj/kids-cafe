@@ -137,7 +137,7 @@ export default {
         getBranchImage(branch_id) {
             const images = {
                 'burwood': "https://images.squarespace-cdn.com/content/v1/637d8d8a7f609c521ddd5429/1672359522132-RU2ZPENTVALEBF0Z47PG/285887484_694866768237604_5851615251096205906_n.jpg",
-                'hornsby': "/images/hornsby.jpg"
+                'hornsby': "/images/hornsby_a.jpg"
             };
             return images[branch_id]; // 기본 이미지
         },
@@ -152,7 +152,7 @@ export default {
         async fetchprice(){
             console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
             try {
-                const response = await axios.get(`http://localhost:8081/api/price/${this.branchID}`);
+                const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/price/${this.branchID}`);
                 this.prices = response.data.prices;
                 //this.categorizeMenu(); 
                 console.log("### price data 나오라고 ### :", response.data.prices);

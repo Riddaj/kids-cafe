@@ -168,7 +168,7 @@ export default {
         console.log("📌 Axios 요청 보냄 - room_name:", this.roomName);
         
             try {
-                const response = await axios.get(`http://localhost:8081/api/selectedroom/${roomId}`
+                const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/selectedroom/${roomId}`
                 , {params : {
                     room_id: this.roomID,
                     branch_id: this.branchID, 
@@ -214,7 +214,7 @@ export default {
             }
 
             try {
-                const response = await axios.get("http://localhost:8081/api/bookings/check", {
+                const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/bookings/check", {
                     params: {
                         date: selectedDate,  // DD-MM-YYYY 형식
                         time: this.selectedTime
