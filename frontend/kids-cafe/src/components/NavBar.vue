@@ -119,7 +119,7 @@ export default {
       return branchMap[id] || 'Unknown Branch'
     },
     checkIfMobile() {
-      this.isMobile = window.innerWidth <= 768;
+      this.isMobile = window.innerWidth <= 1024;
     }
   }
 };
@@ -132,7 +132,7 @@ export default {
     box-sizing: border-box;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .sc_layouts_menu {
     display: none !important;
   }
