@@ -135,4 +135,54 @@ export default {
     height: 30px; /* 메뉴 높이 설정 (예: 50px) */
 }
 
+/* 태블릿용 (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .header_navigation_nav {
+    gap: 10px;
+  }
+
+  .header__nav-item a {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-header {
+    padding: 10px 15px;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .header_menu_wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .header_navigation_nav {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 10px;
+    gap: 8px;
+
+    /* ✅ 스크롤은 되지만 스크롤바는 숨김 */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .header_navigation_nav::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  .header__nav-item {
+    flex: 0 0 auto;
+  }
+
+  .header__nav-item a {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+
 </style>
