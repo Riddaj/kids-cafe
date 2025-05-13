@@ -257,7 +257,7 @@ h2{
 
 p{
     text-align: left;
-    line-height: 0.4; /* 기본은 보통 1.5~1.6 정도 */
+   
 }
 
 .table-wrapper {
