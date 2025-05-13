@@ -7,7 +7,11 @@
         <CurrentTime/>
         <div class="partyroom_info">
             <h1>Party room</h1>
-            <div v-if="partyrooms && partyrooms.length > 0"  class="partyroom-container">
+            <div v-if="isLoading">
+            <!-- ✅ 로딩 화면 표시 -->
+            <p>Loading party rooms...</p>
+            </div>
+            <div v-else-if="partyrooms && partyrooms.length > 0"  class="partyroom-container">
                 <div v-for="partyroom in partyrooms" :key="partyroom.RoomID">
                     <div class="partyroom-card">
                         <div class="img-div">
@@ -58,6 +62,7 @@ export default {
             partyrooms:[],
             branchID: this.$route.params.branchID,
               // URL 파라미터에서 branchID 가져오기
+            isLoading: true, // ✅ 로딩 상태 추가
         };
     },
     mounted() {
@@ -83,6 +88,8 @@ export default {
         console.log("### partyrooms data 나오라고 ### :", response.data.partyrooms);
       } catch (error) {
         console.error("#### Error fetching partyrooms ##### :", error);
+      }finally {
+        this.isLoading = false; // ✅ 로딩 끝
       }
     }
   }
