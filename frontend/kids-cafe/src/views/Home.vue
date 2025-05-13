@@ -154,6 +154,8 @@ export default {
 </script>
 
 <style>
+
+
 .swiper-wrapper-container {
   position: relative;
   width: 100%;
@@ -301,83 +303,23 @@ li {
 
 /* ===== Responsive Styling for Mobile & Tablet ===== */
 
-/* 모바일 (최대 767px) */
-@media (max-width: 767px) {
-  .swiper-wrapper-container {
-    height: 50vh;
+@media screen and (max-width: 1024px) {
+  .swiper-overlay-text {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    text-align: center;
+    padding: 0 20px;
+    width: 100%;
   }
 
   .swiper-overlay-text h1 {
-    font-size: 1.5rem;
-    text-align: center;
+    font-size: 2rem;
   }
 
   .swiper-overlay-text p {
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  .slider {
-    padding: 30px 10px;
-  }
-
-  .main-text h1 {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-
-  .main-text p {
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  .background-image1 {
-    height: 200px;
-  }
-
-  .btn-book {
-    font-size: 14px;
-    padding: 10px 12px;
-  }
-
-  .quickbtn-book {
-    font-size: 16px;
-    padding: 10px 15px;
-  }
-
-  .swiper-slide {
-    height: 300px;
-  }
-}
-
-/* 태블릿 (768px ~ 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .swiper-overlay-text h1 {
-    font-size: 2.2rem;
-  }
-
-  .swiper-overlay-text p {
-    font-size: 1.2rem;
-  }
-
-  .slider {
-    padding: 40px 15px;
-  }
-
-  .main-text h1 {
-    font-size: 1.8rem;
-  }
-
-  .main-text p {
     font-size: 1.1rem;
-  }
-
-  .background-image1 {
-    height: 350px;
-  }
-
-  .swiper-slide {
-    height: 500px;
+    text-align: center;
   }
 }
 

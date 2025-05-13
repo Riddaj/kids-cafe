@@ -1,6 +1,18 @@
 <template>
     <header class="index-header">
+        <!-- 로고 + 햄버거 (모바일용 상단 바) -->
+        <div class="mobile-header" v-if="isMobile">
+            <a :href="`/home/${$route.params.branchID}`">
+                <img class="mobile-logo" src="./../assets/twinkle_logo.webp" alt="Logo" />
+            </a>
+            <div style="padding-right: 10px;"></div>
+            <span v-if="branchName" class="branch-name">{{ branchName }}</span>
+            <button class="hamburger-icon" @click="menuOpen = true">
+                ☰
+            </button>
+        </div>
         
+        <!-- 기존 데스크탑 메뉴 -->
         <!-- logo -->
         <div class="sc-layouts-logo-container">
             <a :href="`/home/${this.$route.params.branchID}`" class="sc_layouts_logo ">
@@ -51,6 +63,27 @@
                 </a>
             </div>
         </div>
+            <!-- 모바일 슬라이드 메뉴 -->
+            <div class="mobile-slide-menu" v-if="menuOpen">
+                <button class="close-btn" @click="menuOpen = false">×</button>
+                <div style="padding-bottom: 30px;"></div>
+                <ul>
+                    <li><a href="/">Location</a></li>
+                    <li><a :href="`/price/${$route.params.branchID}`">Price</a></li>
+                    <li><a :href="`/parties-events/${$route.params.branchID}`">Parties & Events</a></li>
+                    <li><a :href="`/entryrules/${$route.params.branchID}`">Entry Rules</a></li>
+                    <li><a :href="`/faq/${$route.params.branchID}`">FAQ</a></li>
+                    <li><a :href="`/contact/${$route.params.branchID}`">Contact Us</a></li>
+                    <li><a href="/login">Log In</a></li>
+                </ul>
+                <div style="padding-bottom: 15px;"></div>
+                <div>
+                    <!-- 모바일 전용 고정 버튼 -->
+                    <a class="mobile-book-button" :href="`/book_a_party/select_room/${$route.params.branchID}`">
+                        Book a party
+                    </a>
+                </div>
+            </div>
         </header>
 </template>
 
@@ -61,11 +94,20 @@ export default {
   data(){
     return{
         branchName: '', 
+        menuOpen: false,
+        isMobile: false
     }
   },
   async created() {
     const branchID = this.$route.params.branchID
     this.branchName = this.getBranchNameByID(branchID)
+  },
+  mounted() {
+    this.checkIfMobile();
+    window.addEventListener('resize', this.checkIfMobile);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.checkIfMobile);
   },
   methods: {
     getBranchNameByID(id) {
@@ -75,6 +117,9 @@ export default {
         // 필요하면 계속 추가 가능
       }
       return branchMap[id] || 'Unknown Branch'
+    },
+    checkIfMobile() {
+      this.isMobile = window.innerWidth <= 768;
     }
   }
 };
@@ -85,6 +130,41 @@ export default {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .sc_layouts_menu {
+    display: none !important;
+  }
+  .mobile-header {
+    display: flex;
+  }
+  .branch-name {
+    display: none;
+  }
+  .logo_image{
+    display: none;
+  }
+  .btn-container{
+    display: none;
+  }
+  .mobile-book-button {
+    bottom: 20px;
+    right: 20px;
+    background: #7212a6;
+    color: white !important;
+    padding: 12px 16px;
+    border-radius: 30px;
+    font-weight: bold;
+    z-index: 999;
+    /* box-shadow: 0 4px 10px rgba(0,0,0,0.2); */
+    text-decoration: none;
+  }
+
+  .mobile-book-button:hover {
+    background-color: #e65500;
+    color: white;
+ }
 }
 
 
@@ -189,4 +269,80 @@ li {
 .menu-item > a:hover{
     color: #ff6600; /* 호버 시 색상 변경 */
 }
+
+
+/* 모바일 헤더: 로고 + 햄버거 */
+.mobile-header {
+  width: 100vw;               /* ✅ 전체 뷰포트 너비를 꽉 채움 */
+  max-width: 100%;            /* ✅ 오버플로우 방지 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1001;
+}
+
+.mobile-logo {
+  height: 48px;
+  object-fit: contain;
+}
+
+.hamburger-icon {
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 슬라이드 메뉴 (오른쪽에서 나옴) */
+.mobile-slide-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  z-index: 1002;
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    right: -260px;
+  }
+  to {
+    right: 0;
+  }
+}
+
+.mobile-slide-menu .close-btn {
+  font-size: 26px;
+  background: none;
+  border: none;
+  float: right;
+  cursor: pointer;
+}
+
+.mobile-slide-menu ul {
+  margin-top: 50px;
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-slide-menu li {
+  margin-bottom: 20px;
+}
+
+.mobile-slide-menu a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+
+
 </style>
