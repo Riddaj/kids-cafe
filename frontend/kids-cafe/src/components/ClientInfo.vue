@@ -337,7 +337,7 @@ export default {
             //Party owner's name
             if (!this.owner_name || this.owner_name.trim() === '') 
             {
-                alert('Please enter the kid\'s name.');
+                alert('Please enter the Owner\'s name.');
                 return;
             }
 
@@ -659,4 +659,83 @@ textarea
 .agree{
     margin-top: 20px;
 }
+
+/* 태블릿용 (max-width: 1024px 이하) */
+@media (max-width: 1024px) {
+  .main-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .selected-room-card {
+    width: 80%;
+    margin: 0 auto 30px;
+  }
+
+  .client-info-card {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .info-detail-input {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .addRequirement {
+    width: 100%;
+  }
+
+  .button-container {
+    justify-content: center;
+  }
+}
+
+/* 모바일용 (max-width: 768px 이하) */
+@media (max-width: 768px) {
+  .selected-room-card h1 {
+    font-size: 1.3rem;
+  }
+
+  .food-image {
+    width: 80px;
+  }
+
+  .info-detail-input {
+    font-size: 15px;
+    padding: 8px 12px;
+  }
+
+  .info-detail-check {
+    font-size: 15px;
+  }
+
+  .addRequirement {
+    height: 120px;
+    font-size: 14px;
+  }
+
+  .submit-button {
+    font-size: 16px;
+    padding: 10px 16px;
+    width: 100%;
+  }
+
+  .client-info-card {
+    padding: 15px;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+}
+
 </style>

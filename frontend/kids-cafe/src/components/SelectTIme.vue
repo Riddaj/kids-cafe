@@ -453,36 +453,6 @@ td {
     filter: brightness(50%);  /*이미지 어둡게 */
 }
 
-.header_navigation_nav{
-    display: flex;
-    list-style: none;
-    text-align: center;
-    padding-right: 50px; /* 네비게이션 바 오른쪽 여백 추가 ############# 이게 오른쪽 여백 적용되는 부분################*/ 
-    margin: 0;
-    height: 30px; /* 메뉴 높이 설정 (예: 50px) */
-}
-
-.header__nav-item .header__nav-item{
-    padding: 10px 15px; /* 메뉴 항목 내부 여백 */
-    white-space: nowrap; /* 줄바꿈 방지 */
-    min-width: 120px; /* 최소 너비 설정 */
-    height: 100%; /* 메뉴 항목의 높이에 맞게 설정 */
-    padding: 0 15px; /* 메뉴 항목의 좌우 여백 */
-
-}
-.header__nav-item a{
-    color: #595959;
-    height: 100%; /* 메뉴 항목 높이에 맞게 100%로 설정 */
-    display: block; /* 클릭 영역 확보 */
-    padding: 10px 15px; /* 링크 내부 여백 */
-    text-decoration: none;
-    font-size: 16px; /* 글자 크기 조정 */
-}
-
-.header__nav-item a:hover{
-    border-bottom: 3px solid #6699ff; /* hover 시 선 표시 */
-}
-
 .time-options-row {
   display: flex; /* 가로로 배열 */
   justify-content: center; /* 가운데 정렬 */
@@ -514,4 +484,52 @@ td {
   color: white;
   border-color: #4CAF50;
 }
+
+@media (max-width: 1024px) {
+  .main-card {
+    flex-direction: column; /* 세로로 배치 */
+    align-items: center;
+  }
+
+  .selected-room-card,
+  .main-time-pick {
+    width: 90%; /* 양쪽 여백 확보 */
+    margin: 10px 0; /* 위아래 여백 */
+  }
+
+  .submit-button {
+    width: 100%; /* 전체 너비 사용 */
+    font-size: 18px;
+  }
+
+  .time-card {
+    width: 100px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .selected-room-card,
+  .main-time-pick {
+    width: 95%;
+    padding: 12px;
+  }
+
+  .room-name {
+    font-size: 20px;
+  }
+
+  .happy-birthday {
+    width: 80px;
+  }
+
+  .time-card {
+    width: 90px;
+    height: auto;
+    padding: 8px;
+    font-size: 13px;
+  }
+
+}
+
 </style>

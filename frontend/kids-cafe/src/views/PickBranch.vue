@@ -7,7 +7,11 @@
         </a>
     </div>
     <div class="select-branch">
-        <div v-if="branches && branches.length > 0"   class="branch-container">
+        <div v-if="isLoading">
+        <!-- ✅ 로딩 화면 표시 -->
+        <p>Loading branches...</p>
+        </div>
+        <div v-else-if="branches && branches.length > 0"   class="branch-container">
             <div v-for="branch in branches" :key="branch.branch_id">
                 <router-link :to="`/home/${branch.branch_id}`">
                     <div class="branch-card">
@@ -40,7 +44,8 @@ import DinoAnimation from '@/components/DinoAnimation.vue';
 export default {
     data() {
         return {
-            branches:[]
+            branches:[],
+            isLoading: true, // ✅ 로딩 상태 추가
         };
     },  
     components:{
@@ -61,6 +66,8 @@ export default {
         console.log("### branchs data 나오라고 ### :", response.data.branches);
       } catch (error) {
         console.error("#### Error fetching branchs ##### :", error);
+      }finally {
+        this.isLoading = false; // ✅ 로딩 끝
       }
     }, 
     getBranchImage(branch_id) {
