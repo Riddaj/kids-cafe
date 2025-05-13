@@ -304,4 +304,59 @@ button[disabled] {
 .party-table tbody tr:hover {
   background-color: #ffe6e6;
 }
+
+@media (max-width: 1024px) {
+  .party-table-wrapper {
+    padding: 10px;
+  }
+
+  .party-table th,
+  .party-table td {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .submit-button {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .party-table-wrapper {
+    padding: 8px;
+    overflow-x: auto; /* 테이블 가로 스크롤 */
+  }
+
+  .party-table {
+    min-width: 900px; /* 테이블이 너무 작아지지 않도록 */
+  }
+
+  .party-table th,
+  .party-table td {
+    font-size: 12px;
+    padding: 5px 6px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .submit-button {
+    width: 100%;
+    font-size: 15px;
+  }
+}
+
 </style>
