@@ -1,6 +1,6 @@
 <template>
     <div id="app" @click="shootConfetti"> 
-        <BookingBar/>
+        <NavBar/>
         <component 
         :is="showBookingInfo ? 'SelectBranch' : 'div'"  
         :branches="branches" 
@@ -98,7 +98,7 @@ import ConfirmDetail from '../components/ConfirmDetail.vue';
 import Partyroom from '../components/Partyroom.vue';
 import SelectBranch from '../components/SelectBranch.vue';
 import BookingProcess from '../components/BookingProcess.vue';
-import BookingBar from '../components/BookingBar.vue';
+import NavBar from '../components/NavBar.vue';
 import Footer from './Footer.vue';
 import confetti from 'canvas-confetti';
 
@@ -123,7 +123,7 @@ export default {
         Partyroom,
         SelectBranch,
         BookingProcess,
-        BookingBar,
+        NavBar,
         Footer
     },  
     methods: {
