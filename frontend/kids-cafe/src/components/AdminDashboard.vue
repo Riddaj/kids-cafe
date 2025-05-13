@@ -158,7 +158,9 @@ export default {
       async fetchParty() {
         console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
         try {
-          const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/get-party`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+          const api = process.env.VUE_APP_API_BASE;
+          const response = await axios.get(`${api}/api/get-party`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+          //const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/get-party`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
           //this.parties = response.data.parties;
 
@@ -216,8 +218,11 @@ export default {
       async confirmParty(party, index) {
         this.confirmedRows.push(index);
 
+        const api = process.env.VUE_APP_API_BASE;
+
         try {
-          const response = await axios.post("https://kids-cafe-rm9g.onrender.com/api/confirm-party", {
+          //const response = await axios.post("https://kids-cafe-rm9g.onrender.com/api/confirm-party", {
+          const response = await axios.post(`${api}/api/confirm-party`, {
             party_id: party.PartyID
           });
           alert("✅ This party reservation is now confirmed!");

@@ -136,7 +136,10 @@ export default {
     },
     async fetchBranches() {
       try {
-        const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+
+        const api = process.env.VUE_APP_API_BASE;
+        const response = await axios.get(`${api}/api/branches`);
+        //const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
         //firebase관련 추가로 repsonse.data뒤에 branches 입력
         this.branches = response.data.branches;
         //console.log("### 전체 response 객체 ### :", response);

@@ -3,7 +3,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
+
+	"github.com/joho/godotenv" // ✅ .env 파일 로딩용 패키지 추가
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -14,6 +17,10 @@ import (
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("⚠️ .env 파일을 불러오지 못했습니다 (배포 환경일 수 있음)")
+	}
 
 	fmt.Print("✅✅ 터미널 확인")
 
@@ -76,7 +83,7 @@ func main() {
 	*/
 
 	// CORS 미들웨어 설정
-	r.Use(cors.Default()) // 기본 설정 (모든 도메인 허용)
+	//r.Use(cors.Default()) // 기본 설정 (모든 도메인 허용)
 
 	//r.Run(":8081") // 백엔드 서버 실행
 	port := os.Getenv("PORT") // ✅ Render에서 자동으로 지정됨

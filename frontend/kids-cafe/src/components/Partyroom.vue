@@ -67,7 +67,8 @@ export default {
     async fetchPartyrooms() {
       console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
       try {
-        const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/partyrooms/${this.branchID}`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+        //const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/partyrooms/${this.branchID}`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE}/api/partyrooms/${this.branchID}`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
         this.partyrooms = response.data.partyrooms;
         // 전체 응답 객체 찍어보기

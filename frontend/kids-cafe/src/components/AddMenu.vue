@@ -123,8 +123,10 @@ export default {
             
             console.log("Submitting Menu:", this.menu);
 
+        const api = process.env.VUE_APP_API_BASE;
         
-        axios.post(`https://kids-cafe-rm9g.onrender.com/api/addmenu/${this.branchID}`, this.menu)
+        //axios.post(`https://kids-cafe-rm9g.onrender.com/api/addmenu/${this.branchID}`, this.menu)
+        axios.post(`${api}/api/addmenu/${this.branchID}`, this.menu)
         .then(res => {
             console.log("등록 성공:", res.data);
 

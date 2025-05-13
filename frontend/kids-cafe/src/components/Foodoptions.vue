@@ -192,8 +192,10 @@ export default {
             console.log('선택된 항목 ID:', this.selectedfoodoptions);
         },
         async fetchfoodoptions() {
+            const api = process.env.VUE_APP_API_BASE;
             try {
-                const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/foodoptions"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+                const response = await axios.get(`${api}/api/foodoptions`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+                //const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/foodoptions"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
                 this.foodoptions = response.data.foodoptions;
                 //console.log("### 전체 response 객체 ### :", response);

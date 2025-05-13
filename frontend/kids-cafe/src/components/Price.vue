@@ -152,7 +152,9 @@ export default {
         async fetchprice(){
             console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
             try {
-                const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/price/${this.branchID}`);
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE}/api/price/${this.branchID}`);
+                //const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/price/${this.branchID}`);
+
                 this.prices = response.data.prices;
                 //this.categorizeMenu(); 
                 console.log("### price data 나오라고 ### :", response.data.prices);

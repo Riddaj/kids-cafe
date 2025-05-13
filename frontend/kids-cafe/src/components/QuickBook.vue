@@ -262,7 +262,8 @@ export default {
     },
         async fetchBranches() {
         try {
-            const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE}/api/branches`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+            // const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/branches"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
             this.branches = response.data.branches;
             //console.log("### 전체 response 객체 ### :", response);
@@ -279,7 +280,9 @@ export default {
             }
             try {
                 console.log("Fetching party rooms for branchID:", this.branchID); // 디버깅용 로그
-                const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/partyrooms/${this.branchID}`);
+                //const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/partyrooms/${this.branchID}`);
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE}/api/partyrooms/${this.branchID}`);
+
                 this.partyrooms = response.data.partyrooms;
                 console.log("$$$$ this.partyrooms.partyrooms $$$$$: ", this.partyrooms.partyrooms);
             } catch (error) {
@@ -288,7 +291,8 @@ export default {
         },
         async fetchfoodoptions() {
             try {
-                const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/foodoptions"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+                //const response = await axios.get("https://kids-cafe-rm9g.onrender.com/api/foodoptions"); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE}/api/foodoptions`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
                 this.foodoptions = response.data.foodoptions;
                 //console.log("### 전체 response 객체 ### :", response);

@@ -287,8 +287,10 @@ export default {
         
         console.log("📌 Axios 요청 보냄 - room_name:", this.bookingDetails.roomName);
         
+        const api = process.env.VUE_APP_API_BASE;
             try {
-                const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/selectedroom/${roomId}`
+                const response = await axios.get(`${api}/api/selectedroom/${roomId}`
+                //const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/selectedroom/${roomId}`
                 , {params : {
                     room_id: this.roomID,
                     branch_id: this.branchID, 
@@ -425,7 +427,10 @@ export default {
             console.log("kid name 말해봐 = ", this.kid_name);
             console.log("📦📦📦 this.selectedroom.BranchID=== ", this.selectedroom.BranchID);
             // 백엔드로 POST 요청
-            const response = await axios.post(`https://kids-cafe-rm9g.onrender.com/api/save-party/${this.selectedroom.BranchID}`, bookingData);
+            const api = process.env.VUE_APP_API_BASE;
+            const response = await axios.post(`${api}/api/save-party/${this.selectedroom.BranchID}`, bookingData);
+
+            //const response = await axios.post(`https://kids-cafe-rm9g.onrender.com/api/save-party/${this.selectedroom.BranchID}`, bookingData);
             
             // const response = await axios.post(
             //     `https://kids-cafe-rm9g.onrender.com/api/save-party/${this.selectedroom.BranchID}`,
