@@ -183,4 +183,31 @@ h1 {
   }
 
 }
+
+@media (max-width: 768px) {
+  .faq-card {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .faq-item {
+    padding: 16px;
+  }
+
+  .faq-question {
+    font-size: 1rem;
+  }
+
+  .faq-answer {
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .faq-card {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+
 </style>
