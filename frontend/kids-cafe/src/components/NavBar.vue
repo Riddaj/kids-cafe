@@ -292,7 +292,7 @@ li {
 
 .hamburger-icon {
   font-size: 28px;
-  background: none;
+  /* background: none; */
   border: none;
   cursor: pointer;
 }

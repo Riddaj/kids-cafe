@@ -192,7 +192,7 @@ export default {
     z-index: 1; /* h1이 버튼 위에 오도록 z-index 설정 */
     text-align: right;
     position: relative; /* z-index가 제대로 작동하도록 위치 지정 */
-    color: black;
+    
 }
 
 .main-text p {

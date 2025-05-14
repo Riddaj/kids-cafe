@@ -31,7 +31,7 @@
                     <h2>Adult Ticket</h2> 
                     <p>All Year Round - $5 per adult with some amount drink voucher.</p>
                     <hr style="border: none; border-top: 1px dashed #eb6d54; margin: 40px 0;" />
-                        <p style="text-align: right; clear:both; margin-top: 8px; color: black;">
+                        <p style="text-align: right; clear:both; margin-top: 8px; ">
                             <strong>1 hour free</strong> 🎁 for Early bird (before 10 AM)⏰
                         </p>
                     <!-- 안나옴. ㅎ -->
@@ -270,6 +270,7 @@ p{
 
 .price-table{
     width: 100%;
+    color: black;
 }
 
 h1 {

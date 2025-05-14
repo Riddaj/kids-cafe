@@ -74,6 +74,13 @@ html, body {
 
 }
 
+@media (prefers-color-scheme: dark) {
+  #app {
+    background-color: #000000 !important; 
+    color: #ffffff;
+  } 
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

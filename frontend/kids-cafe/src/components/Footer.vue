@@ -1,34 +1,15 @@
 <template>
     <footer>
         <div class="footer-content">
-            <!-- logo -->
-            <div class="logo-container">
-                <img class="logo_image" src="./../assets/twinkle_logo.webp" />
-                <!-- 
-                  <div class="contact-info">
-                    <ul v-if="branches && branches.length > 0">
-                      <li v-for="branch in branches" :key="branch.id" class="branch-item">
-                        <strong>{{ branch.branch_name }}</strong><br>
-                        Email: {{ branch.email }}<br>
-                        Phone: {{ branch.phone }}<br>
-                        Store Phone Number: {{ branch.branch_call }}
-                      </li>
-                    </ul>
-                  </div>
-                -->
-            </div>
-            <div class="contact-info">
-                <div class="info-detail">
-                  <strong style="font-size: 25px;">Twinkle Kids Cafe</strong>
-                  <p>⏰ OPEN 7DAYS</p>
-                  <p>Mon~Fri: 9am - 6pm</p>
-                  <p>Sat~Sun: 9am - 7pm</p>
-                  <p>Check Weekly Updates from our Google Map & Instagram</p>
-                </div>
-                <div class="info-detail">
+            
 
-                </div>
-            </div>
+              <strong style="font-size: 25px;">Twinkle Kids Cafe</strong>
+              <p>⏰ OPEN 7DAYS</p>
+              <p>Mon~Fri: 9am - 6pm</p>
+              <p>Sat~Sun: 9am - 7pm</p>
+              <p>Check Weekly Updates from our Google Map & Instagram</p>
+        
+     
         </div>
         <div class="insta">
                 Follow us!
@@ -98,20 +79,11 @@ footer {
   width: 100%;
 }
 
-.contact-info{
-  color: black;
-  margin-right: 100px;
+
+.info-detail p{
+
 }
 
-.contact-info p{
-  font-size: 12px;
-  text-align: left;
-}
-
-.footer-content {
-  display: flex;
-  gap: 20px; /* Add space between text and icon */
-}
 
 .logo-container {
     flex: 1;  /* 필요에 따라 비율을 조절하세요 */
@@ -129,13 +101,21 @@ footer {
     flex: 1;  /* 필요에 따라 비율을 조절하세요 */
     margin-right: 50px;
     text-align: center;
+    color: black;
 }
 
-.footer-content div {
+.footer-content {
   font-size: 18px;
   font-weight: bold;
   letter-spacing: 1px;
   text-transform: uppercase;
+  padding: 5%;
+  color: black;
+}
+
+.footer-content p {
+  font-size: 12px;
+  text-align: left;
 }
 
 .instagram-link {
