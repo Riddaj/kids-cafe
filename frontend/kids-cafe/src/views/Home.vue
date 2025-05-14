@@ -41,9 +41,7 @@
                         </h1>
                     </div>
                     <div class="main-text">
-                        <p>Welcome to the center where your children are able <br> 
-                            to play, learn, excercise and have the best Birthday 
-                            <br>parties!&nbsp;</p>
+                        <p>A joyful space for your child to play, learn, and celebrate the most memorable birthdays.</p>
                     </div>
                     <!-- 퀵 예약 버튼 -->
                     <!-- <div class="quickbtn-container">
@@ -190,11 +188,19 @@ export default {
     box-sizing: border-box;
 }
 
-.main-text h1,p{
+.main-text h1{
     z-index: 1; /* h1이 버튼 위에 오도록 z-index 설정 */
     text-align: right;
     position: relative; /* z-index가 제대로 작동하도록 위치 지정 */
     color: black;
+}
+
+.main-text p {
+  font-size: 1.2rem;
+  text-align: right;
+  line-height: 1.6;
+  color: #333;
+  margin: 0 auto;
 }
 
 .slider {
@@ -320,6 +326,17 @@ li {
   .swiper-overlay-text p {
     font-size: 1.1rem;
     text-align: center;
+  }
+
+  .main-text {
+    padding: 16px;
+  }
+
+  .main-text p {
+    font-size: 1rem;
+    line-height: 1.5;
+    word-break: keep-all; /* 단어 중간 줄바꿈 방지 (한국어 포함 시 유용) */
+    padding: 0 10px;
   }
 }
 
