@@ -270,4 +270,74 @@ button {
   color: #657C6A;
   font-size: 1em;
 }
+
+@media screen and (max-width: 1024px) {
+  .contact-info {
+    flex-direction: column; /* 세로로 쌓이게 */
+    margin-top: 50px; /* ✅ 메뉴바에 안 가리게 충분한 여백 확보 */
+    align-items: center;
+    padding: 20px 10px;
+    width: 90%;
+  }
+
+  .contact-info-item {
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .contact-info-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .contact-info-icon i {
+    font-size: 24px;
+    line-height: 60px;
+  }
+
+  .contact-info-content {
+    margin-left: 15px;
+  }
+
+  .contact-info-content h4 {
+    font-size: 1.2em;
+  }
+
+  .contact-info-content p {
+    font-size: 0.95em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .contact-info {
+    padding: 20px 10px;
+    width: 95%;
+  }
+
+  .contact-info-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .contact-info-icon i {
+    font-size: 20px;
+    line-height: 50px;
+  }
+
+  .contact-info-content h4 {
+    font-size: 1.1em;
+  }
+
+  .contact-info-content p {
+    font-size: 0.9em;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+}
+
 </style>
