@@ -51,7 +51,7 @@
                         <p><strong>Important Notice:</strong></p>
                         <p>🎈 Children under 12 months, free entry for 1 hour. (ID or Certificate should be required)</p>
                         <p>🎈 Kids over 12 years old will be charged as adults</p>
-                        <p>🎈 15% surcharge applied on public holidays</p>
+                        <!-- <p>🎈 15% surcharge applied on public holidays</p> -->
                         <p>🎈 Twinkle Kids Cafe prices vary by location</p>
                     </div>
                 </div>
@@ -59,7 +59,8 @@
         </div>
         <div class="event-wrapper">
             <h1>Our Special</h1>
-            <div class="event-cards-container">
+            <div class="event-cards-container"> 
+                <!-- 
                 <div class="event-card">
                     <div class="event-title">Buy 1 Hour, Get 1 Hour FREE</div>
                     <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
@@ -68,6 +69,7 @@
                         <li  style="color: #f0598b;">Monday to Friday Only, <br>Except Public holidays and School holidays</li><br>
                     </div>
                 </div>
+                -->
                 <div class="event-card">
                     <div class="event-title">
                         2nd Child Half Price<br>(Unlimited Ticket Purchase Only)

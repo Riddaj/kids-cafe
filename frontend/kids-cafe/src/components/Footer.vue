@@ -5,8 +5,8 @@
 
               <strong style="font-size: 25px;">Twinkle Kids Cafe</strong>
               <p>⏰ OPEN 7DAYS</p>
-              <p>Mon~Fri: 9am - 6pm</p>
-              <p>Sat~Sun: 9am - 7pm</p>
+              <p>{{ weekdayHours }}</p>
+              <p>{{ weekendHours }}</p>
               <p>Check Weekly Updates from our Google Map & Instagram</p>
         
      
@@ -32,6 +32,16 @@ export default {
     };
   },
   computed: {
+    weekdayHours() {
+      return this.branchID === 'hornsby'
+        ? 'Mon~Fri: 9am - 5:30pm'
+        : 'Mon~Fri: 9am - 6pm';
+    },
+    weekendHours() {
+      return this.branchID === 'hornsby'
+        ? 'Sat~Sun: 9am - 6pm'
+        : 'Sat~Sun: 9am - 7pm';
+    },
     // branchID에 맞는 인스타그램 링크를 동적으로 반환
     getInstaLink() {
       const instagramBaseUrl = 'https://www.instagram.com/'; // 기본 URL
