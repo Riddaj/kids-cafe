@@ -70,9 +70,10 @@ func SaveParty(c *gin.Context) {
 		return
 	}
 	// 메뉴 추가 성공시, 응답 메시지만 보내기
-	c.JSON(http.StatusOK, gin.H{
-		"message": "파티가 성공적으로 추가되었습니다.",
-	})
+	//c.JSON(http.StatusOK, gin.H{
+	//	"success": true,
+	//	"message": "파티가 성공적으로 추가되었습니다.",
+	//})
 
 }
 

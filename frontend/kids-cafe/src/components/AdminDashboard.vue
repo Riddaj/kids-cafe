@@ -3,6 +3,15 @@
     <BookingBar/>
       <div class="party-table-wrapper">
         <h1>Admin Dashboard</h1>
+        <div class="add-party">
+          <div class="button-container" style="justify-content: flex-end; /* 오른쪽 정렬 */">
+          <router-link :to="`/add_party`">
+                    <button type="submit" class="submit-button">
+                      Add Party
+                    </button>
+          </router-link>
+        </div>
+        </div>
         <h2>Party list</h2>
         <div class="table-container">
           <h2  style="text-align: left;">✅ Confirmed Bookings</h2>

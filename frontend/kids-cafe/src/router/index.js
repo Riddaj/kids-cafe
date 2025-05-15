@@ -22,6 +22,8 @@ import AdminDashboard from '../components/AdminDashboard.vue';
 import Entryrules from '../components/Entryrules.vue';
 import Contact from '../components/Contact.vue';
 import Login from '../components/Login.vue';
+import AddParty from '../components/AddParty.vue';
+
 
 
 const routes = [
@@ -44,9 +46,10 @@ const routes = [
   { path: '/admin/menu/:branchID', component: AddMenu },
   { path: '/parties-events/:branchID', component: PartiesEvents },
   { path: '/about-us/:branchID', component: AboutUs },
-  { path: '/admin', component: AdminDashboard },
+  { path: '/admin', component: AdminDashboard, name: 'admin'},
   { path: '/contact/:branchID', component: Contact },
   { path: '/login', component: Login },
+  { path: '/add_party', component: AddParty },
 ];
 
 const router = createRouter({

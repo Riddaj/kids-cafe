@@ -77,6 +77,7 @@ func SaveParty(ctx *gin.Context, client *firestore.Client) (Party, error) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
+		"success":  true,
 		"message":  "파티 등록 완료",
 		"party_id": party.PartyID,
 	})
