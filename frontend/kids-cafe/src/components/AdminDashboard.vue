@@ -15,6 +15,8 @@
         <h2>Party list</h2>
         <div class="table-container">
           <h2  style="text-align: left;">✅ Confirmed Bookings</h2>
+          <div v-for="(parties, branch) in groupedConfirmedParties" :key="branch">
+            <h3 :class="['branch-heading', branch]">{{ branch.toUpperCase() }}</h3>
             <table class="party-table">
             <thead>
               <tr>
@@ -36,7 +38,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="party in confirmedParties" :key="party.PartyID">
+              <tr v-for="party in parties" :key="party.PartyID">
+              <!-- <tr v-for="party in confirmedParties" :key="party.PartyID">  -->
               <!-- 
                 <tr
                 v-for="(party, index) in parties"
@@ -65,8 +68,11 @@
               </tr>
             </tbody>
           </table>
+          </div>
           <div style="margin-top: 80px;"></div>
           <h2 style="text-align: left;">📋 Unconfirmed Bookings</h2>
+          <div v-for="(parties, branch) in groupedUnconfirmedParties" :key="branch">
+            <h3 :class="['branch-heading', branch]">{{ branch.toUpperCase() }}</h3>
           <table class="party-table">
             <thead>
               <tr>
@@ -88,11 +94,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr
+              <tr v-for="party in parties" :key="party.PartyID">
+              <!-- <tr
               v-for="(party, index) in unconfirmedParties"
               :key="party.PartyID"
               :class="{ confirmed: confirmedRows.includes(index) }"
-              >
+              >  -->
                 <td>{{ party.kid_name }}</td>
                 <td>{{ party.BranchID }}</td>
                 <td>{{ party.partyroom_name }}</td>
@@ -119,6 +126,7 @@
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
         <div class="button-container">
           <router-link :to="`/`">
@@ -152,7 +160,25 @@ export default {
     this.fetchParty();
     
   },
-  methods: {
+  computed: {
+    groupedConfirmedParties() {
+      return this.groupByBranch(this.confirmedParties);
+    },
+    groupedUnconfirmedParties() {
+      return this.groupByBranch(this.unconfirmedParties);
+    }
+  },
+  methods: {  
+      groupByBranch(parties) {
+        const grouped = {};
+        for (const party of parties) {
+          if (!grouped[party.BranchID]) {
+            grouped[party.BranchID] = [];
+          }
+          grouped[party.BranchID].push(party);
+        }
+        return grouped;
+      },
       // confirmParty(party, index) {
       //   this.confirmedRows.push(index);
       //   console.log("Confirmed party:", party);
@@ -183,39 +209,39 @@ export default {
             return partyDate >= today;
           });
 
-          // 정렬: 날짜 오름차순
-        this.parties = filteredParties.sort((a, b) => {
-          return this.parseDate(a.Partydate) - this.parseDate(b.Partydate);
+        // 🎯 확정 여부에 따라 나누기~
+        this.confirmedParties = [];
+        this.unconfirmedParties = [];
+
+        filteredParties.forEach(party => {
+          if (party.is_confirmed) {
+            this.confirmedParties.push(party);
+          } else {
+            this.unconfirmedParties.push(party);
+          }
         });
 
-        // ✅ 여기에 추가!
-        this.confirmedRows = this.parties
-          .map((party, index) => (party.is_confirmed ? index : null))
-          .filter(index => index !== null);
+        // ✅ 정렬: 날짜 오름차순 + BranchID 알파벳 오름차순
+        const sortByDateAndBranch = (a, b) => {
+          const dateA = this.parseDate(a.Partydate);
+          const dateB = this.parseDate(b.Partydate);
+          if (dateA.getTime() !== dateB.getTime()) {
+            return dateA - dateB;
+          } else {
+            return a.BranchID.localeCompare(b.BranchID);
+          }
+        };
 
-        console.log("✅ 필터링된 파티 리스트:", this.parties);
-          // 전체 응답 객체 찍어보기
-          console.log("### 전체 response 객체 ### :", response);
-          console.log("### parties data ### :", response.data.parties);
+        this.confirmedParties.sort(sortByDateAndBranch);
+        this.unconfirmedParties.sort(sortByDateAndBranch);
 
-          //console.log("### 전체 response 객체 ### :", response);
-          console.log("### parties data 나오라고 ### :", response.data.parties);
+        // ✅ 확인용 로그
+        console.log("✅ 정렬된 확정 파티:", this.confirmedParties);
+        console.log("✅ 정렬된 미확정 파티:", this.unconfirmedParties);
 
-          // 데이터를 불러온 후
-          this.confirmedParties = [];
-          this.unconfirmedParties = [];
-
-          filteredParties.forEach((party, index) => {
-            if (party.is_confirmed) {
-              this.confirmedParties.push(party);
-            } else {
-              this.unconfirmedParties.push(party);
-            }
-          });
-
-          // ✅ 여기서 정렬
-          this.confirmedParties.sort((a, b) => b.BranchID.localeCompare(a.BranchID));
-          this.unconfirmedParties.sort((a, b) => b.BranchID.localeCompare(a.BranchID));
+        // ✅ 체크 표시용 index 저장 (선택사항)
+        this.confirmedRows = this.confirmedParties
+          .map((party, index) => index);
         
 
         } catch (error) {
@@ -245,6 +271,28 @@ export default {
 </script>
 
 <style scoped>
+
+.branch-heading {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 40px;
+  padding: 10px;
+  border-radius: 6px;
+  color: #333;
+}
+
+.branch-heading.burwood {
+  background-color: #fff3b0; /* 연노랑 */
+  width: 30%;
+  justify-content: center;  /* 버튼을 오른쪽 정렬 */
+}
+
+.branch-heading.hornsby {
+  background-color: #cce5ff; /* 연파랑 */
+  width: 30%;
+  justify-content: center;  /* 버튼을 오른쪽 정렬 */
+}
+
 input[type="checkbox"][disabled] {
   accent-color: green; /* 브라우저가 지원하면 초록색 체크 */
   cursor: not-allowed;
