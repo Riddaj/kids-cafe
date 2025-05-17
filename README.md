@@ -9,13 +9,6 @@ A full-stack web application for managing birthday party reservations at A Kids 
 
 ---
 
-## 🖼️ Preview
-
-### Main Page  (Branch Selection Flow on Landing Page)
-![Main Page]()
-
-### Admin Dashboard  
-![Admin Dashboard]()
 
 ---
 
