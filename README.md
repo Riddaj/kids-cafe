@@ -9,9 +9,6 @@ A full-stack web application for managing birthday party reservations at A Kids 
 
 ---
 
-
----
-
 ## 🚀 Features
 
 - 📍 Branch-aware booking system
