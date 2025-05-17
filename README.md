@@ -53,6 +53,6 @@ A full-stack web application for managing birthday party reservations at Twinkle
 ### 🔧 Frontend
 
 ```bash
-cd frontend
+cd frontend\kids-cafe
 npm install
 npm run dev
