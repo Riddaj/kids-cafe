@@ -1,5 +1,5 @@
 # kids-cafe
-Kids cafe party booking system 
+A kids cafe party booking system 
 
 # 🎉 Party Booking Website
 
