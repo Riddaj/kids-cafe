@@ -44,7 +44,7 @@ A full-stack web application for managing birthday party reservations at A Kids 
 
 ## 🌐 Live Website
 
-> 🔗 [twinklekidscafe.web.app](https://kids-cafe-booking-project.web.app/)
+> Live website available upon request (for demo/review purposes only).
 
 ---
 
