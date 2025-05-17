@@ -3,7 +3,7 @@ Kids cafe party booking system
 
 # 🎉 Party Booking Website
 
-A full-stack web application for managing birthday party reservations at Twinkle Kids Cafe, supporting both *Burwood* and *Hornsby* branches.
+A full-stack web application for managing birthday party reservations at A Kids Cafe, supporting both *Branch A* and *Branch B* branches.
 
 > 📱 Fully responsive | 🛠️ Vue + Go + Firebase | 🎈 Admin Dashboard included
 
@@ -12,10 +12,10 @@ A full-stack web application for managing birthday party reservations at Twinkle
 ## 🖼️ Preview
 
 ### Main Page  (Branch Selection Flow on Landing Page)
-![Main Page](./screenshots/main-page.png)
+![Main Page]()
 
 ### Admin Dashboard  
-![Admin Dashboard](./screenshots/admin-dashboard.png)
+![Admin Dashboard]()
 
 ---
 
