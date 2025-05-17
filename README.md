@@ -1,7 +1,7 @@
 # kids-cafe
 Kids cafe party booking system 
 
-# 🎉 Twinkle Kids Cafe - Party Booking Website
+# 🎉 Party Booking Website
 
 A full-stack web application for managing birthday party reservations at Twinkle Kids Cafe, supporting both *Burwood* and *Hornsby* branches.
 
@@ -21,7 +21,7 @@ A full-stack web application for managing birthday party reservations at Twinkle
 
 ## 🚀 Features
 
-- 📍 Branch-aware booking system (Burwood / Hornsby)
+- 📍 Branch-aware booking system
 - 📅 Date & time selection with custom time slots per room type
 - 🧒 Child info, room, food, allergy, and additional options
 - 🎈 Optional balloon decoration themes
