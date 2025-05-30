@@ -1,15 +1,13 @@
 <template>
     <footer>
         <div class="footer-content">
-            
-
-              <strong style="font-size: 25px;">Twinkle Kids Cafe</strong>
+              <strong style="font-size: 25px; text-align: center;">Twinkle Kids Cafe</strong>
+              <div style="padding: 20px;"></div>
+              <p>{{ branch.location }}</p>
               <p>⏰ OPEN 7DAYS</p>
               <p>{{ weekdayHours }}</p>
               <p>{{ weekendHours }}</p>
               <p>Check Weekly Updates from our Google Map & Instagram</p>
-        
-     
         </div>
         <div class="insta">
                 Follow us!
@@ -23,15 +21,20 @@
     </footer>
 </template>
 <script>
+import axios from 'axios'; // axios를 import 추가
+
 export default {
     data() {
     return {
       // branchID를 기본 값으로 비워두거나 빈 값으로 초기화
-      branchID: this.$route.params.branchID || '',
+      branchID: this.$route.params.branchID || this.$route.query.branch_id || '',
       branches:[]
     };
   },
   computed: {
+    branch() {
+    return this.branches.find(branch => branch.branch_id === this.branchID) || {};
+    },
     weekdayHours() {
       return this.branchID === 'hornsby'
         ? 'Mon~Fri: 9am - 5:30pm'
@@ -81,17 +84,20 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+@font-face {
+    font-family: 'Ownglyph_ParkDaHyun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 footer {
   padding: 20px 0;
   text-align: left;
   background-color: #faeca7;
   width: 100%;
-}
-
-
-.info-detail p{
-
 }
 
 
@@ -116,16 +122,22 @@ footer {
 
 .footer-content {
   font-size: 18px;
+  text-align: center;
   font-weight: bold;
   letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 5%;
+  /* padding: 5%; */
+  max-width: 600px;   /* ✅ 최대 너비 제한 */
+  margin: 0 auto;     /* ✅ 수평 가운데 정렬 */
+  padding: 40px 20px;
   color: black;
 }
 
 .footer-content p {
   font-size: 12px;
   text-align: left;
+  white-space: nowrap;
+  justify-content: center; 
 }
 
 .instagram-link {
@@ -143,4 +155,40 @@ footer {
 .insta-icon:hover {
   transform: scale(1.1);
 }
+
+@media screen and (max-width: 768px) {
+  .footer-content {
+    font-size: 14px;
+    padding: 20px 15px;
+    text-align: center;
+    word-break: break-word;       /* ✅ 긴 단어 줄바꿈 */
+    overflow-wrap: break-word;    /* ✅ 줄바꿈 보조 */
+    white-space: normal;          /* ✅ 자동 줄바꿈 */
+    box-sizing: border-box;       /* ✅ 패딩 포함 */
+  }
+
+  .footer-content p {
+    font-size: 13px;
+    text-align: center;
+    white-space: normal;          /* ✅ 자동 줄바꿈 */
+    margin: 5px 0;
+  }
+
+  .footer-content strong {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .insta {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  footer {
+    width: 100%;
+    overflow-x: hidden;   /* ✅ 가로 스크롤 제거 */
+  }
+}
+
 </style>

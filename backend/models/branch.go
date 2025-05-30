@@ -21,7 +21,7 @@ type Branch struct {
 	Location     string         `json:"location"`
 	Insta        sql.NullString `json:"sns_insta"`
 	Facebook     sql.NullString `json:"sns_facebook"`
-	Bank_bsb     int            `json:"bank_bsb"`
+	Bank_bsb     string         `json:"bank_bsb"`
 	Bank_account int            `json:"bank_account"`
 
 	// Partyroom 관계 설정

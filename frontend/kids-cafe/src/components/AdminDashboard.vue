@@ -29,7 +29,7 @@
                 <th>Phone</th>
                 <th>Payment</th>
                 <th>Room Price</th>
-                <th>Food Price</th>
+                <th>Options</th>
                 <!-- <th>Balloon Theme</th> -->
                 <th>Food</th>
                 <th>Additional Note</th>
@@ -57,7 +57,7 @@
                 <td>{{ party.owner_phone }}</td>
                 <td>{{ party.payment_method }}</td>
                 <td>{{ party.partyroom_price }}</td>
-                <td>{{ party.food_price }}</td>
+                <td>{{ party.balloonDecorationsChecked ? '🎈' : '' }}</td>
                 <!-- <td>{{ party.balloonDecorationsTheme }}</td> -->
                 <td>{{ party.selected_food }}</td>
                 <td>{{ party.addRequirement || '—' }}</td>
@@ -83,13 +83,14 @@
                 <th>Time</th>
                 <th>Owner</th>
                 <th>Phone</th>
-                <th>Payment</th>
+                <!-- <th>Payment</th> -->
                 <th>Room Price</th>
-                <th>Food Price</th>
+                <th>Options</th>
                 <!-- <th>Balloon Theme</th> -->
                 <th>Food</th>
                 <th>Additional Note</th>
                 <th>Deposit Paid</th>
+                <th>Deposit Image</th>
                 <th>Confirm</th> <!-- ← 이게 버튼 열 제목 -->
               </tr>
             </thead>
@@ -107,13 +108,16 @@
                 <td>{{ party.Partytime }}</td>
                 <td>{{ party.owner_name }}</td>
                 <td>{{ party.owner_phone }}</td>
-                <td>{{ party.payment_method }}</td>
+                <!-- <td>{{ party.payment_method }}</td> -->
                 <td>{{ party.partyroom_price }}</td>
-                <td>{{ party.food_price }}</td>
+                <td>{{ party.balloonDecorationsChecked ? '🎈' : '' }}</td>
                 <td>{{ party.selected_food }}</td>
                 <td>{{ party.addRequirement || '—' }}</td>
                 <td>
                   <input type="checkbox" v-model="paidStatus[party.PartyID]" />
+                </td>
+                <td>
+                  <img v-if="party.deposit_image_url" :src="party.deposit_image_url" alt="party image" class="party-img" />
                 </td>
                 <td>
                   <button
@@ -271,6 +275,12 @@ export default {
 </script>
 
 <style scoped>
+.party-img {
+  max-width: 150px;
+  max-height: 200px;
+  border-radius: 6px;
+}
+
 
 .branch-heading {
   font-size: 1.2rem;
