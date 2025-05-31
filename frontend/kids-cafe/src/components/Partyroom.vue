@@ -7,29 +7,42 @@
         <CurrentTime/>
         <div class="partyroom_info">
             <h1>Party room</h1>
+            <div style="margin-top: 80px;"></div>
             <div v-if="isLoading">
             <!-- ✅ 로딩 화면 표시 -->
             <p>Loading party rooms...</p>
             </div>
             <div v-else-if="partyrooms && partyrooms.length > 0"  class="partyroom-container">
                 <div v-for="partyroom in partyrooms" :key="partyroom.RoomID">
-                    <div class="partyroom-card">
-                        <div class="img-div">
-                            <img src="/images/party-hat.png" alt="party-hat" class="party-hat">
+                    <router-link :to="`/book_a_party/select-time/${partyroom.RoomID}?branch_id=${partyroom.BranchID}&room_name=${partyroom.RoomName}`" class="partyroom-card-link">
+                        <div class="partyroom-card">
+                            <div class="img-div">
+                                <img 
+                                        v-if="partyroom.RoomName === 'Private party'" 
+                                        src="/images/private-party.png" 
+                                        alt="private-party" 
+                                        class="party-hat"
+                                    />
+                                    <img 
+                                        v-else 
+                                        src="/images/party-hat.png" 
+                                        alt="party-hat" 
+                                        class="party-hat"
+                                    />
+                                <!-- <img src="/images/party-hat.png" alt="party-hat" class="party-hat"> -->
+                            </div>
+                            <br>
+                            <div class="room-name">
+                                <!-- {{ partyroom.RoomID }} -->
+                                {{ partyroom.RoomName }}<br>
+                                <!-- 
+                                <hr/>
+                                Deposit: {{ partyroom.RoomDeposit }}<br>
+                                    <div><p class="multiline">{{ partyroom.Description }}</p></div>
+                                -->
+                            </div>
                         </div>
-                        <br>
-                        <div>
-                            <!-- {{ partyroom.RoomID }} -->
-                            {{ partyroom.RoomName }}<br>
-                            <hr/>
-                            Deposit: {{ partyroom.RoomDeposit }}<br>
-                            <div><p class="multiline">{{ partyroom.Description }}</p></div>
-                        </div>
-                        <div class="description">
-                            <router-link :to="`/book_a_party/select-time/${partyroom.RoomID}?branch_id=${partyroom.BranchID}&room_name=${partyroom.RoomName}`" class="select-room">
-                                Select</router-link>
-                        </div>
-                    </div>
+                    </router-link>
                 </div>
             </div>
             <div v-else> <!-- 데이터가 없으면 이 메시지 표시 -->
@@ -37,7 +50,7 @@
             </div>
         </div>
         <!-- ✅ 아래 여백 주기 -->
-        <div style="margin-top: 150px;"></div>
+        <div style="margin-top: 300px;"></div>
         <!-- ✅ Footer 컴포넌트 추가 -->
         <Footer />
     </div>
@@ -97,6 +110,41 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@font-face {
+    font-family: 'Ownglyph_ParkDaHyun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.select-room {
+    background-color: #ffb3b3; /* 버튼 배경 색상 */
+    color: white; /* 텍스트 색상 */
+    text-decoration: none; /* 링크 스타일 제거 */
+    padding: 10px 20px; /* 버튼 내부 여백 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px; /* 글자 크기 */
+    display: inline-block; /* 버튼 형태 유지 */
+    margin-top: auto; /* 버튼이 자동으로 글자 아래에 배치되도록 설정 */
+}
+
+.select-room:hover{
+    background-color: #6699ff; /* 버튼 배경 색상 */
+}
+
+.partyroom-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.partyroom-card-link:hover .partyroom-card {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
 .booking-header{
     width: 100vw;
     display: flex;
@@ -122,6 +170,12 @@ export default {
   text-align: left;
 }
 
+.room-name{
+    font-family: "Ownglyph_ParkDaHyun", serif !important;
+    font-size: 25px; /* 또는 18px, 20px 등 원하는 크기로 */
+    font-weight: 600;
+
+}
 .company-logo-and-name{
   color: white;
   top: 50%; /* 수직 중앙 정렬 */
@@ -200,7 +254,7 @@ a{
 .partyroom-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px; /* 카드 사이 간격 */
+    gap: 100px; /* 카드 사이 간격 */
     justify-content: center; /* 중앙 정렬 */
 }
 
@@ -235,19 +289,11 @@ a{
     color: #666;
 }
 
-.select-room {
-    background-color: #ffb3b3; /* 버튼 배경 색상 */
-    color: white; /* 텍스트 색상 */
-    text-decoration: none; /* 링크 스타일 제거 */
-    padding: 10px 20px; /* 버튼 내부 여백 */
-    border-radius: 5px; /* 둥근 모서리 */
-    font-size: 16px; /* 글자 크기 */
-    display: inline-block; /* 버튼 형태 유지 */
-    margin-top: auto; /* 버튼이 자동으로 글자 아래에 배치되도록 설정 */
+@media (prefers-color-scheme: dark) {
+  .room-name {
+    color: black; /* 또는 원하는 색상 */
+  }
 }
 
-.select-room:hover{
-    background-color: #6699ff; /* 버튼 배경 색상 */
-}
 </style>
 

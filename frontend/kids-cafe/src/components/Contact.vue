@@ -1,6 +1,8 @@
 <template>
     <div id="app" @click="shootConfetti"> 
         <NavBar/>
+        <!-- ✅ 아래 여백 주기 -->
+        <div style="margin-top: 200px;"></div>
         <component 
         :is="showBookingInfo ? 'SelectBranch' : 'div'"  
         :branches="branches" 
@@ -10,65 +12,52 @@
                 <!-- <button class="button" @click="shootConfetti">
                   🎉 Like
                 </button> -->
-                
                 <h1 >Contact us</h1>
                 <div class="contact-info">
-
-                <div class="contact-info">
-                <div class="contact-info-item">
-                  <div class="contact-info-icon">
-                    <i class="fas fa-home"></i>
-                  </div>
-                  
-                  <div class="contact-info-content">
-                    <h4>Address</h4>
-                    <p>{{ currentBranch.location }}</p>
-                  </div>
-                </div>
-                
-                <div class="contact-info-item">
-                  <div class="contact-info-icon">
-                    <i class="fas fa-phone"></i>
-                  </div>
-                  
-                  <div class="contact-info-content">
-                    <h4>Branch</h4>
-                    <p>{{ currentBranch.branch_call }}</p>
-                    <h4>Phone</h4>
-                    <p>{{ currentBranch.phone }}</p>
-                  </div>
-                </div>
-                
-                <div class="contact-info-item">
-                  <div class="contact-info-icon">
-                    <i class="fas fa-envelope"></i>
-                  </div>
-                  
-                  <div class="contact-info-content">
-                    <h4>Email</h4>
-                  <p>{{ currentBranch.email }}</p>
-                  </div>
-                </div>
-              </div>
-                    <!-- <li class="branch-item">
-                      <div class="contact-info-icon">
+                  <div class="contact-info">
+                  <div class="contact-info-item">
+                    <div class="contact-info-icon">
                       <i class="fas fa-home"></i>
                     </div>
-                    <strong>{{ currentBranch.branch_name }}</strong><br>
-                    Email: {{ currentBranch.email }}<br>
-                    Phone: {{ currentBranch.phone }}<br>
-                    Store Phone Number: {{ currentBranch.branch_call }}
-                  </li> -->
-                    <!-- <ul v-if="branches && branches.length > 0">
-                        <li v-for="branch in branches" :key="branch.id" class="branch-item">
-                            <strong>{{ branch.branch_name }}</strong><br>
-                            Email: {{ branch.email }}<br>
-                            Phone: {{ branch.phone }}<br>
-                            Store Phone Number: {{ branch.branch_call }}
-                        
-                        </li>
-                        <br>
-                    </ul> -->
+                    
+                    <div class="contact-info-content">
+                      <h4>Address</h4>
+                      <p>{{ currentBranch.location }}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                      <i class="fas fa-phone"></i>
+                    </div>
+                    
+                    <div class="contact-info-content">
+                      <h4>Branch</h4>
+                      <p>{{ currentBranch.branch_call }}</p>
+                    </div>
+                  </div>
+
+                  <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                      <i class="fas fa-mobile-alt"></i> <!-- 전화(Phone) 아이콘 -->
+                    </div>
+                    <div class="contact-info-content">
+                      <h4>Phone</h4>
+                      <p>{{ currentBranch.phone }}</p>
+                    </div>
+                  </div>
+
+                  <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                      <i class="fas fa-envelope"></i>
+                    </div>
+                    
+                    <div class="contact-info-content">
+                      <h4>Email</h4>
+                    <p>{{ currentBranch.email }}</p>
+                    </div>
+                  </div>
+                </div>
                 </div>
             </template>
         </component>
@@ -186,19 +175,24 @@ a{
 
 .contact-info{
     display: flex;
+    flex-wrap: wrap; /* 줄 바꿈 허용 */
+    justify-content: space-around;
+    align-items: flex-start;
     margin-top: 20px;
-    justify-content: center;
     text-align: left;
     color: #ffffff;
-    padding: 20px;
+    padding: 40px 20px;
     /* box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08); */
     margin: 0 auto; /* 가로 중앙 정렬 */
+    max-width: 1000px;
     width: 80%; /* 또는 적절한 width 설정 */
+    gap: 40px; /* 가로 여백 설정 */
+    
 }
 
 .branch-item{
     margin-top: 10px;
-    margin-bottom: 30px; /* 각 항목 간의 간격을 넓히기 */
+    margin-bottom: 40px; /* 각 항목 간의 간격을 넓히기 */
     margin:40px;
 }
 
@@ -236,37 +230,53 @@ button {
   transform: scale(1.01);
 }
 
-
+/*
 .contact-info-item {
   display: flex;
   margin-bottom: 30px;
+  min-width: 200px;  아이템 최소 너비 (선택사항) 
+}
+*/
+.contact-info-item {
+  display: flex;
+  align-items: center;
+  /*flex: 1 1 300px;
+  max-width: 400px;*/
+  min-width: 250px;
+  max-width: 400px;
 }
 
 .contact-info-icon {
-  height: 70px;
-  width: 70px;
+  height: 60px;
+  width: 60px;
   background-color: #eb6d54;
-  text-align: center;
   border-radius: 50%;
+  text-align: center;
+  display: flex;               /* ✅ flex로 설정 */
+  justify-content: center;     /* ✅ 수평 가운데 */
+  align-items: center;         /* ✅ 수직 가운데 */
+  font-size: 24px;
+  color: white;
   flex-shrink: 0; /* 아이콘이 눌리는 걸 방지 */
 }
 
 .contact-info-icon i {
   font-size: 30px;
-  line-height: 70px;
 }
 
 .contact-info-content {
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 .contact-info-content h4 {
   color: #657C6A;
   font-size: 1.4em;
   margin-bottom: 5px;
+  margin: 0;
 }
 
 .contact-info-content p {
+  margin: 5px 0 0;
   color: #657C6A;
   font-size: 1em;
 }

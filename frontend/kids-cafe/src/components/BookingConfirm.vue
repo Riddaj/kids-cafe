@@ -36,23 +36,23 @@
                         <td>{{ bookingData.owner_phone || 'N/A' }}</td>
                     </tr>
                     <tr>
-                        <td>Payment method</td>
-                        <td>{{ bookingData.payment_method || 'N/A' }}</td>
-                    </tr>
-                    <tr>
                         <td>Selected Foods</td>
-                        <td>{{ bookingData.selected_food || 'N/A' }}</td>
+                        <td>    {{ Array.isArray(bookingData.selected_food) 
+                            ? bookingData.selected_food.join(', ') 
+                            : (bookingData.selected_food || 'N/A') }}
+                        </td>
                     </tr>
-                    <tr>
-                        <td>Special Dietary Requirements</td>
-                        <td></td>
-                        <!-- <td>{{ bookingDetails.special_required.join(', ') }}</td> -->
+                    <!--<tr>
+                        <td>Deposit Image</td>
+                        <td>{{ bookingData.deposit_image_url }}</td>
+                         <td>{{ bookingDetails.special_required.join(', ') }}</td> 
                     </tr>
+                    -->
                 </tbody>
             </table>
         </div>
         <div class="contact-msg">
-            Congratulations!
+            Congratulations!<br>
             A birthday party always requires a lot of details!<br>
             We will contact you soon to discuss more details.<br>
             Please wait for a moment.<br>
@@ -108,6 +108,7 @@ export default {
     display: flex;
     justify-content: center;
     text-align: center; /* 버튼을 가로로 중앙 정렬 */
+    overflow-x: auto; /* ✅ 가로 스크롤 허용 (모바일에서 깨지지 않게) */
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 }
 
@@ -138,7 +139,7 @@ th {
 
 }
 
-    .submit-button:hover{
+.submit-button:hover{
     background-color: #6699ff; /* 버튼 배경 색상 */
 }
 
@@ -161,6 +162,25 @@ th {
     text-align: center;
     margin-top: 30px; /* 버튼이 자동으로 글자 아래에 배치되도록 설정 */
 }
+
+@media (max-width: 768px) {
+  .confirmation-table th,
+  .confirmation-table td {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .contact-msg {
+    font-size: 14px;
+    padding: 12px 15px;
+    line-height: 1.5;
+  }
+}
+
 
 </style>
 

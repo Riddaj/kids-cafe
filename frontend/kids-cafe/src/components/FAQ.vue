@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <NavBar/>
+    <!-- ✅ 아래 여백 주기 -->
+    <div style="margin-top: 80px;"></div>
     <div class="main">
         <h1>FREQUENTLY ASKED QUESTION</h1>
         <!-- 확장, 닫힘 버튼 

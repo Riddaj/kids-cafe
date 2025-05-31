@@ -6,7 +6,7 @@
                 <img class="mobile-logo" src="./../assets/twinkle_logo.webp" alt="Logo" />
             </a>
             <div style="padding-right: 10px;"></div>
-            <span v-if="branchName" class="branch-name">{{ branchName }}</span>
+            <span v-if="isMobile && branchName" class="branch-name">{{ branchName }}</span>
             <button class="hamburger-icon" @click="menuOpen = true">
                 ☰
             </button>
@@ -18,7 +18,7 @@
             <a :href="`/home/${this.$route.params.branchID}`" class="sc_layouts_logo ">
             <img fetchpriority="high" class="logo_image" src="./../assets/twinkle_logo.webp" width="2390" height="924"  loading="eager" alt="Logo fallback" /></a>
             <!-- 브랜치 이름 표시 -->
-            <span v-if="branchName" class="branch-name">{{ branchName }}</span>
+            <span v-if="!isMobile && branchName" class="branch-name">{{ branchName }}</span>
         </div>
 
         <!-- menu + button -->
@@ -132,6 +132,22 @@ export default {
     box-sizing: border-box;
 }
 
+.sc-layouts-logo-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* 세로 방향으로 배치 */
+  align-items: center;     /* 수평 중앙 정렬 */
+  justify-content: center; /* 수직 중앙 정렬 */
+}
+
+
+.branch-name {
+  margin-top: 4px;           /* 로고 아래 간격 */
+  font-size: 18px;           /* 글자 크기 조정 */
+  font-weight: 600;          /* 조금 더 진하게 */
+  color: black;            /* 원하시는 색상으로 */
+}
+
 @media screen and (max-width: 1024px) {
   .sc_layouts_menu {
     display: none !important;
@@ -140,7 +156,12 @@ export default {
     display: flex;
   }
   .branch-name {
-    display: none;
+    margin-top: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #003366;
+    display: block; /* 항상 보이도록 */
+    text-align: center;
   }
   .logo_image{
     display: none;

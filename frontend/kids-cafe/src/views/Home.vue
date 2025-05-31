@@ -17,15 +17,17 @@
             }"
             :navigation="true"
             class="mySwiper"
+            @swiper="onSwiper"
+            @slideChange="onSlideChange" 
             >
             <swiper-slide v-for="(img, index) in images" :key="index">
                 <img :src="img" alt="gallery" class="w-full h-auto" />
             </swiper-slide>
         </swiper>
         <!-- ✅ 텍스트 오버레이 -->
-        <div class="swiper-overlay-text">
-          <h1>Welcome to Twinkle Kids Cafe!</h1>
-          <p style="color: white;">Let’s play, learn, and celebrate!</p>
+        <div class="swiper-overlay-text" v-if="texts[currentIndex]">
+          <h1>{{ texts[currentIndex % texts.length].title }}</h1>
+          <p style="color: white;">{{ texts[currentIndex % texts.length].subtitle }}</p>
         </div>
       </div>
         <div>
@@ -85,6 +87,18 @@ export default {
       branchID:this.$route.params.branchID,
       branchName: '',
       images: [],
+      texts: [
+      { title: 'Welcome to Twinkle Kids Cafe!', subtitle: 'Let’s play, learn, and celebrate!' },
+      { title: 'Socks is required', subtitle: 'For everyone\'s comfort and hygiene, we kindly ask that all adults and children wear socks' },
+      { title: 'No Outside Food', subtitle: 'Treat yourself to our tasty in-house menu!' },
+      { title: 'Welcome to Twinkle Kids Cafe!', subtitle: 'Let’s play, learn, and celebrate!' },
+      { title: 'No Outside Food', subtitle: 'Treat yourself to our tasty in-house menu!' },
+      { title: 'Welcome to Twinkle Kids Cafe!', subtitle: 'Let’s play, learn, and celebrate!' },
+      { title: 'Socks is required', subtitle: 'For everyone\'s comfort and hygiene, we kindly ask that all adults and children wear socks' },
+      { title: 'No Outside Food', subtitle: 'Treat yourself to our tasty in-house menu!' }
+    ],
+    swiperInstance: null, // 🔥 추가
+    currentIndex: 0
     }
   },
   mounted(){
@@ -120,6 +134,11 @@ export default {
       // Swiper 인스턴스를 가져와서 출력
       console.log("왜 사진 안넘어가냐고;; == ", this.$refs.mySwiper.swiper);
     });
+
+    const swiperInstance = this.$refs.mySwiper?.swiper;
+    if (swiperInstance) {
+      this.currentIndex = swiperInstance.realIndex || 0;
+    }
   },
   async created() {
     const branchID = this.$route.params.branchID
@@ -132,6 +151,20 @@ export default {
     };
   },
   methods: {
+      onSwiper(swiper) {
+      this.swiperInstance = swiper;
+
+      // 🔥 이벤트 직접 연결
+      swiper.on('slideChange', () => {
+        this.currentIndex = swiper.realIndex;
+      });
+    },
+      onSlideChange() {
+      const swiperInstance = this.$refs.mySwiper?.swiper;
+      if (swiperInstance) {
+        this.currentIndex = swiperInstance.realIndex || 0; // 현재 실제 슬라이드 인덱스
+      }
+    },
     getBranchNameByID(id) {
       const branchMap = {
         'burwood': 'Burwood',
@@ -152,7 +185,12 @@ export default {
 </script>
 
 <style>
-
+@font-face {
+    font-family: 'Ownglyph_ParkDaHyun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 .swiper-wrapper-container {
   position: relative;
@@ -163,12 +201,15 @@ export default {
 
 .swiper-overlay-text {
   position: absolute;
-  top: 85%; /* 세로 기준 중앙 */
-  left: 30%; /* 가로 기준 중앙 */
-  transform: translate(-50%, -50%);
+  top: 70%; /* 세로 기준 중앙 */
+  left: 5%; /* 왼쪽에 여유 공간 */
+  max-width: 90%; /* 화면을 넘지 않도록 */
+  padding: 20px; /* 패딩 추가 */
+  /* transform: translate(-50%, -50%);*/
   z-index: 10;
   color: white;
   text-shadow: 2px 2px 8px rgba(0,0,0,0.6); 
+  text-align: left; /* 💡 명확한 왼쪽 정렬 */
 }
 
 .swiper-overlay-text h1 {
@@ -180,6 +221,7 @@ export default {
 .swiper-overlay-text p {
   font-size: 1.5rem;
   text-align: left;
+  margin: 0;
 }
 
 #app {
@@ -189,6 +231,8 @@ export default {
 }
 
 .main-text h1{
+    font-family: "Ownglyph_ParkDaHyun", serif !important;
+    font-size: 70px;
     z-index: 1; /* h1이 버튼 위에 오도록 z-index 설정 */
     text-align: right;
     position: relative; /* z-index가 제대로 작동하도록 위치 지정 */
@@ -337,6 +381,12 @@ li {
     line-height: 1.5;
     word-break: keep-all; /* 단어 중간 줄바꿈 방지 (한국어 포함 시 유용) */
     padding: 0 10px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .main-text {
+    color: black; /* 또는 원하는 색상 */
   }
 }
 

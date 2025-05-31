@@ -2,22 +2,24 @@
   <div>
         <BookingBar/>
         <!-- <BookingProcess/> -->
-        <div>
-            <!-- 현재 시간 -->
-            <div><CurrentTime/></div>
-        </div>
+        <!-- 현재 시간 -->
+        <CurrentTime/>
         <!-- ###########      메인 입력 내용        ########### -->
          <div class="main-card">
              <div class="selected-room-card">
                  <img src="/images/happy-birthday.png" alt="birthday" class="happy-birthday">
                 <div v-if="Object.keys(selectedroom).length > 0"  class="selectedroom-container">
-                    <div class="room-name">{{ selectedroom.RoomName }}</div>
+                    <div class="room-header">
+                        <div class="room-name">{{ selectedroom.RoomName }}</div>
+                        <p class="room-session">(3 hours/Session)</p>
+                    </div>
                     <div>Room deposit: {{ selectedroom.RoomDeposit }}</div>
                     <div>{{ displayWeekdayPrice  }}</div>
                     <div>{{ displayWeekendPrice }}</div>
                     <div><p class="multiline">{{ selectedroom.Description }}</p></div>
                 </div>
              </div>
+             <div><h1>Select Time</h1></div>
              <div class="main-time-pick">
                 <!-- <p>{{ partyroom.room_name }} Available times</p> -->
                     <table>
@@ -29,6 +31,7 @@
                                 <vue3-datepicker v-model="selectedDate" format="yyyy-MM-dd" 
                                 inline
                                 :auto-apply="true" 
+                                :disabled-dates="disablePastDates"
                                 @update:modelValue="onDateChange"></vue3-datepicker>
                             </td>
                         </tr>
@@ -71,7 +74,9 @@
                                 selectedPrice: selectedPrice
                                 }
                                 }">
-                                    <button type="submit" class="submit-button">Next</button>
+                                    <button type="submit" @click="goToNext" class="submit-button"
+                                    :disabled="!formattedDate || !selectedTime"
+                                    >Next</button>
                                 </router-link>
 
                                 <!-- 🧁 Party Room Hiring일 경우 -->
@@ -89,7 +94,9 @@
                                     }
                                 }"
                                 >
-                                <button type="submit" class="submit-button">Next</button>
+                                <button type="submit" @click="goToNext" class="submit-button"
+                                :disabled="!formattedDate || !selectedTime"
+                                >Next</button>
                             </router-link>
                             </td>
                         </tr>
@@ -156,6 +163,12 @@ export default {
     this.fetchSelectedroomData(roomID);
   },
     methods: {
+        disablePastDates(date) {
+            const today = new Date()
+            today.setHours(0, 0, 0, 0) // 시간 제거 (자정 기준)
+
+            return date <= today // 오늘보다 이전이면 비활성화
+        },
         // 선택된 날짜가 바뀔 때 시간, 가격,,, 초기화
         onDateChange(date) {
             console.log(`선택된 날짜는 ${date}입니다.`);
@@ -242,17 +255,17 @@ export default {
             console.log("this.roomId.slice(-2) @#$#$@#$# :", this.roomID);
             const suffix = this.roomID.slice(-2);
             if (suffix === '01') {
-                return `weekday price: ${this.selectedroom.RoomPriceWeekday}`;
+                return `weekday price: $${this.selectedroom.RoomPriceWeekday}`;
             } else if (suffix === '02') {
-                return `17:00~20:00 price: ${this.selectedroom.RoomPriceWeekday}`;
+                return `(17:00~20:00 price): $${this.selectedroom.RoomPriceWeekday}`;
             }
         },
         displayWeekendPrice() {
             const suffix = this.roomID.slice(-2);
             if (suffix === '01') {
-                return `weekend price: ${this.selectedroom.RoomPriceWeekend}`;
+                return `weekend price: $${this.selectedroom.RoomPriceWeekend}`;
             } else if (suffix === '02') {
-                return `16:00~19:00 price: ${this.selectedroom.RoomPriceWeekend}`;
+                return `(16:00~19:00 price): $${this.selectedroom.RoomPriceWeekend}`;
             } 
         },
         filteredTimeOptions() {
@@ -328,6 +341,19 @@ td {
   padding: 10px;        /* 셀 안의 내용에 여백 */
 }
 
+.room-header {
+  display: flex;
+  align-items: baseline; /* 글자 수직 정렬 자연스럽게 */
+  gap: 10px;              /* 글자 간 여백 */
+}
+
+.room-session {
+  color: #41ba80;
+  font-size: 1rem;
+  margin: 0;
+}
+
+
 .multiline {
   white-space: pre-line;
   text-align: left;
@@ -356,6 +382,12 @@ td {
     background-color: #6699ff; /* 버튼 배경 색상 */
 }
 
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .booking-header{
     width: 100vw;
     display: flex;
@@ -374,6 +406,8 @@ td {
 
 .main-card{
     display: flex;
+    flex-direction: column; /* ← 세로로 배치 */
+    align-items: center;     /* 가운데 정렬 */
     justify-content: center;
 }
 
@@ -391,7 +425,7 @@ td {
     border-radius: 10px;
     padding: 15px;
     margin-right: 50px;
-    width: 350px;
+    width: 80%; /* 또는 70% */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -418,6 +452,7 @@ td {
 .main-time-pick{
     border-radius: 10px;
     padding: 15px;
+    /*width: 80%;  */
     width: 600px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;

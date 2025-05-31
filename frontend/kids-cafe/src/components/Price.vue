@@ -1,6 +1,8 @@
 <template>
     <div id="app">
         <NavBar/>
+        <!-- ✅ 아래 여백 주기 -->
+        <div style="margin-top: 80px;"></div>
         <div class="price-wrapper">
             <!-- <div class="image-container">
                 <img v-if="branchID" :src="getBranchImage(branchID)" 
@@ -31,9 +33,6 @@
                     <h2>Adult Ticket</h2> 
                     <p>$5 per session. Comes with a $5 drink voucher.</p>
                     <hr style="border: none; border-top: 1px dashed #eb6d54; margin: 40px 0;" />
-                        <p style="text-align: right; clear:both; margin-top: 8px; ">
-                            <strong>1 hour free</strong> 🎁 for Early bird (before 10 AM)⏰
-                        </p>
                     <!-- 안나옴. ㅎ -->
                     <!-- <div class="table-container">
                     <DataTable :value="products" tableStyle="min-width: 50rem">
@@ -58,18 +57,12 @@
             </div>
         </div>
         <div class="event-wrapper">
-            <h1>Our Special</h1>
+            <h1>Our Promotion</h1>
             <div class="event-cards-container"> 
-                <!-- 
-                <div class="event-card">
-                    <div class="event-title">Buy 1 Hour, Get 1 Hour FREE</div>
-                    <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
-                    <div class="event-content">
-                        <li>Valid for entrance before 10am</li>
-                        <li  style="color: #f0598b;">Monday to Friday Only, <br>Except Public holidays and School holidays</li><br>
-                    </div>
-                </div>
-                -->
+                <p class="event-announcement">
+                        <!--<strong>1 hour free</strong> 🎁 for Early bird (before 10 AM)⏰ -->
+                        🎁Please stay tuned on <a :href="instaUrl">Instagram</a> for our monthly promotions.
+                </p>
                 <div class="event-card">
                     <div class="event-title">
                         2nd Child Half Price<br>(Unlimited Ticket Purchase Only)
@@ -80,25 +73,7 @@
                         <li>Full price applies to every odd-numbered child. Every second child in a pair receives 50% off.</li>
                     </div>
                 </div>
-                <!-- 
-                    <div class="event-card">
-                        <div class="event-title">
-                            Over $40, 1 hour FREE Extended
-                        </div>
-                        <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
-                        <div class="event-content">
-                            <li>When you order FOOD from our cafe menu over $40, you will get another free hour for one child.</li>
-                        </div>
-                        
-                            <div class="event-title">Under 12 months, Free entry for 2 hours</div>
-                            <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
-                            <div class="event-content">
-                                <li>We required ID or Certificate</li>
-                                <li>A regular kids' entry fee will be charged after 2 hours</li>
-                            </div>
-                    
-                    </div>
-                -->
+
             </div>
         </div>
         <Footer/>
@@ -134,6 +109,17 @@ export default {
     },
     mounted() {
         this.fetchprice();  // 컴포넌트가 마운트되면 fetchmenu 호출
+    },
+    computed: {
+        instaUrl() {
+        if (this.branchID === 'burwood') {
+            return 'https://instagram.com/twinklekidscafe_burwood';
+        } else if (this.branchID === 'hornsby') {
+            return 'https://instagram.com/twinklekidscafe_hornsby';
+        } else {
+            return 'https://instagram.com/twinklekidscafe_burwood'; // 기본값
+        }
+        }
     },
     methods:{
         getBranchImage(branch_id) {
@@ -218,6 +204,15 @@ h2{
     text-align: center;
 }
 
+.event-announcement {
+  text-align: center;
+  max-width: 700px;
+  font-size: 16px;
+  margin-top: 8px;
+  color: #333;
+}
+
+
 .event-content li{
     text-align: left;
     margin-left: 30px; /* 또는 padding-left: 20px; */
@@ -230,10 +225,13 @@ h2{
     margin-top: 20px;
     margin-bottom: 25px;
 }
+
 .event-cards-container {
   display: flex;
   justify-content: center;
-  gap: 20px; /* 카드 사이 간격 */
+  flex-direction: column; /* 세로 방향으로 쌓기 */
+  align-items: center;     /* 가운데 정렬 (선택사항) */
+  gap: 20px;               /* 요소 간 여백 */
   flex-wrap: wrap; /* 화면 작으면 줄바꿈 */
   margin-top: 20px;
 }
@@ -321,4 +319,42 @@ pre {
   padding: 0 16px;   /* 좌우 약간의 여백 */
 }
 
+@media (prefers-color-scheme: dark) {
+  .event-content {
+    color: black; /* 또는 원하는 색상 */
+  }
+}
+
 </style>
+
+
+                <!-- 
+                    <div class="event-card">
+                        <div class="event-title">
+                            Over $40, 1 hour FREE Extended
+                        </div>
+                        <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
+                        <div class="event-content">
+                            <li>When you order FOOD from our cafe menu over $40, you will get another free hour for one child.</li>
+                        </div>
+                        
+                            <div class="event-title">Under 12 months, Free entry for 2 hours</div>
+                            <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
+                            <div class="event-content">
+                                <li>We required ID or Certificate</li>
+                                <li>A regular kids' entry fee will be charged after 2 hours</li>
+                            </div>
+                    
+                    </div>
+                -->
+                    
+                <!-- 
+                <div class="event-card">
+                    <div class="event-title">Buy 1 Hour, Get 1 Hour FREE</div>
+                    <hr style="border: none; border-top: 1px dashed #014739; margin: 25px 0;" />
+                    <div class="event-content">
+                        <li>Valid for entrance before 10am</li>
+                        <li  style="color: #f0598b;">Monday to Friday Only, <br>Except Public holidays and School holidays</li><br>
+                    </div>
+                </div>
+                -->

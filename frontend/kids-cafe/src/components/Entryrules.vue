@@ -100,7 +100,7 @@ export default {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
-  font-family: "Woodford_bournethin", sans-serif;
+  /* font-family: "Woodford_bournethin", sans-serif; */
   font-weight: 300; /* 얇은 두께 */
   margin-bottom:9%;
 }
@@ -112,7 +112,7 @@ export default {
   background: #FCC953;
   padding: 60px 20px;
   text-align: center;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  /* font-family: 'Comic Sans MS', cursive, sans-serif; */
 }
 
 /* Parallax elements (stars, moon) */
@@ -161,10 +161,10 @@ export default {
 }
 
 .play-area-section .subtitle {
-  font-family: "Playfair Display", serif !important;
+  /*font-family: "Playfair Display", serif !important;*/
+  /*font-style: italic !important;*/
   font-size: 1.15rem;
   line-height: 1.5em;
-  font-style: italic !important;
   text-transform: none;
   letter-spacing: 0;
   display:block;
@@ -202,6 +202,12 @@ export default {
   position: absolute;
   left: 0;
   font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+  .elementor-widget-container p {
+    color: white; /* 또는 원하는 색상 */
+  }
 }
 
 /**

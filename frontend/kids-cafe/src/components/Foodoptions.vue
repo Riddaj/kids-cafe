@@ -1,7 +1,7 @@
 <template>
     <div>
         <BookingBar/>
-            <!-- 메인 사진 and booking button -->
+            <!-- 메인 사진 and booking button 
             <div class="wrapper">
                 <div><h1 class="company-logo-and-name">Twinkle Kids Cafe</h1></div>
                 <div class="background-wrapper">
@@ -9,12 +9,13 @@
                     alt="Background" class="background-image" />
                 </div>
             </div>
+            -->
             <!-- booking process (2단계) -->
-            <BookingProcess/>
-            <div>
-                <!-- 현재 시간 -->
-                <div><CurrentTime/></div>
-            </div>
+            <!-- 
+                <BookingProcess/>
+            -->
+            <!-- 현재 시간 -->
+            <CurrentTime/>
             <!-- ###########      메인 입력 내용        ########### -->
             <div class="main-card">
                 <div class="selected-room-card">
@@ -262,6 +263,9 @@ export default {
     margin: 0 auto; /* 좌우 여백을 자동으로 설정하여 중앙 정렬 */
     padding: 20px; /* 테이블 주변에 20px의 내부 여백 추가 */
     box-sizing: border-box; /* 패딩을 너비에 포함시켜 전체 크기를 조정 */
+    overflow-x: auto; /* ✅ 가로 스크롤 허용 */
+    display: block; /* ✅ 중요: inline/table 등으로 인식되지 않도록 */
+    -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤 */
     
 }
 
@@ -391,4 +395,37 @@ th {
     margin-top: 20px; /* 버튼과 테이블 사이에 간격 추가 */
     margin-bottom: 30px;
 }
+
+@media screen and (max-width: 768px) {
+  .main-card {
+    flex-direction: column; /* 모바일에서는 세로로 쌓기 */
+    padding: 10px;
+  }
+
+  .selected-room-card {
+    margin-right: 0;        /* 오른쪽 마진 제거 */
+    margin-bottom: 30px;    /* 아래 여백 추가 */
+    width: 100%;            /* 전체 너비 */
+  }
+
+  .food-option {
+    width: 100%;
+  }
+  .total-amount {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .submit-button {
+    width: 150px;
+    text-align: center;
+  }
+}
+
 </style>

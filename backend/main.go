@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/johnnydev/kids-cafe-backend/controllers"
 	"github.com/johnnydev/kids-cafe-backend/firebase"
+	"github.com/johnnydev/kids-cafe-backend/handlers"
 	"github.com/johnnydev/kids-cafe-backend/models"
 	// "github.com/johnnydev/kids-cafe-backend/models"
 )
@@ -26,7 +27,8 @@ func main() {
 
 	// Firebase 초기화
 	firebase.InitializeFirebase() // Firebase 초기화 함수 호출
-
+	// ✅ 라우터 설정
+	//http.HandleFunc("/api/upload-deposit", handlers.UploadHandler)
 	// config.ConnectDB()
 
 	// if config.DB == nil {
@@ -76,6 +78,17 @@ func main() {
 
 	//파티 컨펌
 	r.POST("/api/confirm-party", models.ConfirmPartyByID)
+
+	/*
+		r.POST("/api/upload-deposit", func(c *gin.Context) {
+			handlers.UploadHandler(c.Writer, c.Request)
+		})
+	*/
+
+	r.POST("/api/upload-deposit", handlers.UploadHandler)
+	// 🔐 Signed URL API 연결
+	r.GET("/api/signed-url", handlers.GetSignedURLHandler)
+
 	// 엔드포인트 확인
 	/*
 		r.GET("/api/branches", func(c *gin.Context) {

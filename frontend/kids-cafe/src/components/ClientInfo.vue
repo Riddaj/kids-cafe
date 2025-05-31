@@ -80,26 +80,11 @@
                                     Halal
                                 </label>
                                 <label class="info-detail-check">
-                                    <input type="checkbox" value="Non-Halal" v-model="selectedAllergies" class="info-detail-check"/>
-                                    <span class="checkmark"></span>
-                                    Non-Halal
-                                </label>
-                                <label class="info-detail-check">
                                     <input type="checkbox" value="Veggie" v-model="selectedAllergies" class="info-detail-check"/>
                                     <span class="checkmark"></span>
                                     Veggie(includes chicken)
                                 </label>
                                     <span class="checkmark"></span>
-                                <label class="info-detail-check">
-                                    <input type="checkbox" value="Vegan" v-model="selectedAllergies" class="info-detail-check"/>
-                                    <span class="checkmark"></span>
-                                    Strict Vegan</label>
-                                    
-                                <!-- 
-                                    <p v-if="Array.isArray(selectedAllergies) && selectedAllergies.length > 0">
-                                        {{ selectedAllergies }}
-                                    </p>
-                                -->
                             </div>
                         </div>
                         <div class="contact-info">
@@ -110,51 +95,25 @@
                         </div>
                         <div class="contact-info">
                             <div class="section-title">
-                                <div value="deposit and text us">Bank Transfer and Send payment screenshot by text</div>
-                                <p style="color: #f0598b; font-size: 20px;">Room Deposit: {{ bookingDetails.roomDeposit }}</p>
-                                <div style="color: #f0598b; font-size: 15px;">To confirm your booking, the deposit must be verified.
-                                    <br> Kindly send a screenshot of your payment to 0493 314 669 at your earliest convenience.</div>
-                            </div>
-                            <!-- <div class="form-row">
-                                 
-                                    <label>Please let us know your Receipt No: </label><input v-model="receipt_no" type="text" class="info-detail-input" />
-                                    
-                            </div>-->
-                            <!--<div class="form-row">
-                                
-                                <select v-model="payment_method" class="info-detail-input" style="width: 350px;">
-                                 <option disabled value="">-- Please select --</option>   
-                                <option value="deposit and text us">Bank Transfer and Send payment screenshot by text</option>-->
-                                <!-- 
-                                    <option value="pay at cafe and confirm with a staff">Pay at Café and confirm with a staff</option>
-                                   
-                                </select> 
-                            </div>-->
-                        </div>
-                        <!-- <div class="contact-info" v-if="payment_method === 'deposit and text us'"> -->
-                            
-                            <div class="contact-info">
-                                bank_bsb : 62245<br>
-                                bank_account : 10556992<br>
+                                <div class="deposit-row">Upload Deposit Screenshot
+                                    <p style="color: #f0598b; font-size: 20px;">( Room Deposit: ${{ bookingDetails.roomDeposit }} ) </p>
+                                </div>
+                                <div class="contact-info" style="color: #f0598b; font-size: 15px;">
+                                    bank_bsb : 062245<br>
+                                    bank_account : 10556992<br>
+                                    Account name : Bahareh Mirbagheri<br>
+                                    To confirm your booking, the deposit must be verified.
                                <!-- Pay ID: --> 
-                            </div>
-                         <!--</div> -->
-                        <!-- Deposit 파일 업로드 영역 (선택된 경우에만 표시) 
-                        <div class="contact-info" v-if="paymentMethod === 'deposit'">
-                            <div class="contact-info">
-                                <div class="section-title">Deposit Screenshot | Selected Room Deposit : {{ this.bookingDetails.roomDeposit }}</div>
+                                </div>
+                                <div style="padding: 10px;"></div>
                                 <div class="form-row">
-                                    <input type="file" 
-                                    style="display: none"
-                                    ref="depositFileInput" 
-                                    class="deposit" 
-                                    @change="handleFileChange"/>
-                                    <button class="submit-button" @click="triggerFileInput">Upload Screenshot</button>
+                                    <input type="file" @change="handleFileChange" accept="image/*" />
                                     <p v-if="depositFileName">📎 Selected: {{ depositFileName }}</p>
                                 </div>
                             </div>
+ 
                         </div>
-                        -->
+
                         <div style="margin-bottom: 50px;"></div>
                         <div class="agree-terms">
                             ✨ All deposit payments are non-refundable. If you need to reschedule, at least 4
@@ -209,9 +168,9 @@ export default {
     },
     data(){
         return{
+            depositImageFile: null,
+            depositFileName: '',
             paymentMethod: '',         // ✅ 초기화되어 있어야 함!
-           // depositImageFile: null,
-           // depositFileName: '',
             balloonDecorationsChecked: false, // 체크박스 상태
             balloonDecorationsTheme: '',      // 테마 입력
             bookingDetails:{
@@ -271,16 +230,13 @@ export default {
         this.fetchSelectedroomData(this.bookingDetails.roomID);
     },
     methods:{
-        // triggerFileInput() {
-        //     this.$refs.depositFileInput.click();
-        // },
-        // handleFileChange(event) {
-        //     const file = event.target.files[0];
-        //     if (file) {
-        //         this.depositImageFile = file;
-        //         this.depositFileName = file.name; // ✅ 파일 이름 저장
-        //     }
-        // },
+        handleFileChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.depositImageFile = file;
+                this.depositFileName = file.name;
+            }
+        },
         //기존 정보 불러오기
         async fetchSelectedroomData(roomId) {
         console.log("📌 Axios 요청 보냄 - room_Id:", this.bookingDetails.roomID);
@@ -388,6 +344,8 @@ export default {
             try {
             
                 console.log("📌 food_price 타입은:", typeof this.bookingDetails.food_price);
+                const formData = new FormData();
+                
                 //const formData = new FormData();
                 // form에 입력한 데이터 수집
                 const bookingData = {
@@ -416,11 +374,12 @@ export default {
                     payment_method : this.payment_method
                 };
                 //}));
+                formData.append('bookingData', JSON.stringify(bookingData));
 
-                // ✅ 파일 추가
-                // if (this.depositImageFile) {
-                //     formData.append('depositScreenshot', this.depositImageFile);
-                // }
+                // ✅ 이미지 파일이 선택되었으면 추가
+                if (this.depositImageFile) {
+                    formData.append('depositImage', this.depositImageFile);
+                }
 
             console.log("📦 Booking Data 전송 준비:", bookingData);
 
@@ -428,15 +387,21 @@ export default {
             console.log("📦📦📦 this.selectedroom.BranchID=== ", this.selectedroom.BranchID);
             // 백엔드로 POST 요청
             const api = process.env.VUE_APP_API_BASE;
-            const response = await axios.post(`${api}/api/save-party/${this.selectedroom.BranchID}`, bookingData);
+            //const response = await axios.post(`${api}/api/save-party/${this.selectedroom.BranchID}`, 
+            const response = await axios.post(`${api}/api/upload-deposit`,
+            formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+                }
+            );
 
-            //const response = await axios.post(`https://kids-cafe-rm9g.onrender.com/api/save-party/${this.selectedroom.BranchID}`, bookingData);
-            
-            // const response = await axios.post(
-            //     `https://kids-cafe-rm9g.onrender.com/api/save-party/${this.selectedroom.BranchID}`,
-            //     formData,
-            //     { headers: { 'Content-Type': 'multipart/form-data' } }
-            // );
+            // 📦 백엔드가 응답으로 보내준 image URL
+            const imageURL = response.data.imagePath;
+
+            // 📝 imageURL을 최종 예약정보에 저장하고 싶으면:
+            bookingData.deposit_filename = imageURL || "";
 
             console.log("✅ 예약 성공:", response.data);
 
@@ -459,6 +424,19 @@ export default {
 html,body {
   color: black;
 }
+
+.deposit-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deposit-row p {
+  color: #f0598b;
+  font-size: 20px;
+  margin: 0;
+}
+
 
 .form-row{
     margin-bottom: 0.2rem;
@@ -693,6 +671,15 @@ textarea
 
 /* 모바일용 (max-width: 768px 이하) */
 @media (max-width: 768px) {
+  .deposit-row {
+    flex-direction: column;
+    align-items: flex-start; /* 왼쪽 정렬 */
+  }
+
+  .deposit-row p {
+    margin: 0; /* 여백 줄이기 */
+  }
+
   .selected-room-card h1 {
     font-size: 1.3rem;
   }
@@ -739,3 +726,53 @@ textarea
 }
 
 </style>
+
+            <!-- 
+                <label class="info-detail-check">
+                    <input type="checkbox" value="Vegan" v-model="selectedAllergies" class="info-detail-check"/>
+                    <span class="checkmark"></span>
+                    Strict Vegan</label>
+            -->
+            
+        <!-- 
+            <p v-if="Array.isArray(selectedAllergies) && selectedAllergies.length > 0">
+                {{ selectedAllergies }}
+            </p>
+        -->
+<!-- <div class="contact-info" v-if="payment_method === 'deposit and text us'"> -->
+    
+
+    <!--</div> -->
+<!-- Deposit 파일 업로드 영역 (선택된 경우에만 표시) 
+<div class="contact-info" v-if="paymentMethod === 'deposit'">
+    <div class="contact-info">
+        <div class="section-title">Deposit Screenshot | Selected Room Deposit : {{ this.bookingDetails.roomDeposit }}</div>
+        <div class="form-row">
+            <input type="file" 
+            style="display: none"
+            ref="depositFileInput" 
+            class="deposit" 
+            @change="handleFileChange"/>
+            <button class="submit-button" @click="triggerFileInput">Upload Screenshot</button>
+            <p v-if="depositFileName">📎 Selected: {{ depositFileName }}</p>
+        </div>
+    </div>
+</div>
+-->
+
+
+                           <!-- <div class="form-row">
+                                 
+                                    <label>Please let us know your Receipt No: </label><input v-model="receipt_no" type="text" class="info-detail-input" />
+                                    
+                            </div>-->
+                            <!--<div class="form-row">
+                                
+                                <select v-model="payment_method" class="info-detail-input" style="width: 350px;">
+                                 <option disabled value="">-- Please select --</option>   
+                                <option value="deposit and text us">Bank Transfer and Send payment screenshot by text</option>-->
+                                <!-- 
+                                    <option value="pay at cafe and confirm with a staff">Pay at Café and confirm with a staff</option>
+                                   
+                                </select> 
+                            </div>-->
