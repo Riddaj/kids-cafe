@@ -37,7 +37,8 @@ type Party struct {
 	//DepositImageURL           string   `json:"deposit_image_url" firestore:"deposit_image_url"`
 	AgreeTerms      bool   `json:"agree_terms" firestore:"agree_terms"`
 	IsConfirmed     bool   `json:"is_confirmed" firestore:"is_confirmed"`
-	DepositImageURL string `json:"deposit_image_url" firestore:"deposit_image_url"`
+	DepositFilename string `json:"deposit_filename" firestore:"deposit_filename"`
+	//DepositImageURL string `json:"deposit_image_url" firestore:"deposit_image_url"`
 }
 
 // 테이블 이름을 명시적으로 설정
@@ -127,8 +128,13 @@ func GetParty(c *gin.Context) ([]Party, error) {
 		//partyroom.RoomID = doc.Ref.ID // Firestore 문서 ID 저장
 		party.PartyID = doc.Data()["party_id"].(string) // 문서 내 room_id 필드 값 가져오기
 		// ✅ image_url 필드가 있다면 가져오기
-		if url, ok := doc.Data()["deposit_image_url"].(string); ok {
-			party.DepositImageURL = url
+		//if url, ok := doc.Data()["deposit_image_url"].(string); ok {
+		//	party.deposit_filename = url
+		//}
+
+		// ✅ 이미지 파일명만 저장
+		if filename, ok := doc.Data()["deposit_filename"].(string); ok {
+			party.DepositFilename = filename
 		}
 
 		parties = append(parties, party)

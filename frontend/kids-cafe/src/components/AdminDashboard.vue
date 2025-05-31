@@ -117,7 +117,10 @@
                   <input type="checkbox" v-model="paidStatus[party.PartyID]" />
                 </td>
                 <td>
-                  <img v-if="party.deposit_image_url" :src="party.deposit_image_url" alt="party image" class="party-img" />
+                  <img v-if="party.imageUrl" :src="party.imageUrl" alt="party image" class="party-img" />
+                  <!-- 
+                    <img v-if="party.deposit_image_url" :src="party.deposit_image_url" alt="party image" class="party-img" />
+                  -->
                 </td>
                 <td>
                   <button
@@ -144,6 +147,8 @@
 <script>
 import axios from 'axios'; // axios를 import 추가
 import BookingBar from '../components/BookingBar.vue';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getAuth, onAuthStateChanged  } from "firebase/auth";
 
 export default {
   components:{
@@ -161,8 +166,15 @@ export default {
         };
     },
   mounted(){
-    this.fetchParty();
-    
+    //this.fetchParty();
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.fetchParty();
+      } else {
+        console.warn("로그인 필요");
+      }
+    });
   },
   computed: {
     groupedConfirmedParties() {
@@ -198,6 +210,7 @@ export default {
         console.log("Branch ID:", this.branchID);  // 값이 제대로 있는지 확인
         try {
           const api = process.env.VUE_APP_API_BASE;
+
           const response = await axios.get(`${api}/api/get-party`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
           //const response = await axios.get(`https://kids-cafe-rm9g.onrender.com/api/get-party`); // Proxy를 설정했으므로 백엔드 주소 없이 호출 가능
 
@@ -212,6 +225,41 @@ export default {
             const partyDate = this.parseDate(party.Partydate);
             return partyDate >= today;
           });
+
+        const auth = getAuth();
+        const user = auth.currentUser;
+        //////이미지
+        //if (user) {
+        //const storage = getStorage();  
+          for (const party of filteredParties) {
+            console.log("🎯 deposit_filename 확인:", party.deposit_filename); // 👈 이거 추가
+            if (party.deposit_filename) {
+              try {
+                const response = await axios.get(`${api}/api/signed-url`, {
+                  params: { filename: party.deposit_filename },
+                });
+                party.imageUrl = response.data.signed_url;
+
+                //const fileRef = ref(storage, party.deposit_filename); // 👉 필드명을 deposit_filename으로 변경
+                //party.imageUrl = await getDownloadURL(fileRef);       // 👉 직접 URL 생성
+                //const filePath = decodeURIComponent(
+                //  party.deposit_image_url.split("/o/")[1].split("?")[0]
+                //);
+                //const fileRef = ref(storage, filePath);
+                //party.imageUrl = await getDownloadURL(fileRef);
+              } catch (error) {
+                console.warn("❌ 이미지 URL 가져오기 실패:", error);
+                party.imageUrl = null;
+                //console.error("이미지 URL 가져오기 실패:", error);
+                //party.imageUrl = null;
+              }
+            } else {
+              party.imageUrl = null;
+            }
+          }
+        //}else {
+        //console.warn("🚫 로그인된 사용자 아님");
+      //}
 
         // 🎯 확정 여부에 따라 나누기~
         this.confirmedParties = [];

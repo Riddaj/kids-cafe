@@ -4,6 +4,7 @@ package firebase
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"os"
 
@@ -55,4 +56,27 @@ func GetFirestoreClient() (*firestore.Client, error) {
 
 func GetApp() *firebase.App {
 	return app
+}
+
+// 🔐 Firebase 서비스 계정 키 JSON 구조체
+type ServiceAccount struct {
+	Type        string `json:"type"`
+	ProjectID   string `json:"project_id"`
+	PrivateKey  string `json:"private_key"`
+	ClientEmail string `json:"client_email"`
+}
+
+// 🔍 JSON 파일에서 서비스 계정 정보 불러오기
+func LoadServiceAccount(path string) (*ServiceAccount, error) {
+	bytes, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	var sa ServiceAccount
+	if err := json.Unmarshal(bytes, &sa); err != nil {
+		return nil, err
+	}
+
+	return &sa, nil
 }

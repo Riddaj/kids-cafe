@@ -1,0 +1,9 @@
+[
+    {
+      "origin": ["http://localhost:8080", "https://kids-cafe-booking-project.web.app"],
+      "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "maxAgeSeconds": 3600,
+      "responseHeader": ["Content-Type", "Authorization"]
+    }
+  ]
+  

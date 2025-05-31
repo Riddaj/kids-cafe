@@ -401,7 +401,7 @@ export default {
             const imageURL = response.data.imagePath;
 
             // 📝 imageURL을 최종 예약정보에 저장하고 싶으면:
-            bookingData.deposit_image_url = imageURL || "";
+            bookingData.deposit_filename = imageURL || "";
 
             console.log("✅ 예약 성공:", response.data);
 
