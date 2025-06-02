@@ -98,6 +98,33 @@ func GetParty(c *gin.Context) {
 
 }
 
+// 특정 party_id의 파티를 삭제하는 API
+func DeleteParty(c *gin.Context) {
+	partyID := c.Query("party_id") // 쿼리 파라미터에서 party_id 받기
+
+	if partyID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "party_id가 필요합니다."})
+		return
+	}
+
+	// Firestore 클라이언트 가져오기
+	client, err := firebase.GetFirestoreClient()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Firestore 연결 오류: %v", err)})
+		return
+	}
+	defer client.Close()
+
+	// Firestore에서 해당 party_id로 문서를 삭제
+	_, err = client.Collection("party").Doc(partyID).Delete(context.Background())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("파티 삭제 실패: %v", err)})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "파티가 성공적으로 삭제되었습니다."})
+}
+
 // if c.Request.Method == http.MethodPost {
 // 	var party models.Party
 

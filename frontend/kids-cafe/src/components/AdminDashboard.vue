@@ -35,6 +35,7 @@
                 <th>Additional Note</th>
                 <th>Deposit Paid</th>
                 <th>Confirm</th> <!-- ← 이게 버튼 열 제목 -->
+                <th>Done</th>
               </tr>
             </thead>
             <tbody>
@@ -65,6 +66,9 @@
                   <input type="checkbox" :checked="true" disabled />
                 </td>
                 <td>Confirmed</td>
+                <td>
+                  <button class="delete-button" @click="deleteParty(party)">🗑 Delete</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -318,6 +322,27 @@ export default {
           console.error("❌ 서버 업데이트 실패:", error);
         }
       },
+      async deleteParty(party) {
+        if (!confirm(`Delete ${party.kid_name}'s booking?`)) return;
+
+        const api = process.env.VUE_APP_API_BASE;
+
+        try {
+          await axios.delete(`${api}/api/delete-party`, {
+            params: {
+              party_id: party.PartyID
+            }
+          });
+
+          // 삭제 후 UI에서 제거
+          this.confirmedParties = this.confirmedParties.filter(p => p.PartyID !== party.PartyID);
+          alert("✅ Party deleted successfully.");
+        } catch (error) {
+          console.error("❌ Error deleting party:", error);
+          alert("❌ Failed to delete the party.");
+        }
+      }
+
     }
 }
 </script>
@@ -371,6 +396,19 @@ button[disabled] {
     text-align: center; /* 버튼을 가로로 중앙 정렬 */
     margin-top: 20px; /* 버튼과 테이블 사이에 간격 추가 */
     margin-bottom: 30px;
+}
+
+.delete-button{
+  background-color: #ff6666;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #cc0000;
 }
 
 .submit-button{

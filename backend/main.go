@@ -78,7 +78,6 @@ func main() {
 
 	//파티 컨펌
 	r.POST("/api/confirm-party", models.ConfirmPartyByID)
-
 	/*
 		r.POST("/api/upload-deposit", func(c *gin.Context) {
 			handlers.UploadHandler(c.Writer, c.Request)
@@ -88,6 +87,9 @@ func main() {
 	r.POST("/api/upload-deposit", handlers.UploadHandler)
 	// 🔐 Signed URL API 연결
 	r.GET("/api/signed-url", handlers.GetSignedURLHandler)
+
+	//파티 삭제
+	r.DELETE("/api/delete-party", controllers.DeleteParty)
 
 	// 엔드포인트 확인
 	/*
