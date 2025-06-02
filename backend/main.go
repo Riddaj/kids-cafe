@@ -89,6 +89,7 @@ func main() {
 	r.GET("/api/signed-url", handlers.GetSignedURLHandler)
 
 	//파티 삭제
+	//render
 	r.DELETE("/api/delete-party", controllers.DeleteParty)
 
 	// 엔드포인트 확인

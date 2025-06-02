@@ -99,6 +99,7 @@ func GetParty(c *gin.Context) {
 }
 
 // 특정 party_id의 파티를 삭제하는 API
+// render용 push
 func DeleteParty(c *gin.Context) {
 	partyID := c.Query("party_id") // 쿼리 파라미터에서 party_id 받기
 
