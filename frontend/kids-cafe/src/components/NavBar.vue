@@ -168,7 +168,24 @@ export default {
   }
   .btn-container{
     display: none;
+    margin-left: 16px; /* 메뉴와 버튼 사이 간격 */
   }
+
+  .btn-book {
+  display: inline-block;
+  background-color: #7212a6;
+  color: white;
+  font-weight: bold;
+  padding: 10px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  white-space: nowrap;          /* 줄바꿈 방지 */
+  max-width: 180px;             /* ✅ 최대 너비 제한 */
+  overflow: hidden;             /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis;      /* 너무 길면 ... 처리 */
+}
+
+
   .mobile-book-button {
     bottom: 20px;
     right: 20px;
@@ -246,13 +263,16 @@ li {
     display: flex;
     align-items: center; /* 수직 정렬 */
     justify-content: space-between; /* 메뉴와 버튼 정렬 */
+    justify-content: flex-end; /* ✅ 오른쪽 정렬 */
+    gap: 10px; /* 메뉴와 버튼 사이 여백 */
+    flex-wrap: nowrap; /* ✅ 줄바꿈 방지 */
 }
 
 .sc_layouts_menu {
     flex: 2; /* 메뉴 너비 조정 */
     display: flex;
     justify-content: center;
-    gap: 20px; /* 메뉴 간 간격 */
+    gap: 10px; /* 메뉴 간 간격 */
     margin-top: 40px; /* 원하는 값으로 조절 (10px, 15px 등) */
 }
 
@@ -268,7 +288,7 @@ li {
 .sc_layouts_menu_nav .menu-item {
     padding: 6px 11px; /* 메뉴 항목 내부 여백 */
     white-space: nowrap; /* 줄바꿈 방지 */
-    min-width: 100px; /* 최소 너비 설정 */
+    min-width: 70px; /* 최소 너비 설정 */
     height: 100%; /* 메뉴 항목의 높이에 맞게 설정 */
     padding: 0 10px; /* 메뉴 항목의 좌우 여백 */
 }

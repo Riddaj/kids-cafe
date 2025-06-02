@@ -1,7 +1,10 @@
 <template>
     <footer>
         <div class="footer-content">
+              <img src="@/assets/Logo-with-white-border-02-370x146.png" class="logo_image" />
+              <!-- 
               <strong style="font-size: 25px; text-align: center;">Twinkle Kids Cafe</strong>
+              --> 
               <div style="padding: 20px;"></div>
               <p>{{ branch.location }}</p>
               <p>⏰ OPEN 7DAYS</p>
@@ -107,8 +110,9 @@ footer {
     margin: 50px;
 }
 
+
 .logo_image{
-  max-height: 80px;
+  max-height: 60px;
   height: auto;
   max-width: 100%;
 }
